@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BioHub — Интерактивная Биоинженерия</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://googleapis.com">
+    <link rel="preconnect" href="https://gstatic.com" crossorigin>
+    <link href="https://googleapis.com/css2?family=Poppins:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<header>
+    <div class="circle c1"></div>
+    <div class="circle c2"></div>
+    <div class="circle c3"></div>
+
+    <div class="hero-container">
+        <div class="hero-text">
+            <span class="label">🧬 Биоинженерия • Генетика • Будущее</span>
+            <h1>BioHub</h1>
+            <p>Исследуй биоинженерию, генетику и технологии будущего через статьи, визуализации и интерактивные симуляции.</p>
+            <span class="hub-dot"></span>
+            <button class="cta" id="to-sim-btn">Открыть симулятор</button>
+        </div>
+
+        <div class="dna-container">
+            <svg class="prosthesis" viewBox="0 0 500 600">
+                <defs>
+                    <linearGradient id="metal-dark" x1="0" y1="0" x2="1" y2="0">
+                        <stop offset="0%" stop-color="#1f2937"/>
+                        <stop offset="50%" stop-color="#4b5563"/>
+                        <stop offset="100%" stop-color="#111827"/>
+                    </linearGradient>
+                    <linearGradient id="chrome" x1="0" y1="0" x2="1" y2="1">
+                        <stop offset="0%" stop-color="#f3f4f6"/>
+                        <stop offset="30%" stop-color="#9ca3af"/>
+                        <stop offset="70%" stop-color="#e5e7eb"/>
+                        <stop offset="100%" stop-color="#4b5563"/>
+                    </linearGradient>
+                    <filter id="neon-glow" x="-30%" y="-30%" width="160%" height="160%">
+                        <feGaussianBlur stdDeviation="5" result="blur" />
+                        <feMerge>
+                            <feMergeNode in="blur" />
+                            <feMergeNode in="SourceGraphic" />
+                        </feMerge>
+                    </filter>
+                </defs>
+                <path d="M 440 90 L 350 85 L 360 150 L 430 140 Z" fill="url(#metal-dark)" />
+                <circle cx="395" cy="115" r="30" fill="url(#chrome)"/>
+                <circle cx="395" cy="115" r="10" fill="#00f0ff" filter="url(#neon-glow)"/>
+                <path d="M 395 115 L 305 310" stroke="url(#metal-dark)" stroke-width="40" stroke-linecap="round" />
+                <path d="M 395 115 L 305 310" stroke="url(#chrome)" stroke-width="16" stroke-linecap="round" opacity="0.4" />
+                <line x1="360" y1="130" x2="280" y2="280" stroke="url(#chrome)" stroke-width="8" stroke-linecap="round" />
+                <circle cx="305" cy="310" r="36" fill="url(#metal-dark)"/>
+                <circle cx="305" cy="310" r="24" fill="url(#chrome)"/>
+                <circle cx="305" cy="310" r="8" fill="#00f0ff" filter="url(#neon-glow)"/>
+                <path d="M 330 330 A 30 30 0 0 1 280 330" fill="none" stroke="#00f0ff" stroke-width="4" filter="url(#neon-glow)"/>
+                <path d="M 305 310 L 210 140" stroke="url(#metal-dark)" stroke-width="32" stroke-linecap="round" />
+                <path d="M 290 320 L 190 155" stroke="url(#chrome)" stroke-width="12" stroke-linecap="round" />
+                <circle cx="202" cy="145" r="22" fill="url(#chrome)"/>
+                <circle cx="202" cy="145" r="7" fill="#00f0ff" filter="url(#neon-glow)"/>
+                <path d="M 212 155 L 185 150 L 160 230 L 210 235 Z" fill="url(#metal-dark)" />
+                <path d="M 195 175 L 182 200 L 172 180" fill="none" stroke="#00f0ff" stroke-width="4" filter="url(#neon-glow)" opacity="0.8"/>
+                <circle cx="205" cy="200" r="6" fill="url(#chrome)"/>
+                <path d="M 205 200 L 225 225 L 220 250" fill="none" stroke="url(#chrome)" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="225" cy="225" r="2.5" fill="#00f0ff" filter="url(#neon-glow)"/>
+                <path d="M 165 235 L 163 275 L 168 315" fill="none" stroke="url(#chrome)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="163" cy="275" r="3" fill="#00f0ff" filter="url(#neon-glow)"/>
+                <path d="M 178 235 L 178 280 L 183 325" fill="none" stroke="url(#chrome)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="178" cy="280" r="3" fill="#00f0ff" filter="url(#neon-glow)"/>
+                <path d="M 191 233 L 193 275 L 196 315" fill="none" stroke="url(#chrome)" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="193" cy="275" r="3" fill="#00f0ff" filter="url(#neon-glow)"/>
+                <path d="M 203 230 L 206 265 L 208 300" fill="none" stroke="url(#chrome)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="206" cy="265" r="3" fill="#00f0ff" filter="url(#neon-glow)"/>
+            </svg>
+        </div>
+    </div>
+</header>
+
+<!-- РАЗДЕЛ 1: ИНФОРМАЦИОННЫЕ КАРТОЧКИ НАУЧНЫХ НАПРАВЛЕНИЙ -->
+<section class="fields">
+    <h2>Направления исследований</h2>
+    <div class="cards">
+        <div class="card">
+            <div class="icon">🧬</div>
+            <h3>Генетика</h3>
+            <p>Исследование ДНК, наследственности и методов редактирования генов.</p>
+        </div>
+        <div class="card">
+            <div class="icon">🦾</div>
+            <h3>Биомедицина</h3>
+            <p>Создание новых методов лечения, искусственных тканей и медицинских технологий.</p>
+        </div>
+        <div class="card">
+            <div class="icon">🌱</div>
+            <h3>Синтетическая биология</h3>
+            <p>Проектирование новых биологических систем для решения реальных задач человечества.</p>
+        </div>
+    </div>
+</section>
+
+<!-- РАЗДЕЛ 2: ИНТЕРАКТИВНЫЙ ЛАБОРАТОРНЫЙ ОТДЕЛ -->
+<section id="simulation-zone" class="simulation-section">
+    <div class="section-container">
+        <h2>Интерактивная Лаборатория</h2>
+        <p class="section-subtitle">Выберите тип генной модификации для запуска молекулярного симулятора</p>
+        
+        <!-- Пресеты мутаций внутри раздела симуляций -->
+        <div class="preset-options">
+            <button class="preset-btn" data-target="ATGCC" data-replace="AAAAA">🦾 Интеграция протеза</button>
+            <button class="preset-btn" data-target="CGTAG" data-replace="TTTTT">👁️ Оптический апгрейд</button>
+            <button class="preset-btn" data-target="TAGCT" data-replace="GGGGG">⚡ Нейро-интерфейс</button>
+        </div>
+
+        <!-- Сам редактор ДНК -->
+        <div class="dna-editor">
+            <h3>Монитор CRISPR-Cas9</h3>
+            <div id="dna-sequence" class="dna-sequence"></div>
+
+            <div class="controls">
+                <div id="step-1">
+                    <input type="text" id="guideRNA" placeholder="Цель для поиска (например: CGTA)" maxlength="20">
+                    <button id="findBtn">Запустить Cas9</button>
+                </div>
+                
+                <div id="step-2" style="display: none;">
+                    <input type="text" id="replaceRNA" placeholder="Новая последовательность" maxlength="20">
+                    <button id="editBtn">Разрезать и заменить</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="script.js"></script>
+
+<!-- Контейнер для гламурных кибер-уведомлений -->
+<div id="toast-container"></div>
+
+</body>
+</html>
