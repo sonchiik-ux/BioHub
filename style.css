@@ -357,3 +357,118 @@ header h1 {
     from { opacity: 1; transform: translateX(0) scale(1); }
     to { opacity: 0; transform: translateX(50px) scale(0.9); filter: blur(5px); }
 }
+
+/* ==========================================================================
+   ОПТИМИЗАЦИЯ ДЛЯ МОБИЛЬНЫХ УСТРОЙСТВ (СМАРТФОНЫ И ПЛАНШЕТЫ)
+   ========================================================================== */
+
+@media (max-width: 1024px) {
+    /* 1. ШАПКА: Перестраиваем элементы вертикально */
+    .hero-container {
+        flex-direction: column-reverse; /* Рука будет сверху, текст снизу для баланса */
+        gap: 40px;
+        text-align: center;
+        padding: 20px;
+    }
+
+    header h1 {
+        font-size: 3.5rem; /* Уменьшаем шрифт заголовка */
+    }
+
+    .hero-text p {
+        font-size: 1.2rem;
+        margin: auto;
+    }
+
+    /* 2. РОБО-РУКА: Уменьшаем масштаб, чтобы она не занимала весь экран */
+    .prosthesis {
+        width: 100%;
+        max-width: 320px; /* Идеальный размер для мобильного экрана */
+        height: auto;
+    }
+
+    /* 3. КАРТОЧКИ: Складываем их в один вертикальный ряд */
+    .cards {
+        flex-direction: column;
+        gap: 20px;
+        padding: 0 20px;
+    }
+
+    .card {
+        min-width: 100%;
+    }
+
+    /* 4. СИМУЛЯТОР: Делаем ДНК-нить адаптивной */
+    .simulation-section {
+        padding: 60px 20px;
+    }
+
+    .dna-editor {
+        padding: 25px 15px; /* Меньше внутренних отступов, больше места для ДНК */
+        border-radius: 20px;
+    }
+
+    /* Кнопки пресетов складываем в столбик, чтобы они не жались */
+    .preset-options {
+        flex-direction: column;
+        gap: 12px;
+        align-items: center;
+    }
+
+    .preset-btn {
+        width: 100%;
+        max-width: 340px;
+    }
+
+    /* Самое главное: ДНК-цепочка теперь переносится по строкам ровно и красиво */
+    .dna-sequence {
+        gap: 6px;
+    }
+
+    .base {
+        width: 34px;  /* Чуть уменьшаем квадраты нуклеотидов */
+        height: 34px;
+        font-size: 0.95rem;
+        border-radius: 8px;
+    }
+
+    /* 5. УПРАВЛЕНИЕ: Инпуты и кнопки во всю ширину */
+    .controls {
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+
+    #step-1, #step-2 {
+        flex-direction: column;
+        width: 100%;
+        max-width: 340px;
+    }
+
+    .controls input {
+        width: 100%;
+        box-sizing: border-box; /* Чтобы padding не разрывал ширину инпута */
+    }
+
+    .controls button {
+        width: 100%;
+    }
+
+    /* Ножницы уменьшаем, чтобы они соразмерно смотрелись над мелкими буквами */
+    #cas9 {
+        font-size: 32px;
+    }
+
+    /* 6. КИБЕР-УВЕДОМЛЕНИЯ: Сдвигаем на мобильных по центру вниз */
+    #toast-container {
+        top: auto;
+        bottom: 20px;
+        left: 20px;
+        right: 20px;
+    }
+
+    .cyber-toast {
+        min-width: 100%;
+    }
+}
+
