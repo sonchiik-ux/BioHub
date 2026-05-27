@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>BioHub — Интерактивная Биоинженерия</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://googleapis.com">
@@ -11,7 +11,7 @@
 </head>
 <body>
 
-<header>
+<header class="main-header">
     <div class="circle c1"></div>
     <div class="circle c2"></div>
     <div class="circle c3"></div>
@@ -21,8 +21,10 @@
             <span class="label">🧬 Биоинженерия • Генетика • Будущее</span>
             <h1>BioHub</h1>
             <p>Исследуй биоинженерию, генетику и технологии будущего через статьи, визуализации и интерактивные симуляции.</p>
-            <span class="hub-dot"></span>
-            <button class="cta" id="to-sim-btn">Открыть симулятор</button>
+            <div class="cta-wrapper">
+                <button class="cta" id="to-sim-btn">Открыть симулятор</button>
+                <span class="hub-dot"></span>
+            </div>
         </div>
 
         <div class="dna-container">
@@ -79,7 +81,6 @@
     </div>
 </header>
 
-<!-- РАЗДЕЛ 1: ИНФОРМАЦИОННЫЕ КАРТОЧКИ НАУЧНЫХ НАПРАВЛЕНИЙ -->
 <section class="fields">
     <h2>Направления исследований</h2>
     <div class="cards">
@@ -101,20 +102,17 @@
     </div>
 </section>
 
-<!-- РАЗДЕЛ 2: ИНТЕРАКТИВНЫЙ ЛАБОРАТОРНЫЙ ОТДЕЛ -->
 <section id="simulation-zone" class="simulation-section">
     <div class="section-container">
         <h2>Интерактивная Лаборатория</h2>
         <p class="section-subtitle">Выберите тип генной модификации для запуска молекулярного симулятора</p>
         
-        <!-- Пресеты мутаций внутри раздела симуляций -->
         <div class="preset-options">
             <button class="preset-btn" data-target="ATGCC" data-replace="AAAAA">🦾 Интеграция протеза</button>
             <button class="preset-btn" data-target="CGTAG" data-replace="TTTTT">👁️ Оптический апгрейд</button>
             <button class="preset-btn" data-target="TAGCT" data-replace="GGGGG">⚡ Нейро-интерфейс</button>
         </div>
 
-        <!-- Сам редактор ДНК -->
         <div class="dna-editor">
             <h3>Монитор CRISPR-Cas9</h3>
             <div id="dna-sequence" class="dna-sequence"></div>
@@ -134,10 +132,9 @@
     </div>
 </section>
 
-<script src="script.js"></script>
-
-<!-- Контейнер для гламурных кибер-уведомлений -->
 <div id="toast-container"></div>
 
+<script src="script.js"></script>
 </body>
 </html>
+
