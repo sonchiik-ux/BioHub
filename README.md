@@ -6,6 +6,6 @@
 
 1. Склонируйте репозиторий:
    ```bash
-   git clone https://github.com
+   git clone (https://sonchiik-ux.github.io/BioHub/)
    ```
 2. Откройте файл `index.html` в любом современном браузере.
