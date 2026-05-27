@@ -343,3 +343,7 @@ if (actionBlock && votesBlock) {
 actionBlock.style.display = "none";
 votesBlock.style.display = "flex";
 showCyberToast("Ваш голос учтен в глобальной базе биоинженеров!", "success");
+}
+});
+});
+});
