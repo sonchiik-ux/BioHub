@@ -1,17 +1,27 @@
 /* ==========================================================================
-   ЧАСТЬ 1: БАЗОВЫЕ НАСТРОЙКИ, ШАПКА И КИБЕР-ФОН
+   1. БАЗОВЫЕ И ГЛОБАЛЬНЫЕ СТИЛИ САЙТА (АБСОЛЮТНЫЙ ФИКС ПОЛОСЫ)
    ========================================================================== */
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    /* overflow-x: hidden на обоих тегах — это единственный 100% способ 
+       заставить мобильный Safari и Chrome обрезать вылетающие элементы */
+    overflow-x: hidden; 
+    box-sizing: border-box;
+}
+
+*, *:before, *:after {
+    box-sizing: inherit; /* Защищает инпуты и карточки от раздувания ширины */
+}
 
 body {
-    margin: 0;
     font-family: 'Poppins', sans-serif;
     background: #f4f7f5;
     color: #222;
-    width: 100vw;
-    overflow-x: hidden;
 }
 
-/* Расширенная сетка сайта до 1440px для современных экранов */
+/* Изменяем масштаб сайта до 1440px для лучшего визуала на больших мониторах */
 .hero-container, .section-container {
     max-width: 1440px;
     margin: auto;
@@ -21,12 +31,14 @@ body {
     gap: 80px;
     position: relative;
     z-index: 2;
+    width: 100%; /* Гарантируем, что контейнер не станет шире боди */
 }
 
 .section-container.block-layout {
     display: block;
     text-align: center;
 }
+
 
 /* СТИЛИЗАЦИЯ ШАПКИ САЙТА (HEADER) */
 header {
@@ -848,11 +860,6 @@ header h1 {
         text-align: center;
         padding: 20px;
     }
-   
-    .hub-navigation {
-        position: static !important; 
-        padding: 15px 20px; 
-    }
 
     .hero-text {
         display: flex;
@@ -1041,4 +1048,3 @@ header h1 {
         min-width: 100%;
     }
 }
-
