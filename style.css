@@ -848,6 +848,11 @@ header h1 {
         text-align: center;
         padding: 20px;
     }
+   
+    .hub-navigation {
+        position: static !important; 
+        padding: 15px 20px; 
+    }
 
     .hero-text {
         display: flex;
