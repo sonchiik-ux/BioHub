@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BioHub — Интерактивная Биоинженерия</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://googleapis.com">
@@ -11,24 +11,56 @@
 </head>
 <body>
 
-<header class="main-header">
+<header>
+    <!-- Живой кибер-фон: лазерная сетка -->
+    <div class="cyber-grid-bg"></div>
     <div class="circle c1"></div>
     <div class="circle c2"></div>
     <div class="circle c3"></div>
 
     <div class="hero-container">
-        <div class="hero-text">
+        <!-- Текстовый терминал управления -->
+        <div class="hero-text glass-terminal">
+            <div class="terminal-header">
+                <span class="terminal-dot red"></span>
+                <span class="terminal-dot yellow"></span>
+                <span class="terminal-dot green"></span>
+                <span class="terminal-status">SYSTEM_ACTIVE // BIO_HUB_v2.5</span>
+            </div>
+            
             <span class="label">🧬 Биоинженерия • Генетика • Будущее</span>
             <h1>BioHub</h1>
-            <p>Исследуй биоинженерию, генетику и технологии будущего через статьи, визуализации и интерактивные симуляции.</p>
-            <div class="cta-wrapper">
-                <button class="cta" id="to-sim-btn">Открыть симулятор</button>
+            <p>Исследуй биоинженерию, генетику и технологии будущего через статьи, интерактивные визуализации и симуляции молекулярных ножниц.</p>
+            
+            <div class="terminal-actions">
+                <button class="cta" id="start-explore-btn">Начать исследование</button>
                 <span class="hub-dot"></span>
             </div>
         </div>
 
-        <div class="dna-container">
-            <svg class="prosthesis" viewBox="0 0 500 600">
+        <!-- Контейнер с рукой и интерактивными кибер-датчиками -->
+        <div class="dna-container visual-hub">
+            <!-- Левый датчик -->
+            <div class="cyber-widget widget-left">
+                <div class="widget-title">🧬 СТАТУС CAS9</div>
+                <div class="widget-value pulse-green">READY_TO_SLICE</div>
+            </div>
+            
+            <!-- Правый датчик -->
+            <div class="cyber-widget widget-right">
+                <div class="widget-title">⚡ ЭНЕРГИЯ ЛАЗЕРА</div>
+                <div class="widget-value">98.4%</div>
+                <div class="widget-bar"><div class="widget-progress"></div></div>
+            </div>
+
+            <!-- ИНТЕРАКТИВНАЯ ПАНЕЛЬ СОСТОЯНИЯ ПРОТЕЗА (Изменяется от симуляции) -->
+            <div id="prosthesis-status-panel" class="cyber-status-panel status-nominal">
+                <span id="status-panel-icon">🟢</span> 
+                <span id="status-panel-text">ИНТЕГРАЦИЯ: СТАБИЛЬНО (ОЖИДАНИЕ МОДИФИКАЦИИ)</span>
+            </div>
+
+            <!-- Твоя идеальная робо-рука -->
+            <svg id="interactive-prosthesis" class="prosthesis" viewBox="0 0 500 600">
                 <defs>
                     <linearGradient id="metal-dark" x1="0" y1="0" x2="1" y2="0">
                         <stop offset="0%" stop-color="#1f2937"/>
@@ -58,30 +90,39 @@
                 <circle cx="305" cy="310" r="36" fill="url(#metal-dark)"/>
                 <circle cx="305" cy="310" r="24" fill="url(#chrome)"/>
                 <circle cx="305" cy="310" r="8" fill="#00f0ff" filter="url(#neon-glow)"/>
-                <path d="M 330 330 A 30 30 0 0 1 280 330" fill="none" stroke="#00f0ff" stroke-width="4" filter="url(#neon-glow)"/>
+                <path id="elbow-neon" d="M 330 330 A 30 30 0 0 1 280 330" fill="none" stroke="#00f0ff" stroke-width="4" filter="url(#neon-glow)"/>
                 <path d="M 305 310 L 210 140" stroke="url(#metal-dark)" stroke-width="32" stroke-linecap="round" />
                 <path d="M 290 320 L 190 155" stroke="url(#chrome)" stroke-width="12" stroke-linecap="round" />
                 <circle cx="202" cy="145" r="22" fill="url(#chrome)"/>
-                <circle cx="202" cy="145" r="7" fill="#00f0ff" filter="url(#neon-glow)"/>
+                <circle id="wrist-neon" cx="202" cy="145" r="7" fill="#00f0ff" filter="url(#neon-glow)"/>
                 <path d="M 212 155 L 185 150 L 160 230 L 210 235 Z" fill="url(#metal-dark)" />
-                <path d="M 195 175 L 182 200 L 172 180" fill="none" stroke="#00f0ff" stroke-width="4" filter="url(#neon-glow)" opacity="0.8"/>
+                <path id="palm-neon" d="M 195 175 L 182 200 L 172 180" fill="none" stroke="#00f0ff" stroke-width="4" filter="url(#neon-glow)" opacity="0.8"/>
                 <circle cx="205" cy="200" r="6" fill="url(#chrome)"/>
                 <path d="M 205 200 L 225 225 L 220 250" fill="none" stroke="url(#chrome)" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
-                <circle cx="225" cy="225" r="2.5" fill="#00f0ff" filter="url(#neon-glow)"/>
+                <circle id="thumb-neon" cx="225" cy="225" r="2.5" fill="#00f0ff" filter="url(#neon-glow)"/>
                 <path d="M 165 235 L 163 275 L 168 315" fill="none" stroke="url(#chrome)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
-                <circle cx="163" cy="275" r="3" fill="#00f0ff" filter="url(#neon-glow)"/>
+                <circle id="f1-neon" cx="163" cy="275" r="3" fill="#00f0ff" filter="url(#neon-glow)"/>
                 <path d="M 178 235 L 178 280 L 183 325" fill="none" stroke="url(#chrome)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
-                <circle cx="178" cy="280" r="3" fill="#00f0ff" filter="url(#neon-glow)"/>
+                <circle id="f2-neon" cx="178" cy="280" r="3" fill="#00f0ff" filter="url(#neon-glow)"/>
                 <path d="M 191 233 L 193 275 L 196 315" fill="none" stroke="url(#chrome)" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
-                <circle cx="193" cy="275" r="3" fill="#00f0ff" filter="url(#neon-glow)"/>
+                <circle id="f3-neon" cx="193" cy="275" r="3" fill="#00f0ff" filter="url(#neon-glow)"/>
                 <path d="M 203 230 L 206 265 L 208 300" fill="none" stroke="url(#chrome)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
-                <circle cx="206" cy="265" r="3" fill="#00f0ff" filter="url(#neon-glow)"/>
+                <circle id="f4-neon" cx="206" cy="265" r="3" fill="#00f0ff" filter="url(#neon-glow)"/>
             </svg>
         </div>
     </div>
 </header>
+<!-- ГЛАВНОЕ МЕНЮ ВКЛАДОК САЙТА -->
+<section id="content-hub" class="hub-navigation">
+    <div class="hub-tabs">
+        <button class="hub-tab-btn active" data-hub="fields">📚 Направления</button>
+        <button class="hub-tab-btn" data-hub="nature">🦠 CRISPR в природе</button>
+        <button class="hub-tab-btn" data-hub="lab">🔬 Лаборатория</button>
+    </div>
+</section>
 
-<section class="fields">
+<!-- ВКЛАДКА 1: НАУЧНЫЕ НАПРАВЛЕНИЯ -->
+<section id="hub-fields" class="hub-content active-content fields">
     <h2>Направления исследований</h2>
     <div class="cards">
         <div class="card">
@@ -92,20 +133,44 @@
         <div class="card">
             <div class="icon">🦾</div>
             <h3>Биомедицина</h3>
-            <p>Создание новых методов лечения, искусственных тканей и медицинских технологий.</p>
+            <p>Создание новых методов лечения, искусственных тканей и medical технологий.</p>
         </div>
         <div class="card">
             <div class="icon">🌱</div>
             <h3>Синтетическая биология</h3>
-            <p>Проектирование новых биологических систем для решения реальных задач человечества.</p>
+            <p>Проектирование новых biological систем для решения реальных задач человечества.</p>
         </div>
     </div>
 </section>
 
-<section id="simulation-zone" class="simulation-section">
-    <div class="section-container">
-        <h2>Интерактивная Лаборатория</h2>
-        <p class="section-subtitle">Выберите тип генной модификации для запуска молекулярного симулятора</p>
+<!-- ВКЛАДКА 2: CRISPR В ПРИРОДЕ -->
+<section id="hub-nature" class="hub-content nature-crispr-section">
+    <div class="section-container block-layout">
+        <h2>Как CRISPR работает в природе?</h2>
+        <p class="section-subtitle">Пошаговая симуляция защиты бактериальной клетки от атаки вируса (фага)</p>
+        
+        <div class="nature-simulation-box">
+            <div class="nature-tabs">
+                <button class="tab-btn active" data-step="1">1. Атака и Адаптация</button>
+                <button class="tab-btn" data-step="2">2. Производство РНК</button>
+                <button class="tab-btn" data-step="3">3. Уничтожение угрозы</button>
+            </div>
+            <div class="nature-screen">
+                <div id="nature-visual" class="nature-visual"></div>
+                <div class="nature-description">
+                    <h4 id="nature-step-title">Шаг 1: Атака вируса и запоминание врага</h4>
+                    <p id="nature-step-text">Загрузка симуляции...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ВКЛАДКА 3: ИНТЕРАКТИВНЫЙ СИМУЛЯТОР -->
+<section id="hub-lab" class="hub-content simulation-section">
+    <div class="section-container block-layout">
+        <h2>Интерактивная Лаборатория (CRISPR в инженерии)</h2>
+        <p class="section-subtitle">Используйте архивные данные бактерий для модификации ДНК под протезы</p>
         
         <div class="preset-options">
             <button class="preset-btn" data-target="ATGCC" data-replace="AAAAA">🦾 Интеграция протеза</button>
@@ -115,6 +180,10 @@
 
         <div class="dna-editor">
             <h3>Монитор CRISPR-Cas9</h3>
+            
+            <!-- Скрытый элемент шприца для анимации инъекции -->
+            <div id="injector-syringe">💉</div>
+            
             <div id="dna-sequence" class="dna-sequence"></div>
 
             <div class="controls">
@@ -128,6 +197,66 @@
                     <button id="editBtn">Разрезать и заменить</button>
                 </div>
             </div>
+
+            <!-- НАУЧНЫЙ СПРАВОЧНИК ПОД СИМУЛЯТОРОМ -->
+            <div class="science-guide">
+                <h4>🧬 Справка: Что происходит при репарации ДНК?</h4>
+                <div class="guide-grid">
+                    <div class="guide-box hdr">
+                        <h5>🟢 Путь HDR (30% успеха)</h5>
+                        <p><strong>Гомологичная репарация.</strong> Клетка аккуратно копирует последовательность с предоставленного вами донорского шаблона. Происходит идеальное, высокоточное редактирование кода.</p>
+                    </div>
+                    <div class="guide-box nhej">
+                        <h5>🔴 Путь NHEJ (70% мутаций)</h5>
+                        <p><strong>Негомологичное соединение концов.</strong> Экстренный механизм клетки. Не имея сил обработать разрыв, она судорожно склеивает ДНК встык, часто теряя или добавляя случайные буквы. Результат — непредвиденная мутация.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- РАЗДЕЛ: ЭТИЧЕСКИЕ ГРАНИЦЫ CRISPR -->
+            <div class="ethics-panel">
+                <h4>⚖️ Этические границы: Где вы проведете черту?</h4>
+                <p class="ethics-subtitle">Голосуйте и сравнивайте свое мнение с результатами других биоинженеров</p>
+                
+                <div class="ethics-grid">
+                    <!-- Вопрос 1 -->
+                    <div class="ethics-card" data-question="q1">
+                        <div class="ethics-text">Исправление врожденных тяжелых болезней у эмбрионов (Медицина)</div>
+                        <div class="ethics-votes" style="display: none;">
+                            <span class="v-yes">ЗА: 94%</span> <span class="v-no">ПРОТИВ: 6%</span>
+                        </div>
+                        <div class="ethics-actions">
+                            <button class="vote-btn yes">👍 ЗА</button>
+                            <button class="vote-btn no">👎 ПРОТИВ</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Вопрос 2 -->
+                    <div class="ethics-card" data-question="q2">
+                        <div class="ethics-text">Выбор внешности, интеллекта и цвета глаз («Дизайнерские дети»)</div>
+                        <div class="ethics-votes" style="display: none;">
+                            <span class="v-yes">ЗА: 18%</span> <span class="v-no">ПРОТИВ: 82%</span>
+                        </div>
+                        <div class="ethics-actions">
+                            <button class="vote-btn yes">👍 ЗА</button>
+                            <button class="vote-btn no">👎 ПРОТИВ</button>
+                        </div>
+                    </div>
+
+                    <!-- Вопрос 3 -->
+                    <div class="ethics-card" data-question="q3">
+                        <div class="ethics-text">Модификация тела, внедрение кибер-интерфейсов и создание супер-способностей</div>
+                        <div class="ethics-votes" style="display: none;">
+                            <span class="v-yes">ЗА: 41%</span> <span class="v-no">ПРОТИВ: 59%</span>
+                        </div>
+                        <div class="ethics-actions">
+                            <button class="vote-btn yes">👍 ЗА</button>
+                            <button class="vote-btn no">👎 ПРОТИВ</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </section>
@@ -137,4 +266,5 @@
 <script src="script.js"></script>
 </body>
 </html>
+
 
