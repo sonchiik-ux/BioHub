@@ -1,49 +1,19 @@
-/* ГЛОБАЛЬНЫЙ ФИКС ПРОТИВ БЕЛОЙ ПОЛУСЫ */
-html, body {
-    width: 100%;
-    max-width: 100%;
+/* ==========================================================================
+   ЧАСТЬ 1: БАЗОВЫЕ НАСТРОЙКИ, ШАПКА И КИБЕР-ФОН
+   ========================================================================== */
+
+body {
     margin: 0;
-    padding: 0;
-    overflow-x: hidden !important; /* Намертво блокирует боковой скролл */
     font-family: 'Poppins', sans-serif;
     background: #f4f7f5;
     color: #222;
-    box-sizing: border-box;
+    width: 100vw;
+    overflow-x: hidden;
 }
 
-*, *:before, *:after {
-    box-sizing: inherit;
-}
-
-.main-header {
-    position: relative;
-    overflow: hidden !important;
-    background: linear-gradient(135deg, #0f766e, #14b8a6, #5bc5b0);
-    color: white;
-    padding: 100px 40px;
-    width: 100%;
-    max-width: 100%;
-}
-
-.main-header::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background:
-    linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
-    background-size: 40px 40px;
-    pointer-events: none;
-}
-
-.main-header h1 {
-    font-size: 5rem;
-    margin-bottom: 15px;
-}
-
+/* Расширенная сетка сайта до 1440px для современных экранов */
 .hero-container, .section-container {
     max-width: 1440px;
-    width: 100%;
     margin: auto;
     display: flex;
     justify-content: space-between;
@@ -53,8 +23,79 @@ html, body {
     z-index: 2;
 }
 
-.hero-text {
-    flex: 1;
+.section-container.block-layout {
+    display: block;
+    text-align: center;
+}
+
+/* СТИЛИЗАЦИЯ ШАПКИ САЙТА (HEADER) */
+header {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #0f766e, #14b8a6, #5bc5b0);
+    color: white;
+    padding: 100px 40px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Живая неоновая сетка на фоне */
+.cyber-grid-bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.15;
+    background-image: 
+        linear-gradient(to right, #00f0ff 1px, transparent 1px),
+        linear-gradient(to bottom, #00f0ff 1px, transparent 1px);
+    background-size: 50px 50px;
+    animation: gridMove 20s linear infinite;
+}
+
+@keyframes gridMove {
+    0% { background-position: 0 0; }
+    100% { background-position: 50px 50px; }
+}
+
+header h1 {
+    font-size: 5rem;
+    margin-bottom: 15px;
+}
+
+/* Стеклянный терминал управления */
+.glass-terminal {
+    background: rgba(15, 23, 42, 0.45);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 40px;
+    border-radius: 24px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+.terminal-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 25px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 12px;
+}
+
+.terminal-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+}
+.terminal-dot.red { background: #ef4444; }
+.terminal-dot.yellow { background: #f59e0b; }
+.terminal-dot.green { background: #10b981; }
+
+.terminal-status {
+    font-family: monospace;
+    font-size: 0.85rem;
+    color: #94a3b8;
+    margin-left: 10px;
+    letter-spacing: 1px;
 }
 
 .hero-text p {
@@ -64,14 +105,33 @@ html, body {
     opacity: 0.9;
 }
 
-.cta-wrapper {
+.label {
+    display: inline-block;
+    margin-bottom: 20px;
+    padding: 8px 18px;
+    border-radius: 30px;
+    background: rgba(255,255,255,0.15);
+    font-size: 0.9rem;
+}
+
+.hub-dot {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    margin-left: 8px;
+    border-radius: 50%;
+    background: #00f0ff;
+    box-shadow: 0 0 10px #00f0ff;
+}
+
+.terminal-actions {
     display: flex;
     align-items: center;
     gap: 15px;
-    margin-top: 30px;
 }
 
 .cta {
+    margin-top: 30px;
     border: none;
     background: #14b8a6;
     color: white;
@@ -90,20 +150,207 @@ html, body {
     box-shadow: 0 6px 20px rgba(20, 184, 166, 0.6);
 }
 
-.hub-dot {
-    display: inline-block;
-    width: 12px;
-    height: 12px;
+/* Декоративные фоновые круги */
+.circle {
+    position: absolute;
     border-radius: 50%;
-    background: #00f0ff;
-    box-shadow: 0 0 10px #00f0ff, 0 0 20px #00f0ff;
+    background: rgba(255,255,255,0.12);
+    backdrop-filter: blur(5px);
+}
+.c1 { width: 260px; height: 260px; top: -90px; left: -70px; }
+.c2 { width: 180px; height: 180px; right: 100px; top: 60px; }
+.c3 { width: 320px; height: 320px; right: -100px; bottom: -120px; }
+
+/* ==========================================================================
+   ЧАСТЬ 2: РОБО-РУКА, ДАТЧИКИ, ПАНЕЛЬ СОСТОЯНИЯ И ВЕРХНИЕ ВКЛАДКИ
+   ========================================================================== */
+
+.dna-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
 }
 
+/* Контейнер интерактивного хаба вокруг руки */
+.visual-hub {
+    position: relative;
+}
+
+.prosthesis {
+    width: 520px;
+    height: auto;
+    filter: drop-shadow(0 15px 25px rgba(0,0,0,0.2));
+    animation: armFloat 6s ease-in-out infinite;
+}
+
+.prosthesis line {
+    stroke-linecap: round;
+}
+
+@keyframes armFloat {
+    0% { transform: translateY(0px) rotate(-1deg); }
+    50% { transform: translateY(-15px) rotate(1deg); }
+    100% { transform: translateY(0px) rotate(-1deg); }
+}
+
+/* Парящие по бокам кибер-виджеты (датчики) */
+.cyber-widget {
+    position: absolute;
+    background: rgba(17, 24, 39, 0.8);
+    border: 1px solid rgba(0, 240, 255, 0.3);
+    padding: 12px 18px;
+    border-radius: 12px;
+    font-family: monospace;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3), 0 0 15px rgba(0, 240, 255, 0.1);
+    z-index: 5;
+    pointer-events: none;
+    animation: widgetFloat 4s ease-in-out infinite;
+}
+
+.widget-left { top: 25%; left: -40px; animation-delay: 0s; }
+.widget-right { bottom: 20%; right: -20px; animation-delay: 2s; }
+
+.widget-title {
+    font-size: 0.75rem;
+    color: #9ca3af;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+}
+
+.widget-value {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #00f0ff;
+}
+
+.widget-value.pulse-green {
+    color: #10b981;
+    text-shadow: 0 0 8px rgba(16, 185, 129, 0.5);
+    animation: blink 2s infinite;
+}
+
+.widget-bar {
+    width: 100px; height: 4px;
+    background: #374151;
+    border-radius: 2px;
+    margin-top: 6px;
+    overflow: hidden;
+}
+
+.widget-progress {
+    width: 98%; height: 100%;
+    background: #00f0ff;
+    box-shadow: 0 0 8px #00f0ff;
+}
+
+@keyframes widgetFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+
+/* ИНТЕРАКТИВНАЯ ПАНЕЛЬ СОСТОЯНИЯ ПРОТЕЗА (Панель «До/После») */
+.cyber-status-panel {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    padding: 10px 15px;
+    border-radius: 10px;
+    font-family: monospace;
+    font-size: 0.85rem;
+    font-weight: bold;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    z-index: 10;
+    backdrop-filter: blur(5px);
+    transition: all 0.5s ease;
+}
+
+/* Состояние по умолчанию */
+.cyber-status-panel.status-nominal {
+    background: rgba(17, 24, 39, 0.85);
+    border: 1px solid #10b981;
+    color: #10b981;
+}
+
+/* Состояние успеха HDR */
+.cyber-status-panel.status-success {
+    background: rgba(15, 118, 110, 0.9);
+    border: 2px solid #00f0ff;
+    color: #00f0ff;
+    box-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
+}
+
+/* Состояние отторжения/мутации NHEJ */
+.cyber-status-panel.status-error {
+    background: rgba(185, 28, 28, 0.9);
+    border: 2px solid #ff0055;
+    color: white;
+    box-shadow: 0 0 20px rgba(255, 0, 85, 0.4);
+}
+
+/* ГЛАВНАЯ СТИЛИЗАЦИЯ ВКЛАДОК САЙТА (HUB NAVIGATION) */
+.hub-navigation {
+    background: #111827;
+    padding: 20px 40px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+
+.hub-tabs {
+    max-width: 1440px;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.hub-tab-btn {
+    padding: 14px 28px;
+    background: #1f2937;
+    border: 1px solid #374151;
+    color: #9ca3af;
+    font-size: 1.1rem;
+    font-weight: 700;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.hub-tab-btn:hover, .hub-tab-btn.active {
+    background: #14b8a6;
+    color: white;
+    border-color: #14b8a6;
+    box-shadow: 0 0 15px rgba(20, 184, 166, 0.4);
+}
+
+/* Управление переключением контента разделов */
+.hub-content {
+    display: none;
+}
+
+.hub-content.active-content {
+    display: block;
+    animation: fadeIn 0.5s ease forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ==========================================================================
+   ЧАСТЬ 3: КАРТОЧКИ, БАКТЕРИИ, ШПРИЦ-ИНЖЕКТОР И ЭТИЧЕСКИЙ ОПРОС
+   ========================================================================== */
+
+/* СЕКЦИЯ: ИНФОРМАЦИОННЫЕ КАРТОЧКИ (ВКЛАДКА 1) */
 .fields {
     padding: 120px 40px;
     text-align: center;
     max-width: 1440px;
-    width: 100%;
     margin: auto;
 }
 
@@ -117,7 +364,6 @@ html, body {
     justify-content: space-between;
     gap: 40px;
     flex-wrap: wrap;
-    width: 100%;
 }
 
 .card {
@@ -128,12 +374,12 @@ html, body {
     border-radius: 24px;
     box-shadow: 0 15px 35px rgba(0,0,0,0.05);
     text-align: left;
-    transition: transform 0.3s, box-shadow 0.3s;
-    cursor: pointer;
+    user-select: none;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-10px);
 }
 
 .icon {
@@ -152,43 +398,94 @@ html, body {
     color: #555;
 }
 
-.dna-container {
+/* СЕКЦИЯ: CRISPR В ПРИРОДЕ (ВКЛАДКА 2) */
+.nature-crispr-section {
+    background: #ffffff;
+    padding: 100px 40px;
+}
+
+.nature-simulation-box {
+    max-width: 1000px;
+    margin: 40px auto 0 auto;
+    background: #111827;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+}
+
+.nature-tabs {
+    display: flex;
+    background: #1f2937;
+    border-bottom: 2px solid #374151;
+}
+
+.tab-btn {
     flex: 1;
+    padding: 18px 10px;
+    background: transparent;
+    border: none;
+    color: #9ca3af;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.tab-btn.active {
+    color: #00f0ff;
+    background: #111827;
+    border-bottom: 3px solid #00f0ff;
+}
+
+.nature-screen {
+    padding: 40px;
+    color: white;
+}
+
+.nature-visual {
+    height: 220px;
     display: flex;
     justify-content: center;
+    align-items: center;
+    gap: 20px;
+    position: relative;
+    border-bottom: 1px solid #1f2937;
+    margin-bottom: 30px;
+    overflow: hidden;
 }
 
-.prosthesis {
-    width: 520px;
-    height: auto;
-    filter: drop-shadow(0 15px 25px rgba(0,0,0,0.2));
-    animation: armFloat 6s ease-in-out infinite;
+/* Компоненты защиты бактерии */
+.bacteria-wall {
+    width: 20px; height: 180px;
+    background: #10b981; border-radius: 10px;
+    box-shadow: 0 0 15px #10b981;
 }
 
-@keyframes armFloat {
-    0% { transform: translateY(0px) rotate(-1deg); }
-    50% { transform: translateY(-15px) rotate(1deg); }
-    100% { transform: translateY(0px) rotate(-1deg); }
+.phage-virus { font-size: 50px; animation: armFloat 3s ease-in-out infinite; }
+.virus-dna { color: #ef4444; font-weight: bold; letter-spacing: 2px; font-size: 1.2rem; }
+.crisp-archive { display: flex; gap: 5px; background: #374151; padding: 10px; border-radius: 8px; }
+.archive-spacer { padding: 4px 8px; background: #111827; border-radius: 4px; font-size: 0.8rem; font-weight: bold;}
+.archive-spacer.new-spacer { background: #ef4444; color: white; animation: blink 1s infinite; }
+
+.cas9-protein { position: relative; font-size: 60px; }
+.rna-tail {
+    position: absolute;
+    bottom: -10px; left: -20px;
+    background: #00f0ff; color: #111827;
+    padding: 2px 6px; font-size: 0.7rem; font-weight: bold; border-radius: 4px;
 }
 
-/* ОТДЕЛЬНЫЙ РАЗДЕЛ ДЛЯ СИМУЛЯЦИЙ */
+.nature-description { text-align: left; max-width: 800px; margin: auto; }
+.nature-description h4 { font-size: 1.5rem; color: #00f0ff; margin-top: 0; margin-bottom: 10px; }
+.nature-description p { font-size: 1.1rem; color: #d1d5db; line-height: 1.6; }
+
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+
+/* СЕКЦИЯ: ЛАБОРАТОРНЫЙ РЕДАКТОР ДНК (ВКЛАДКА 3) */
 .simulation-section {
-    background: #eef2f1;
+    background: #f0f4f3;
     padding: 120px 40px;
     border-top: 1px solid #e2e8f0;
-    width: 100%;
-    max-width: 100%;
-}
-
-.simulation-section .section-container {
-    display: block;
-    text-align: center;
-    width: 100%;
-}
-
-.simulation-section h2 {
-    font-size: 3rem;
-    margin-bottom: 10px;
 }
 
 .section-subtitle {
@@ -202,7 +499,6 @@ html, body {
     justify-content: center;
     gap: 20px;
     margin-bottom: 40px;
-    flex-wrap: wrap;
 }
 
 .preset-btn {
@@ -224,13 +520,14 @@ html, body {
 }
 
 .dna-editor {
+    position: relative;
     background: #193644;
     padding: 50px;
     border-radius: 30px;
     max-width: 1200px;
-    width: 100%;
     margin: auto;
     box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+    overflow: hidden;
 }
 
 .dna-editor h3 {
@@ -240,12 +537,28 @@ html, body {
     margin-bottom: 40px;
 }
 
+/* Скрытый инжектор шприца для анимации доставки */
+#injector-syringe {
+    position: absolute;
+    font-size: 50px;
+    z-index: 10;
+    top: -100px;
+    left: 50%;
+    transform: translateX(-50%) rotate(180deg);
+    pointer-events: none;
+    transition: top 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Класс запуска анимации инъекции */
+#injector-syringe.injecting {
+    top: 30px;
+}
+
 .dna-sequence {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
     justify-content: center;
-    width: 100%;
 }
 
 .base {
@@ -258,6 +571,11 @@ html, body {
     font-weight: 700;
     color: white;
     font-size: 1.1rem;
+    transition: transform .3s;
+}
+
+.base:hover {
+    transform: translateY(-4px);
 }
 
 .controls {
@@ -265,14 +583,11 @@ html, body {
     justify-content: center;
     gap: 15px;
     margin-top: 40px;
-    flex-wrap: wrap;
 }
 
 #step-1, #step-2 {
     display: flex;
     gap: 15px;
-    flex-wrap: wrap;
-    justify-content: center;
 }
 
 .controls input {
@@ -281,6 +596,7 @@ html, body {
     border-radius: 12px;
     width: 300px;
     font-size: 1rem;
+    background: #fff;
 }
 
 .controls button {
@@ -294,6 +610,7 @@ html, body {
     font-size: 1rem;
 }
 
+/* Эффекты ДНК-цепи */
 .target {
     box-shadow: 0 0 25px 6px #14b8a6;
     transform: scale(1.18);
@@ -306,6 +623,7 @@ html, body {
     z-index: 1;
 }
 
+/* Элемент Ножниц Cas9 */
 #cas9 {
     position: absolute;
     font-size: 45px;
@@ -325,14 +643,139 @@ html, body {
     100% { transform: scale(0) rotate(25deg); opacity: 0; }
 }
 
-/* ДЕКОРАТИВНЫЕ КРУГИ */
-.circle { position: absolute; border-radius: 50%; background: rgba(255,255,255,0.12); backdrop-filter: blur(5px); }
-.c1 { width: 260px; height: 260px; top: -90px; left: -70px; }
-.c2 { width: 180px; height: 180px; right: 100px; top: 60px; }
-.c3 { width: 320px; height: 320px; right: -100px; bottom: -120px; }
-.label { display: inline-block; margin-bottom: 20px; padding: 8px 18px; border-radius: 30px; background: rgba(255,255,255,0.15); font-size: 0.9rem; }
+/* СПРАВОЧНИК ПО НАУЧНОЙ РЕПАРАЦИИ */
+.science-guide {
+    margin-top: 50px;
+    border-top: 1px solid #2e4e5e;
+    padding-top: 30px;
+    text-align: left;
+}
 
-/* ГЛАМУРНЫЕ КИБЕР-УВЕДОМЛЕНИЯ */
+.science-guide h4 {
+    color: #00f0ff;
+    font-size: 1.3rem;
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+.guide-grid {
+    display: flex;
+    gap: 25px;
+}
+
+.guide-box {
+    flex: 1;
+    background: #112530;
+    padding: 24px;
+    border-radius: 16px;
+    border: 1px solid transparent;
+}
+
+.guide-box.hdr { border-left: 4px solid #10b981; }
+.guide-box.nhej { border-left: 4px solid #ef4444; }
+
+.guide-box h5 {
+    font-size: 1.1rem;
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: white;
+}
+
+.guide-box p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #94a3b8;
+    margin: 0;
+}
+
+/* ==========================================================================
+   БЛОК ЭТИЧЕСКИХ ОПРОСОВ CRISPR
+   ========================================================================== */
+.ethics-panel {
+    margin-top: 50px;
+    border-top: 1px solid #2e4e5e;
+    padding-top: 40px;
+    text-align: left;
+}
+
+.ethics-panel h4 {
+    color: #00f0ff;
+    font-size: 1.4rem;
+    margin-top: 0;
+    margin-bottom: 6px;
+}
+
+.ethics-subtitle {
+    font-size: 1rem;
+    color: #94a3b8;
+    margin-top: 0;
+    margin-bottom: 30px;
+}
+
+.ethics-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.ethics-card {
+    background: #112530;
+    padding: 24px;
+    border-radius: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.ethics-text {
+    flex: 1;
+    color: white;
+    font-size: 1.05rem;
+    line-height: 1.5;
+}
+
+.ethics-votes {
+    font-family: monospace;
+    font-size: 1.1rem;
+    font-weight: bold;
+    display: flex;
+    gap: 20px;
+    animation: fadeIn 0.5s ease forwards;
+}
+
+.v-yes { color: #10b981; }
+.v-no { color: #ef4444; }
+
+.ethics-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.vote-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: all 0.2s;
+}
+
+.vote-btn.yes { background: #10b981; color: white; }
+.vote-btn.no { background: #ef4444; color: white; }
+
+.vote-btn:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.15);
+}
+
+/* ==========================================================================
+   ЧАСТЬ 4: КИБЕР-ТОСТЫ И СУПЕР-АДАПТИВНОСТЬ (МОБИЛЬНЫЕ СТИЛИ)
+   ========================================================================== */
+
+/* СИСТЕМНЫЕ КИБЕР-ТОСТЫ (УВЕДОМЛЕНИЯ) */
 #toast-container {
     position: fixed;
     top: 30px;
@@ -341,7 +784,6 @@ html, body {
     display: flex;
     flex-direction: column;
     gap: 15px;
-    max-width: 100%;
 }
 
 .cyber-toast {
@@ -349,7 +791,7 @@ html, body {
     align-items: center;
     gap: 15px;
     min-width: 320px;
-    max-width: 420px;
+    max-width: 450px;
     padding: 16px 24px;
     border-radius: 16px;
     color: white;
@@ -361,43 +803,59 @@ html, body {
     animation: toastFadeIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 
-.cyber-toast.success { background: rgba(15, 118, 110, 0.9); border-left: 5px solid #00f0ff; box-shadow: 0 0 20px rgba(0, 240, 255, 0.2); }
-.cyber-toast.error { background: rgba(185, 28, 28, 0.9); border-left: 5px solid #ff0055; box-shadow: 0 0 20px rgba(255, 0, 85, 0.2); }
+.cyber-toast.success {
+    background: rgba(15, 118, 110, 0.85);
+    border-left: 5px solid #00f0ff;
+    box-shadow: 0 0 20px rgba(0, 240, 255, 0.2);
+}
+
+.cyber-toast.error {
+    background: rgba(185, 28, 28, 0.85);
+    border-left: 5px solid #ff0055;
+    box-shadow: 0 0 20px rgba(255, 0, 85, 0.2);
+}
+
 .toast-icon { font-size: 1.5rem; }
 .toast-message { line-height: 1.4; }
 
-@keyframes toastFadeIn { from { opacity: 0; transform: translateX(50px); } to { opacity: 1; transform: translateX(0); } }
-@keyframes toastFadeOut { from { opacity: 1; transform: translateX(0); } to { opacity: 0; transform: translateX(50px); filter: blur(5px); } }
+@keyframes toastFadeIn {
+    from { opacity: 0; transform: translateX(50px) scale(0.9); }
+    to { opacity: 1; transform: translateX(0) scale(1); }
+}
 
+@keyframes toastFadeOut {
+    from { opacity: 1; transform: translateX(0) scale(1); }
+    to { opacity: 0; transform: translateX(50px) scale(0.9); filter: blur(5px); }
+}
 
 /* ==========================================================================
-   ОПТИМИЗАЦИЯ ДЛЯ МОБИЛЬНЫХ (ЖЕСТКИЙ ФИКС ВЫЛЕТОВ БЛОКОВ)
+   ОПТИМИЗАЦИЯ ДЛЯ МОБИЛЬНЫХ УСТРОЙСТВ (МЕДИА-ЗАПРОСЫ)
    ========================================================================== */
 @media (max-width: 1024px) {
-    html, body {
-        max-width: 100% !important;
-        overflow-x: hidden !important;
+    body {
+        width: 100vw;
+        overflow-x: hidden;
     }
 
-    /* Полностью прячем круги, которые выдавливали полосу вбок */
+    /* Полностью скрываем фоновые круги шапки, чтобы убрать белые полосы */
     .circle {
         display: none !important;
-    }
-
-    .main-header {
-        padding: 60px 20px;
-        text-align: center;
-        width: 100% !important;
-        max-width: 100% !important;
     }
 
     .hero-container {
         flex-direction: column-reverse;
         gap: 40px;
-        width: 100% !important;
+        text-align: center;
+        padding: 20px;
     }
 
-    .main-header h1 {
+    .hero-text {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    header h1 {
         font-size: 3.2rem;
     }
 
@@ -406,106 +864,175 @@ html, body {
         margin: auto;
     }
 
-    .cta-wrapper {
+    .cta {
+        display: inline-flex;
+        align-items: center;
         justify-content: center;
+        width: auto;
+        padding: 14px 32px;
+        font-size: 1rem;
     }
 
-    /* Зажимаем адаптивный размер руки */
+    .hub-dot {
+        margin: 15px 0 0 0;
+    }
+
+    /* Складываем виджеты в общую мобильную стопку и убираем абсолютное парение */
+    .cyber-widget {
+        position: static !important;
+        margin: 10px auto;
+        width: fit-content;
+        animation: none !important;
+    }
+
+    .cyber-status-panel {
+        position: static !important;
+        transform: none !important;
+        width: 100%;
+        box-sizing: border-box;
+        margin-bottom: 15px;
+    }
+
+    .glass-terminal {
+        padding: 25px 20px;
+    }
+
+    .terminal-actions {
+        flex-direction: column;
+        gap: 5px;
+    }
+
     .prosthesis {
         width: 100%;
-        max-width: 290px;
-        height: auto;
+        max-width: 300px;
     }
 
-    .fields {
-        padding: 60px 20px;
+    /* Адаптация меню хаба вкладок */
+    .hub-tabs {
+        flex-direction: column;
+        width: 100%;
     }
 
-    .fields h2 {
-        font-size: 2.4rem;
-        margin-bottom: 40px;
+    .hub-tab-btn {
+        width: 100%;
+        text-align: center;
     }
 
     .cards {
         flex-direction: column;
         gap: 20px;
+        padding: 0 20px;
     }
 
     .card {
         min-width: 100%;
-        padding: 30px 20px;
     }
 
-    /* Мобильный симулятор */
+    /* Адаптация природного симулятора */
+    .nature-tabs {
+        flex-direction: column;
+    }
+    
+    .tab-btn {
+        border-bottom: 1px solid #374151;
+    }
+    
+    .tab-btn.active {
+        border-bottom: none;
+        border-left: 4px solid #00f0ff;
+    }
+
+    .nature-screen {
+        padding: 20px;
+    }
+
+    .nature-visual {
+        height: 180px;
+    }
+
+    /* Адаптация инженерии */
     .simulation-section {
-        padding: 60px 15px;
-    }
-
-    .simulation-section h2 {
-        font-size: 2.4rem;
-    }
-
-    .section-subtitle {
-        font-size: 1.1rem;
-        margin-bottom: 30px;
+        padding: 60px 20px;
     }
 
     .preset-options {
         flex-direction: column;
+        gap: 12px;
         align-items: center;
-        gap: 10px;
     }
 
     .preset-btn {
         width: 100%;
-        max-width: 320px;
-        font-size: 1rem;
+        max-width: 340px;
     }
 
     .dna-editor {
-        padding: 30px 15px;
-        border-radius: 20px;
-    }
-
-    .dna-editor h3 {
-        font-size: 1.6rem;
-        margin-bottom: 30px;
-    }
-
-    /* Отрезаем лишние размеры у нуклеотидов, чтоб влезали в экран */
-    .dna-sequence {
-        gap: 5px;
+        padding: 25px 15px;
     }
 
     .base {
-        width: 32px;
-        height: 32px;
-        font-size: 0.9rem;
+        width: 34px;
+        height: 34px;
+        font-size: 0.95rem;
         border-radius: 8px;
     }
 
-    /* Мобильное управление */
-.controls input {
-width: 100%;
-max-width: 320px;
-}
-.controls button {
-width: 100%;
-max-width: 320px;
-}
-#cas9 {
-font-size: 30px;
-}
-/* Перенос уведомлений вниз экрана для пальца */
-#toast-container {
-top: auto;
-bottom: 20px;
-left: 15px;
-right: 15px;
-align-items: center;
-}
-.cyber-toast {
-min-width: 100%;
-}
-}
+    .controls {
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
 
+    #step-1, #step-2 {
+        flex-direction: column;
+        width: 100%;
+        max-width: 340px;
+    }
+
+    .controls input {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .controls button {
+        width: 100%;
+    }
+
+    #cas9 {
+        font-size: 32px;
+    }
+
+    /* Сетка справочника */
+    .guide-grid {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    /* Сетка этических карточек */
+    .ethics-card {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+    }
+
+    .ethics-votes {
+        justify-content: center;
+    }
+
+    .ethics-actions {
+        width: 100%;
+        justify-content: center;
+    }
+
+    /* Тосты падают вниз экрана */
+    #toast-container {
+        top: auto;
+        bottom: 20px;
+        left: 20px;
+        right: 20px;
+    }
+
+    .cyber-toast {
+        min-width: 100%;
+    }
+}
