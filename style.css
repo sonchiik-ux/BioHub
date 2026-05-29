@@ -302,14 +302,18 @@ header h1 {
     box-shadow: 0 0 20px rgba(255, 0, 85, 0.4);
 }
 
-/* ГЛАВНАЯ СТИЛИЗАЦИЯ ВКЛАДОК САЙТА (HUB NAVIGATION) */
+/* ==========================================================================
+   4. ГЛАВНАЯ СТИЛИЗАЦИЯ ВКЛАДОК САЙТА (HUB NAVIGATION) — ПОЛНЫЙ ФИКС
+   ========================================================================== */
 .hub-navigation {
-    background: #111827;
+    background: #111827 !important; /* Намертво заливаем чистым тёмным цветом */
+    background-image: none !important; /* Полностью уничтожаем любые фоновые картинки и сетки */
     padding: 20px 40px;
     position: sticky;
     top: 0;
     z-index: 1000;
     box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    width: 100%;
 }
 
 .hub-tabs {
@@ -353,6 +357,7 @@ header h1 {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
 }
+
 
 /* ==========================================================================
    ЧАСТЬ 3: КАРТОЧКИ, БАКТЕРИИ, ШПРИЦ-ИНЖЕКТОР И ЭТИЧЕСКИЙ ОПРОС
@@ -840,6 +845,7 @@ header h1 {
     to { opacity: 0; transform: translateX(50px) scale(0.9); filter: blur(5px); }
 }
 
+
 /* ==========================================================================
    ОПТИМИЗАЦИЯ ДЛЯ МОБИЛЬНЫХ УСТРОЙСТВ (МЕДИА-ЗАПРОСЫ)
    ========================================================================== */
@@ -1047,4 +1053,161 @@ header h1 {
     .cyber-toast {
         min-width: 100%;
     }
+}
+
+/* ==========================================================================
+   ФАБРИКА СОЗРЕВАНИЯ РНК (НОВЫЕ СТИЛИ)
+   ========================================================================== */
+.rna-factory-section {
+    background: #ffffff;
+    padding: 100px 40px;
+}
+
+.factory-box {
+    max-width: 1100px;
+    margin: 40px auto 0 auto;
+    background: #0f172a; /* Глубокий космический темный для экрана */
+    border-radius: 28px;
+    overflow: hidden;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.factory-controls {
+    display: flex;
+    background: #1e293b;
+    border-bottom: 2px solid #334155;
+}
+
+.factory-btn {
+    flex: 1;
+    padding: 16px 10px;
+    background: transparent;
+    border: none;
+    color: #64748b;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: not-allowed; /* Пока шаг заблокирован */
+    transition: all 0.3s;
+}
+
+.factory-btn.active {
+    color: #00f0ff;
+    background: #0f172a;
+    cursor: pointer;
+    border-bottom: 3px solid #00f0ff;
+}
+
+.factory-screen {
+    padding: 50px 40px;
+    color: white;
+}
+
+/* Сборочная линия (конвейер) */
+.rna-assembly-line {
+    height: 240px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0px; /* Элементы РНК будут идти встык одной лентой */
+    position: relative;
+    border-bottom: 1px solid #1e293b;
+    margin-bottom: 40px;
+    overflow: hidden;
+}
+
+/* Базовый класс для сегментов РНК */
+.rna-segment {
+    padding: 12px 20px;
+    font-family: monospace;
+    font-weight: bold;
+    font-size: 1.1rem;
+    text-align: center;
+    border-radius: 6px;
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+}
+
+/* Повторы (Кассеты-разделители) */
+.rna-segment.repeat {
+    background: #334155;
+    color: #94a3b8;
+    border: 1px dashed rgba(255,255,255,0.2);
+}
+
+/* Спейсеры (Уникальные коды вирусов) */
+.rna-segment.spacer-red { background: #b91c1c; color: white; box-shadow: 0 0 15px rgba(185, 28, 28, 0.4); }
+.rna-segment.spacer-yellow { background: #b45309; color: white; box-shadow: 0 0 15px rgba(180, 83, 9, 0.4); }
+.rna-segment.spacer-blue { background: #1d4ed8; color: white; box-shadow: 0 0 15px rgba(29, 78, 216, 0.4); }
+
+/* Вспомогательная РНК (tracrRNA), прилетающая сверху */
+.tracr-link {
+    position: absolute;
+    top: -60px; /* Изначально спрятана выше экрана */
+    left: 50%;
+    transform: translateX(-50%);
+    background: #a855f7; /* Насыщенный фиолетовый кибер-цвет */
+    color: white;
+    font-size: 0.75rem;
+    padding: 4px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+    box-shadow: 0 0 10px #a855f7;
+    transition: top 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Класс активации прилета tracrРНК */
+.rna-segment.repeat.attached .tracr-link {
+    top: -35px;
+}
+
+/* Лазерная линия разреза */
+.laser-cutter {
+    width: 2px;
+    height: 0px;
+    background: #ff0055;
+    box-shadow: 0 0 10px #ff0055, 0 0 20px #ff0055;
+    position: relative;
+    z-index: 5;
+    transition: height 0.4s ease;
+}
+
+.laser-cutter.active-cut {
+    height: 120px; /* Лазер пробивает ленту */
+}
+
+/* Эффект распада ленты после нарезки */
+.rna-assembly-line.sliced {
+    gap: 25px; /* Разрываем ленту на отдельные кусочки за счет гэпа */
+}
+
+/* Кнопка действия внутри фабрики */
+.factory-action-btn {
+    padding: 14px 30px;
+    background: #14b8a6;
+    border: none;
+    color: white;
+    font-weight: bold;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.3s;
+    margin-top: 15px;
+    box-shadow: 0 4px 15px rgba(20, 184, 166, 0.3);
+}
+
+.factory-action-btn:hover {
+    background: #0f766e;
+    transform: translateY(-2px);
+}
+
+/* Мобильная адаптивность для фабрики РНК */
+@media (max-width: 1024px) {
+    .factory-controls { flex-direction: column; }
+    .factory-btn { border-bottom: 1px solid #334155; cursor: default; }
+    .factory-btn.active { border-left: 4px solid #00f0ff; border-bottom: none; }
+    .factory-screen { padding: 30px 15px; }
+    .rna-assembly-line { height: 280px; flex-wrap: wrap; gap: 5px !important; }
+    .rna-segment { padding: 8px 12px; font-size: 0.9rem; }
+    .tracr-link { display: none; } /* На мобилках скрываем, чтобы не загромождать */
 }
