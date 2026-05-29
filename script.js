@@ -347,3 +347,129 @@ showCyberToast("Ваш голос учтен в глобальной базе б
 });
 });
 });
+
+// ==========================================================================
+// ЛОГИКА ФАБРИКИ СОЗРЕВАНИЯ РНК (НОВЫЙ КОНВЕЙЕР)
+// ==========================================================================
+
+const factoryContainer = document.getElementById("rna-assembly-line");
+const nextFactoryBtn = document.getElementById("next-factory-btn");
+const factoryTitle = document.getElementById("factory-title");
+const factoryText = document.getElementById("factory-text");
+
+let currentFactoryStep = 1;
+
+// Шаблоны данных для текстового сопровождения фабрики
+const factoryStepData = {
+    1: {
+        title: "Этап 1: Транскрипция пре-crРНК",
+        text: "Бактерия копирует свой архив CRISPR, создавая единую длинную ленту пре-crРНК. Она состоит из серых повторов (кассет) и разноцветных уникальных спейсеров (кодов пойманных вирусов). Лента монолитна."
+    },
+    2: {
+        title: "Этап 2: Наведение tracrРНК",
+        text: "Клетка выпускает вспомогательные фиолетовые нити tracrРНК. Они прилетают сверху и по закону комплементарности намертво пристыковываются к серым кассетам-повторам, размечая будущие зоны разрезов."
+    },
+    3: {
+        title: "Этап 3: Лазерная нарезка (РНКаза III)",
+        text: "Активируется клеточный фермент-ножницы (РНКаза III). Он бьёт лазерными лучами точно по границам повторов, разделяя длинную общую ленту на отдельные независимые боевые ориентировки — crРНК."
+    },
+    4: {
+        title: "Этап 4: Зарядка оружия Cas9",
+        text: "Один из созревших РНК-кусочков плавно затягивается внутрь массивного белка Cas9. Оружие заряжено ориентировкой на вирус, комплекс переходит в режим боевого патрулирования клетки!"
+    }
+};
+
+// Функция отрисовки конвейерной ленты
+function renderFactoryLine() {
+    if (!factoryContainer) return;
+    
+    // Генерируем каноничную структуру: Повтор - Спейсер - Повтор - Спейсер...
+    factoryContainer.innerHTML = `
+        <div class="rna-segment repeat">Повтор<div class="tracr-link">tracrРНК</div></div>
+        <div class="laser-cutter"></div>
+        <div class="rna-segment spacer-red">Вирус_A</div>
+        <div class="laser-cutter"></div>
+        <div class="rna-segment repeat">Повтор<div class="tracr-link">tracrРНК</div></div>
+        <div class="laser-cutter"></div>
+        <div class="rna-segment spacer-yellow">Вирус_B</div>
+        <div class="laser-cutter"></div>
+        <div class="rna-segment repeat">Повтор<div class="tracr-link">tracrРНК</div></div>
+        <div class="laser-cutter"></div>
+        <div class="rna-segment spacer-blue">Вирус_C</div>
+        <div class="laser-cutter"></div>
+        <div class="rna-segment repeat">Повтор<div class="tracr-link">tracrРНК</div></div>
+    `;
+}
+
+// Первичный запуск конвейера при старте скрипта
+renderFactoryLine();
+
+if (nextFactoryBtn) {
+    nextFactoryBtn.addEventListener("click", () => {
+        currentFactoryStep++;
+        
+        // Если дошли до конца — сбрасываем цикл на Шаг 1
+        if (currentFactoryStep > 4) {
+            currentFactoryStep = 1;
+            renderFactoryLine();
+            factoryContainer.classList.remove("sliced");
+            document.querySelectorAll(".factory-btn").forEach((b, idx) => {
+                b.classList.remove("active");
+                if(idx === 0) b.classList.add("active");
+            });
+            updateFactoryText();
+            nextFactoryBtn.innerText = "Запустить процесс ➔";
+            return;
+        }
+
+        // Активируем кнопку шага в верхней панели табов фабрики
+        const currentTab = document.getElementById(`rna-step-${currentFactoryStep}`);
+        if (currentTab) {
+            document.querySelectorAll(".factory-btn").forEach(b => b.classList.remove("active"));
+            currentTab.disabled = false;
+            currentTab.classList.add("active");
+        }
+
+        // Запуск визуальных эффектов в зависимости от шага конвейера
+        if (currentFactoryStep === 2) {
+            // ШАГ 2: Прилет фиолетовых tracrРНК сверху
+            document.querySelectorAll(".rna-segment.repeat").forEach(el => {
+                el.classList.add("attached");
+            });
+            showCyberToast("tracrРНК успешно пристыковалась к повторам!", "success");
+        } 
+        else if (currentFactoryStep === 3) {
+            // ШАГ 3: Лазер пробивает ленту, и она распадается на куски
+            document.querySelectorAll(".laser-cutter").forEach(el => {
+                el.classList.add("active-cut");
+            });
+            
+            setTimeout(() => {
+                factoryContainer.classList.add("sliced");
+                showCyberToast("РНКаза III выполнила точечный разрез ленты!", "success");
+            }, 4000); // 400мс на красивую вспышку лазера
+        } 
+        else if (currentFactoryStep === 4) {
+            // ШАГ 4: Спектральный взрыв и загрузка в Cas9
+            const luckySpacer = document.querySelector(".spacer-yellow");
+            if (luckySpacer) {
+                luckySpacer.style.transform = "translateY(-40px) scale(1.2)";
+                luckySpacer.style.boxShadow = "0 0 30px 10px #00f0ff";
+                luckySpacer.style.background = "#00f0ff";
+                luckySpacer.style.color = "#111827";
+            }
+            showCyberToast("Гидовая РНК успешно загружена в белок Cas9!", "success");
+            nextFactoryBtn.innerText = "🔄 Перезапустить конвейер";
+        }
+
+        updateFactoryText();
+    });
+}
+
+function updateFactoryText() {
+    const data = factoryStepData[currentFactoryStep];
+    if (data && factoryTitle && factoryText) {
+        factoryTitle.innerText = data.title;
+        factoryText.innerText = data.text;
+    }
+}
