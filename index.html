@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BioHub — Интерактивная Биоинженерия</title>
-
     <base href="./">
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://googleapis.com">
@@ -114,11 +113,13 @@
         </div>
     </div>
 </header>
+
 <!-- ГЛАВНОЕ МЕНЮ ВКЛАДОК САЙТА -->
 <section id="content-hub" class="hub-navigation">
     <div class="hub-tabs">
         <button class="hub-tab-btn active" data-hub="fields">📚 Направления</button>
         <button class="hub-tab-btn" data-hub="nature">🦠 CRISPR в природе</button>
+        <button class="hub-tab-btn" data-hub="rna">⚙️ Созревание РНК</button>
         <button class="hub-tab-btn" data-hub="lab">🔬 Лаборатория</button>
     </div>
 </section>
@@ -135,12 +136,12 @@
         <div class="card">
             <div class="icon">🦾</div>
             <h3>Биомедицина</h3>
-            <p>Создание новых методов лечения, искусственных тканей и medical технологий.</p>
+            <p>Создание новых методов лечения, искусственных тканей и медицинских технологий.</p>
         </div>
         <div class="card">
             <div class="icon">🌱</div>
             <h3>Синтетическая биология</h3>
-            <p>Проектирование новых biological систем для решения реальных задач человечества.</p>
+            <p>Проектирование новых биологических систем для решения реальных задач человечества.</p>
         </div>
     </div>
 </section>
@@ -168,7 +169,32 @@
     </div>
 </section>
 
-<!-- ВКЛАДКА 3: ИНТЕРАКТИВНЫЙ СИМУЛЯТОР -->
+<!-- ВКЛАДКА 3: СОЗРЕВАНИЕ ПРЕ-crРНК (КОНВЕЙЕР) -->
+<section id="hub-rna" class="hub-content rna-factory-section">
+    <div class="section-container block-layout">
+        <h2>Фабрика РНК: Как программируется Cas9</h2>
+        <p class="section-subtitle">Пройди процесс созревания пре-crРНК от длинной архивной ленты до готового боевого комплекса</p>
+        
+        <div class="factory-box">
+            <div class="factory-controls">
+                <button id="rna-step-1" class="factory-btn active">1. Синтез пре-crРНК</button>
+                <button id="rna-step-2" class="factory-btn" disabled>2. Наведение tracrРНК</button>
+                <button id="rna-step-3" class="factory-btn" disabled>3. Лазерная нарезка</button>
+                <button id="rna-step-4" class="factory-btn" disabled>4. Зарядка Cas9</button>
+            </div>
+            <div class="factory-screen">
+                <div id="rna-assembly-line" class="rna-assembly-line"></div>
+                <div class="factory-description">
+                    <h4 id="factory-title">Этап 1: Транскрипция пре-crРНК</h4>
+                    <p id="factory-text">Бактерия копирует весь свой архив CRISPR, создавая единую длинную ленту пре-crРНК.</p>
+                    <button id="next-factory-btn" class="factory-action-btn">Запустить процесс ➔</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ВКЛАДКА 4: ИНТЕРАКТИВНЫЙ СИМУЛЯТОР ЛАБОРАТОРИИ -->
 <section id="hub-lab" class="hub-content simulation-section">
     <div class="section-container block-layout">
         <h2>Интерактивная Лаборатория (CRISPR в инженерии)</h2>
@@ -182,10 +208,7 @@
 
         <div class="dna-editor">
             <h3>Монитор CRISPR-Cas9</h3>
-            
-            <!-- Скрытый элемент шприца для анимации инъекции -->
             <div id="injector-syringe">💉</div>
-            
             <div id="dna-sequence" class="dna-sequence"></div>
 
             <div class="controls">
@@ -193,14 +216,13 @@
                     <input type="text" id="guideRNA" placeholder="Цель для поиска (например: CGTA)" maxlength="20">
                     <button id="findBtn">Запустить Cas9</button>
                 </div>
-                
                 <div id="step-2" style="display: none;">
                     <input type="text" id="replaceRNA" placeholder="Новая последовательность" maxlength="20">
                     <button id="editBtn">Разрезать и заменить</button>
                 </div>
             </div>
 
-            <!-- НАУЧНЫЙ СПРАВОЧНИК ПОД СИМУЛЯТОРОМ -->
+            <!-- НАУЧНЫЙ СПРАВОЧНИК -->
             <div class="science-guide">
                 <h4>🧬 Справка: Что происходит при репарации ДНК?</h4>
                 <div class="guide-grid">
@@ -210,18 +232,16 @@
                     </div>
                     <div class="guide-box nhej">
                         <h5>🔴 Путь NHEJ (70% мутаций)</h5>
-                        <p><strong>Негомологичное соединение концов.</strong> Экстренный механизм клетки. Не имея сил обработать разрыв, она судорожно склеивает ДНК встык, часто теряя или добавляя случайные буквы. Результат — непредвиденная мутация.</p>
+                        <p><strong>Негомологичное соединение концов.</strong> Экстренный механизм клетки. Не имея сил обработать разрыв, она судорожно склеивает ДНК встык, часто теряя или добавляя случайные буквы.</p>
                     </div>
                 </div>
             </div>
 
-            <!-- РАЗДЕЛ: ЭТИЧЕСКИЕ ГРАНИЦЫ CRISPR -->
+            <!-- ЭТИЧЕСКИЙ ОПРОС -->
             <div class="ethics-panel">
                 <h4>⚖️ Этические границы: Где вы проведете черту?</h4>
                 <p class="ethics-subtitle">Голосуйте и сравнивайте свое мнение с результатами других биоинженеров</p>
-                
                 <div class="ethics-grid">
-                    <!-- Вопрос 1 -->
                     <div class="ethics-card" data-question="q1">
                         <div class="ethics-text">Исправление врожденных тяжелых болезней у эмбрионов (Медицина)</div>
                         <div class="ethics-votes" style="display: none;">
@@ -232,8 +252,6 @@
                             <button class="vote-btn no">👎 ПРОТИВ</button>
                         </div>
                     </div>
-                    
-                    <!-- Вопрос 2 -->
                     <div class="ethics-card" data-question="q2">
                         <div class="ethics-text">Выбор внешности, интеллекта и цвета глаз («Дизайнерские дети»)</div>
                         <div class="ethics-votes" style="display: none;">
@@ -244,8 +262,6 @@
                             <button class="vote-btn no">👎 ПРОТИВ</button>
                         </div>
                     </div>
-
-                    <!-- Вопрос 3 -->
                     <div class="ethics-card" data-question="q3">
                         <div class="ethics-text">Модификация тела, внедрение кибер-интерфейсов и создание супер-способностей</div>
                         <div class="ethics-votes" style="display: none;">
@@ -268,7 +284,3 @@
 <script src="script.js"></script>
 </body>
 </html>
-
-
-
-
