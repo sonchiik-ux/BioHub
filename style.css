@@ -1203,11 +1203,71 @@ header h1 {
 
 /* Мобильная адаптивность для фабрики РНК */
 @media (max-width: 1024px) {
-    .factory-controls { flex-direction: column; }
-    .factory-btn { border-bottom: 1px solid #334155; cursor: default; }
-    .factory-btn.active { border-left: 4px solid #00f0ff; border-bottom: none; }
-    .factory-screen { padding: 30px 15px; }
-    .rna-assembly-line { height: 280px; flex-wrap: wrap; gap: 5px !important; }
-    .rna-segment { padding: 8px 12px; font-size: 0.9rem; }
-    .tracr-link { display: none; } /* На мобилках скрываем, чтобы не загромождать */
+        /* ==========================================================================
+       ОБНОВЛЕННАЯ МОБИЛЬНАЯ АДАПТИВНОСТЬ ДЛЯ ФАБРИКИ РНК (ВНУТРИ @media)
+       ========================================================================== */
+    .factory-controls { 
+        flex-direction: column; 
+    }
+    
+    .factory-btn { 
+        border-bottom: 1px solid #334155; 
+        cursor: default; 
+        padding: 12px 10px;
+        font-size: 0.9rem;
+    }
+    
+    .factory-btn.active { 
+        border-left: 4px solid #00f0ff; 
+        border-bottom: none; 
+    }
+    
+    .factory-screen { 
+        padding: 25px 15px; 
+    }
+    
+    /* ИСПРАВЛЕНИЕ: Превращаем конвейер на мобилках в идеальный горизонтальный скролл-трекпад */
+    .rna-assembly-line { 
+        height: 180px; 
+        flex-wrap: nowrap !important; /* КАТЕГОРИЧЕСКИ ЗАПРЕЩАЕМ ПЕРЕНОС БЛОКОВ НА НОВУЮ СТРОКУ */
+        justify-content: flex-start !important; /* Выстраиваем цепь строго слева направо */
+        gap: 0px !important; 
+        overflow-x: auto !important; /* Включаем плавный скролл пальцем по горизонтали */
+        overflow-y: hidden;
+        padding: 20px 10px;
+        /* Красивый кибер-скроллбар для мобильных (тонкий и аккуратный) */
+        scrollbar-width: thin;
+        scrollbar-color: #14b8a6 #1e293b;
+        -webkit-overflow-scrolling: touch; /* Плавный инерционный скролл на iPhone/iOS */
+    }
+    
+    /* Эффект распада ленты после нарезки лазером на мобилках */
+    .rna-assembly-line.sliced {
+        gap: 15px !important; 
+    }
+    
+    /* Сохраняем монолитную форму и читаемость сегментов цепи РНК */
+    .rna-segment { 
+        padding: 10px 16px !important; 
+        font-size: 0.85rem !important; 
+        min-width: 90px; /* Гарантируем, что текст внутри блоков никогда не сожмется */
+        flex-shrink: 0; /* Запрещаем флексбоксу деформировать элементы цепи */
+        white-space: nowrap;
+    }
+    
+    /* Лазерные ножи тоже подстраиваем под высоту мобильного конвейера */
+    .laser-cutter {
+        flex-shrink: 0;
+    }
+    
+    .laser-cutter.active-cut {
+        height: 80px !important;
+    }
+
+        /* ИСПРАВЛЕНИЕ: Корректируем глубину укола шприца на маленьких экранах */
+    #injector-syringe.injecting {
+        top: 15px !important;
+        font-size: 38px !important;
+    }
+
 }
