@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BioHub — Interactive Bioengineering</title>
+    <base href="./">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://googleapis.com">
+    <link rel="preconnect" href="https://gstatic.com" crossorigin>
+    <link href="https://googleapis.com/css2?family=Poppins:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- КНОПКА ПЕРЕКЛЮЧЕНИЯ ЯЗЫКА В EN.HTML -->
+<div class="lang-switcher-panel">
+    <a href="index.html" class="lang-link">RU</a>
+    <span class="lang-divider">|</span>
+    <a href="en.html" class="lang-link active">EN</a>
+</div>
+
+
+<header>
+    <!-- Live cyber background: laser grid -->
+    <div class="cyber-grid-bg"></div>
+    <div class="circle c1"></div>
+    <div class="circle c2"></div>
+    <div class="circle c3"></div>
+
+    <div class="hero-container">
+        <!-- Text Control Terminal -->
+        <div class="hero-text glass-terminal">
+            <div class="terminal-header">
+                <span class="terminal-dot red"></span>
+                <span class="terminal-dot yellow"></span>
+                <span class="terminal-dot green"></span>
+                <span class="terminal-status">SYSTEM_ACTIVE // BIO_HUB_v2.6</span>
+            </div>
+            
+            <span class="label">🧬 Bioengineering • Genetics • Future</span>
+            <h1>BioHub</h1>
+            <p>Explore bioengineering, genetics, and technologies of the future through articles, interactive visualizations, and molecular scissors simulations.</p>
+            
+            <div class="terminal-actions">
+                <button class="cta" id="start-explore-btn">Start Research</button>
+                <span class="hub-dot"></span>
+            </div>
+        </div>
+
+        <!-- Arm Container with Interactive Cyber Widgets -->
+        <div class="dna-container visual-hub">
+            <!-- Left Widget -->
+            <div class="cyber-widget widget-left">
+                <div class="widget-title">🧬 CAS9 STATUS</div>
+                <div class="widget-value pulse-green">READY_TO_SLICE</div>
+            </div>
+            
+            <!-- Right Widget -->
+            <div class="cyber-widget widget-right">
+                <div class="widget-title">⚡ LASER POWER</div>
+                <div class="widget-value">98.4%</div>
+                <div class="widget-bar"><div class="widget-progress"></div></div>
+            </div>
+
+            <!-- INTERACTIVE PROSTHESIS STATUS PANEL -->
+            <div id="prosthesis-status-panel" class="cyber-status-panel status-nominal">
+                <span id="status-panel-icon">🟢</span> 
+                <span id="status-panel-text">INTEGRATION: STABLE (AWAITING MODIFICATION)</span>
+            </div>
+
+            <!-- Cybernetic Prosthesis Robot Arm (SVG) -->
+            <svg id="interactive-prosthesis" class="prosthesis" viewBox="0 0 500 600">
+                <defs>
+                    <linearGradient id="metal-dark" x1="0" y1="0" x2="1" y2="0">
+                        <stop offset="0%" stop-color="#1f2937"/>
+                        <stop offset="50%" stop-color="#4b5563"/>
+                        <stop offset="100%" stop-color="#111827"/>
+                    </linearGradient>
+                    <linearGradient id="chrome" x1="0" y1="0" x2="1" y2="1">
+                        <stop offset="0%" stop-color="#f3f4f6"/>
+                        <stop offset="30%" stop-color="#9ca3af"/>
+                        <stop offset="70%" stop-color="#e5e7eb"/>
+                        <stop offset="100%" stop-color="#4b5563"/>
+                    </linearGradient>
+                    <filter id="neon-glow" x="-30%" y="-30%" width="160%" height="160%">
+                        <feGaussianBlur stdDeviation="5" result="blur" />
+                        <feMerge>
+                            <feMergeNode in="blur" />
+                            <feMergeNode in="SourceGraphic" />
+                        </feMerge>
+                    </filter>
+                </defs>
+                <path d="M 440 90 L 350 85 L 360 150 L 430 140 Z" fill="url(#metal-dark)" />
+                <circle cx="395" cy="115" r="30" fill="url(#chrome)"/>
+                <circle cx="395" cy="115" r="10" fill="#00f0ff" filter="url(#neon-glow)"/>
+                <path d="M 395 115 L 305 310" stroke="url(#metal-dark)" stroke-width="40" stroke-linecap="round" />
+                <path d="M 395 115 L 305 310" stroke="url(#chrome)" stroke-width="16" stroke-linecap="round" opacity="0.4" />
+                <line x1="360" y1="130" x2="280" y2="280" stroke="url(#chrome)" stroke-width="8" stroke-linecap="round" />
+                <circle cx="305" cy="310" r="36" fill="url(#metal-dark)"/>
+                <circle cx="305" cy="310" r="24" fill="url(#chrome)"/>
+                <circle cx="305" cy="310" r="8" fill="#00f0ff" filter="url(#neon-glow)"/>
+                <path id="elbow-neon" d="M 330 330 A 30 30 0 0 1 280 330" fill="none" stroke="#00f0ff" stroke-width="4" filter="url(#neon-glow)"/>
+                <path d="M 305 310 L 210 140" stroke="url(#metal-dark)" stroke-width="32" stroke-linecap="round" />
+                <path d="M 290 320 L 190 155" stroke="url(#chrome)" stroke-width="12" stroke-linecap="round" />
+                <circle cx="202" cy="145" r="22" fill="url(#chrome)"/>
+                <circle id="wrist-neon" cx="202" cy="145" r="7" fill="#00f0ff" filter="url(#neon-glow)"/>
+                <path d="M 212 155 L 185 150 L 160 230 L 210 235 Z" fill="url(#metal-dark)" />
+                <path id="palm-neon" d="M 195 175 L 182 200 L 172 180" fill="none" stroke="#00f0ff" stroke-width="4" filter="url(#neon-glow)" opacity="0.8"/>
+                <circle cx="205" cy="200" r="6" fill="url(#chrome)"/>
+                <path d="M 205 200 L 225 225 L 220 250" fill="none" stroke="url(#chrome)" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle id="thumb-neon" cx="225" cy="225" r="2.5" fill="#00f0ff" filter="url(#neon-glow)"/>
+                <path d="M 165 235 L 163 275 L 168 315" fill="none" stroke="url(#chrome)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle id="f1-neon" cx="163" cy="275" r="3" fill="#00f0ff" filter="url(#neon-glow)"/>
+                <path d="M 178 235 L 178 280 L 183 325" fill="none" stroke="url(#chrome)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle id="f2-neon" cx="178" cy="280" r="3" fill="#00f0ff" filter="url(#neon-glow)"/>
+                <path d="M 191 233 L 193 275 L 196 315" fill="none" stroke="url(#chrome)" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle id="f3-neon" cx="193" cy="275" r="3" fill="#00f0ff" filter="url(#neon-glow)"/>
+                <path d="M 203 230 L 206 265 L 208 300" fill="none" stroke="url(#chrome)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle id="f4-neon" cx="206" cy="265" r="3" fill="#00f0ff" filter="url(#neon-glow)"/>
+            </svg>
+        </div>
+    </div>
+</header>
+
+<!-- MAIN NAVIGATION HUB -->
+<section id="content-hub" class="hub-navigation">
+    <div class="hub-tabs">
+        <button class="hub-tab-btn active" data-hub="fields">📚 Research Areas</button>
+        <button class="hub-tab-btn" data-hub="nature">🦠 CRISPR in Nature</button>
+        <button class="hub-tab-btn" data-hub="rna">⚙️ RNA Maturation</button>
+        <button class="hub-tab-btn" data-hub="lab">🔬 Laboratory</button>
+    </div>
+</section>
+
+<!-- TAB 1: RESEARCH AREAS -->
+<section id="hub-fields" class="hub-content active-content fields">
+    <h2>Research Fields</h2>
+    <div class="cards">
+        <div class="card">
+            <div class="icon">🧬</div>
+            <h3>Genetics</h3>
+            <p>Study of DNA, heredity, and state-of-the-art gene editing methodologies.</p>
+        </div>
+        <div class="card">
+            <div class="icon">🦾</div>
+            <h3>Biomedicine</h3>
+            <p>Development of novel therapies, artificial biomaterials, and medical devices.</p>
+        </div>
+        <div class="card">
+            <div class="icon">🌱</div>
+            <h3>Synthetic Biology</h3>
+            <p>Engineering new biological systems to solve complex global challenges.</p>
+        </div>
+    </div>
+</section>
+
+<!-- TAB 2: CRISPR IN NATURE -->
+<section id="hub-nature" class="hub-content nature-crispr-section">
+    <div class="section-container block-layout">
+        <h2>How does CRISPR work in nature?</h2>
+        <p class="section-subtitle">Step-by-step simulation of a bacterial cell defending against a viral (phage) attack</p>
+        
+        <div class="nature-simulation-box">
+            <div class="nature-tabs">
+                <button class="tab-btn active" data-step="1">1. Attack & Adapt</button>
+                <button class="tab-btn" data-step="2">2. RNA Production</button>
+                <button class="tab-btn" data-step="3">3. Threat Cleavage</button>
+            </div>
+            <div class="nature-screen">
+                <div id="nature-visual" class="nature-visual"></div>
+                <div class="nature-description">
+                    <h4 id="nature-step-title">Step 1: Viral Attack & Immunological Memory</h4>
+                    <p id="nature-step-text">Loading simulation...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- TAB 3: RNA MATURATION FACTORY -->
+<section id="hub-rna" class="hub-content rna-factory-section">
+    <div class="section-container block-layout">
+        <h2>RNA Factory: Programming Cas9</h2>
+        <p class="section-subtitle">Follow the pre-crRNA maturation process from a long archival strand to a functional complex</p>
+        
+        <div class="factory-box">
+            <div class="factory-controls">
+                <button id="rna-step-1" class="factory-btn active">1. pre-crRNA Synthesis</button>
+                <button id="rna-step-2" class="factory-btn" disabled>2. tracrRNA Targeting</button>
+                <button id="rna-step-3" class="factory-btn" disabled>3. Laser Cleavage</button>
+                <button id="rna-step-4" class="factory-btn" disabled>4. Cas9 Loading</button>
+            </div>
+            <div class="factory-screen">
+                <div id="rna-assembly-line" class="rna-assembly-line"></div>
+                <div class="factory-description">
+                    <h4 id="factory-title">Stage 1: pre-crRNA Transcription</h4>
+                    <p id="factory-text">The bacterium copies its entire CRISPR archive, creating a single long pre-crRNA strand.</p>
+                    <button id="next-factory-btn" class="factory-action-btn">Launch Process ➔</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- TAB 4: INTERACTIVE LABORATORY -->
+<section id="hub-lab" class="hub-content simulation-section">
+    <div class="section-container block-layout">
+        <h2>Interactive Laboratory (CRISPR Engineering)</h2>
+        <p class="section-subtitle">Utilize archival bacterial data to modify DNA for cybernetic prosthesis integration</p>
+        
+        <div class="preset-options">
+            <button class="preset-btn" data-target="ATGCC" data-replace="AAAAA">🦾 Prosthesis Integration</button>
+            <button class="preset-btn" data-target="CGTAG" data-replace="TTTTT">👁️ Optical Upgrade</button>
+            <button class="preset-btn" data-target="TAGCT" data-replace="GGGGG">⚡ Neural Interface</button>
+        </div>
+
+        <div class="dna-editor">
+            <h3>CRISPR-Cas9 Monitor</h3>
+            <div id="injector-syringe">💉</div>
+            <div id="dna-sequence" class="dna-sequence"></div>
+
+            <div class="controls">
+                <div id="step-1">
+                    <input type="text" id="guideRNA" placeholder="Target sequence (e.g., CGTA)" maxlength="20">
+                    <button id="findBtn">Launch Cas9</button>
+                </div>
+                <div id="step-2" style="display: none;">
+                    <input type="text" id="replaceRNA" placeholder="New sequence (donor template)" maxlength="20">
+                    <button id="editBtn">Cut & Replace</button>
+                </div>
+            </div>
+
+            <!-- REFERENCE GUIDE -->
+            <div class="science-guide">
+                <h4>🧬 Reference: What happens during DNA repair?</h4>
+                <div class="guide-grid">
+                    <div class="guide-box hdr">
+                        <h5>🟢 HDR Pathway (30% Success Rate)</h5>
+                        <p><strong>Homology-Directed Repair.</strong> The cell precise-copies the sequence from the provided donor template. Results in perfect, high-fidelity genome editing.</p>
+                    </div>
+                    <div class="guide-box nhej">
+                        <h5>🔴 NHEJ Pathway (70% Mutations)</h5>
+                        <p><strong>Non-Homologous End Joining.</strong> The cell's emergency mechanism. Unable to process the break carefully, it rapidly glues the DNA ends, frequently losing or adding random letters.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ETHICAL SURVEY -->
+            <div class="ethics-panel">
+                <h4>⚖️ Ethical Boundaries: Where will you draw the line?</h4>
+                <p class="ethics-subtitle">Vote and compare your opinion with the global database of bioengineers</p>
+                <div class="ethics-grid">
+                    <div class="ethics-card" data-question="q1">
+                        <div class="ethics-text">Correcting congenital severe diseases in human embryos (Medicine)</div>
+                        <div class="ethics-votes" style="display: none;">
+                            <span class="v-yes">FOR</span>: 94% <span class="v-no">AGAINST</span>: 6%
+                        </div>
+                        <div class="ethics-actions">
+                            <button class="vote-btn yes">👍 FOR</button>
+                            <button class="vote-btn no">👎 AGAINST</button>
+                        </div>
+                    </div>
+                    <div class="ethics-card" data-question="q2">
+                        <div class="ethics-text">Selecting appearance, intelligence, and eye color ("Designer Babies")</div>
+                        <div class="ethics-votes" style="display: none;">
+                            <span class="v-yes">FOR</span>: 18% <span class="v-no">AGAINST</span>: 82%
+                        </div>
+                        <div class="ethics-actions">
+                            <button class="vote-btn yes">👍 FOR</button>
+                            <button class="vote-btn no">👎 AGAINST</button>
+                        </div>
+                    </div>
+                    <div class="ethics-card" data-question="q3">
+                        <div class="ethics-text">Body enhancement, integrating cyber-interfaces, and creating super-abilities</div>
+                        <div class="ethics-votes" style="display: none;">
+                            <span class="v-yes">FOR</span>: 41% <span class="v-no">AGAINST</span>: 59%
+                        </div>
+                        <div class="ethics-actions">
+                            <button class="vote-btn yes">👍 FOR</button>
+                            <button class="vote-btn no">👎 AGAINST</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<div id="toast-container"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
