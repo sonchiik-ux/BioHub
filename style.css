@@ -359,6 +359,7 @@ header h1 {
 }
 
 
+
 /* ==========================================================================
    ЧАСТЬ 3: КАРТОЧКИ, БАКТЕРИИ, ШПРИЦ-ИНЖЕКТОР И ЭТИЧЕСКИЙ ОПРОС
    ========================================================================== */
@@ -1270,4 +1271,122 @@ header h1 {
         font-size: 38px !important;
     }
 
+}
+
+/* ==========================================================================
+   ПАНЕЛЬ ПЕРЕКЛЮЧЕНИЯ ЯЗЫКА (КНОПКА EN / RU)
+   ========================================================================== */
+.lang-switcher-panel {
+    position: fixed;
+    top: 25px;
+    right: 40px;
+    z-index: 10000; /* Самый высокий приоритет, поверх шапки */
+    background: rgba(17, 24, 39, 0.7);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 8px 16px;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.lang-btn {
+    background: transparent;
+    border: none;
+    color: #64748b;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+.lang-btn:hover {
+    color: #e2e8f0;
+}
+
+.lang-btn.active {
+    color: #00f0ff;
+    text-shadow: 0 0 10px rgba(0, 240, 255, 0.6);
+}
+
+.lang-divider {
+    color: rgba(255, 255, 255, 0.2);
+    font-size: 0.9rem;
+    user-select: none;
+}
+
+/* Оптимизация расположения кнопки на мобильных устройствах */
+@media (max-width: 1024px) {
+    .lang-switcher-panel {
+        top: 15px;
+        right: 20px;
+        padding: 6px 12px;
+    }
+    
+    .lang-btn {
+        font-size: 0.8rem;
+    }
+}
+
+/* ==========================================================================
+   ПАНЕЛЬ ПЕРЕКЛЮЧЕНИЯ ЯЗЫКА (ССЫЛКИ RU / EN)
+   ========================================================================== */
+.lang-switcher-panel {
+    position: fixed;
+    top: 25px;
+    right: 40px;
+    /* ИСПРАВЛЕНИЕ: Поднимаем панель на космическую высоту, чтобы фон её не перекрывал */
+    z-index: 999999 !important; 
+    /* ИСПРАВЛЕНИЕ: Гарантируем, что клики мыши и тапы пальцем точно обрабатываются */
+    pointer-events: auto !important; 
+    
+    background: rgba(17, 24, 39, 0.7);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 8px 16px;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+
+.lang-link {
+    text-decoration: none;
+    color: #64748b;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    padding: 2px 6px;
+}
+
+.lang-link:hover {
+    color: #e2e8f0;
+}
+
+.lang-link.active {
+    color: #00f0ff;
+    text-shadow: 0 0 10px rgba(0, 240, 255, 0.6);
+}
+
+@media (max-width: 1024px) {
+    .lang-switcher-panel {
+        top: 15px;
+        right: 20px;
+        padding: 6px 12px;
+    }
+    .lang-link {
+        font-size: 0.8rem;
+    }
 }
