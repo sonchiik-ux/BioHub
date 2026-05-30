@@ -1,81 +1,75 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BioHub — Интерактивная Биоинженерия / Interactive Bioengineering</title>
+    <title>BioHub — Interactive Bioengineering</title>
     <base href="./">
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://googleapis.com">
     <link rel="preconnect" href="https://gstatic.com" crossorigin>
     <link href="https://googleapis.com/css2?family=Poppins:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-<!-- КНОПКА ПЕРЕКЛЮЧЕНИЯ ЯЗЫКА (ИСПРАВЛЕННАЯ ССЫЛКА ДЛЯ INDEX.HTML) -->
-    <div class="lang-switcher-panel">
-        <a href="index.html" class="lang-link active">RU</a>
-        <span class="lang-divider">|</span>
-        <a href="en.html" class="lang-link">EN</a> <!-- Теперь эта ссылка железно ведет на английскую версию -->
-    </div>
-
-
 </head>
 <body>
 
-<!-- КНОПКА ПЕРЕКЛЮЧЕНИЯ ЯЗЫКА (ПЛАВАЮЩАЯ ВЕРХНЯЯ ПАНЕЛЬ) -->
+<!-- КНОПКА ПЕРЕКЛЮЧЕНИЯ ЯЗЫКА В EN.HTML -->
 <div class="lang-switcher-panel">
-    <button class="lang-btn active" data-lang="ru">RU</button>
+    <a href="ru.html" class="lang-link">RU</a>
     <span class="lang-divider">|</span>
-    <button class="lang-btn" data-lang="en">EN</button>
+    <a href="index.html" class="lang-link active">EN</a>
 </div>
 
+
+
 <header>
+    <!-- Live cyber background: laser grid -->
     <div class="cyber-grid-bg"></div>
     <div class="circle c1"></div>
     <div class="circle c2"></div>
     <div class="circle c3"></div>
 
     <div class="hero-container">
-        <!-- Текстовый терминал управления -->
+        <!-- Text Control Terminal -->
         <div class="hero-text glass-terminal">
-            <<!-- КНОПКА ПЕРЕКЛЮЧЕНИЯ ЯЗЫКА В INDEX.HTML -->
-        <div class="lang-switcher-panel">
-            <a href="index.html" class="lang-link active">RU</a>
-            <span class="lang-divider">|</span>
-             <a href="en.html" class="lang-link">EN</a>
-        </div>
-
+            <div class="terminal-header">
+                <span class="terminal-dot red"></span>
+                <span class="terminal-dot yellow"></span>
+                <span class="terminal-dot green"></span>
+                <span class="terminal-status">SYSTEM_ACTIVE // BIO_HUB_v2.6</span>
+            </div>
             
-            <span class="label" data-i18n="hero-label">🧬 Биоинженерия • Генетика • Будущее</span>
-            <h1 data-i18n="hero-title">BioHub</h1>
-            <p data-i18n="hero-desc">Исследуй биоинженерию, генетику и технологии будущего через статьи, интерактивные визуализации и симуляции молекулярных ножниц.</p>
+            <span class="label">🧬 Bioengineering • Genetics • Future</span>
+            <h1>BioHub</h1>
+            <p>Explore bioengineering, genetics, and technologies of the future through articles, interactive visualizations, and molecular scissors simulations.</p>
             
             <div class="terminal-actions">
-                <button class="cta" id="start-explore-btn" data-i18n="hero-cta">Начать исследование</button>
+                <button class="cta" id="start-explore-btn">Start Research</button>
                 <span class="hub-dot"></span>
             </div>
         </div>
 
-        <!-- Контейнер с рукой и интерактивными кибер-датчиками -->
+        <!-- Arm Container with Interactive Cyber Widgets -->
         <div class="dna-container visual-hub">
-            <!-- Левый датчик -->
+            <!-- Left Widget -->
             <div class="cyber-widget widget-left">
-                <div class="widget-title" data-i18n="widget-left-title">🧬 СТАТУС CAS9</div>
-                <div class="widget-value pulse-green" id="widget-left-val" data-i18n="widget-left-val">READY_TO_SLICE</div>
+                <div class="widget-title">🧬 CAS9 STATUS</div>
+                <div class="widget-value pulse-green">READY_TO_SLICE</div>
             </div>
             
-            <!-- Правый датчик -->
+            <!-- Right Widget -->
             <div class="cyber-widget widget-right">
-                <div class="widget-title" data-i18n="widget-right-title">⚡ ЭНЕРГИЯ ЛАЗЕРА</div>
+                <div class="widget-title">⚡ LASER POWER</div>
                 <div class="widget-value">98.4%</div>
                 <div class="widget-bar"><div class="widget-progress"></div></div>
             </div>
 
-            <!-- ИНТЕРАКТИВНАЯ ПАНЕЛЬ СОСТОЯНИЯ ПРОТЕЗА -->
+            <!-- INTERACTIVE PROSTHESIS STATUS PANEL -->
             <div id="prosthesis-status-panel" class="cyber-status-panel status-nominal">
                 <span id="status-panel-icon">🟢</span> 
-                <span id="status-panel-text" data-i18n="status-nominal">ИНТЕГРАЦИЯ: СТАБИЛЬНО (ОЖИДАНИЕ МОДИФИКАЦИИ)</span>
+                <span id="status-panel-text">INTEGRATION: STABLE (AWAITING MODIFICATION)</span>
             </div>
 
-            <!-- Робо-рука -->
+            <!-- Cybernetic Prosthesis Robot Arm (SVG) -->
             <svg id="interactive-prosthesis" class="prosthesis" viewBox="0 0 500 600">
                 <defs>
                     <linearGradient id="metal-dark" x1="0" y1="0" x2="1" y2="0">
@@ -129,162 +123,162 @@
     </div>
 </header>
 
-<!-- ГЛАВНОЕ МЕНЮ ВКЛАДОК САЙТА -->
+<!-- MAIN NAVIGATION HUB -->
 <section id="content-hub" class="hub-navigation">
     <div class="hub-tabs">
-        <button class="hub-tab-btn active" data-hub="fields" data-i18n="tab-fields">📚 Направления</button>
-        <button class="hub-tab-btn" data-hub="nature" data-i18n="tab-nature">🦠 CRISPR в природе</button>
-        <button class="hub-tab-btn" data-hub="rna" data-i18n="tab-rna">⚙️ Созревание РНК</button>
-        <button class="hub-tab-btn" data-hub="lab" data-i18n="tab-lab">🔬 Лаборатория</button>
+        <button class="hub-tab-btn active" data-hub="fields">📚 Research Areas</button>
+        <button class="hub-tab-btn" data-hub="nature">🦠 CRISPR in Nature</button>
+        <button class="hub-tab-btn" data-hub="rna">⚙️ RNA Maturation</button>
+        <button class="hub-tab-btn" data-hub="lab">🔬 Laboratory</button>
     </div>
 </section>
 
-<!-- ВКЛАДКА 1: НАУЧНЫЕ НАПРАВЛЕНИЯ -->
+<!-- TAB 1: RESEARCH AREAS -->
 <section id="hub-fields" class="hub-content active-content fields">
-    <h2 data-i18n="fields-title">Направления исследований</h2>
+    <h2>Research Fields</h2>
     <div class="cards">
         <div class="card">
             <div class="icon">🧬</div>
-            <h3 data-i18n="card-gen-title">Генетика</h3>
-            <p data-i18n="card-gen-desc">Исследование ДНК, наследственности и методов редактирования генов.</p>
+            <h3>Genetics</h3>
+            <p>Study of DNA, heredity, and state-of-the-art gene editing methodologies.</p>
         </div>
         <div class="card">
             <div class="icon">🦾</div>
-            <h3 data-i18n="card-med-title">Биомедицина</h3>
-            <p data-i18n="card-med-desc">Создание новых методов лечения, искусственных тканей и медицинских технологий.</p>
+            <h3>Biomedicine</h3>
+            <p>Development of novel therapies, artificial biomaterials, and medical devices.</p>
         </div>
         <div class="card">
             <div class="icon">🌱</div>
-            <h3 data-i18n="card-syn-title">Синтетическая биология</h3>
-            <p data-i18n="card-syn-desc">Проектирование новых биологических систем для решения реальных задач человечества.</p>
+            <h3>Synthetic Biology</h3>
+            <p>Engineering new biological systems to solve complex global challenges.</p>
         </div>
     </div>
 </section>
 
-<!-- ВКЛАДКА 2: CRISPR В ПРИРОДЕ -->
+<!-- TAB 2: CRISPR IN NATURE -->
 <section id="hub-nature" class="hub-content nature-crispr-section">
     <div class="section-container block-layout">
-        <h2 data-i18n="nature-title">Как CRISPR работает в природе?</h2>
-        <p class="section-subtitle" data-i18n="nature-subtitle">Пошаговая симуляция защиты бактериальной клетки от атаки вируса (фага)</p>
+        <h2>How does CRISPR work in nature?</h2>
+        <p class="section-subtitle">Step-by-step simulation of a bacterial cell defending against a viral (phage) attack</p>
         
         <div class="nature-simulation-box">
             <div class="nature-tabs">
-                <button class="tab-btn active" data-step="1" data-i18n="nat-tab-1">1. Атака и Адаптация</button>
-                <button class="tab-btn" data-step="2" data-i18n="nat-tab-2">2. Производство РНК</button>
-                <button class="tab-btn" data-step="3" data-i18n="nat-tab-3">3. Уничтожение угрозы</button>
+                <button class="tab-btn active" data-step="1">1. Attack & Adapt</button>
+                <button class="tab-btn" data-step="2">2. RNA Production</button>
+                <button class="tab-btn" data-step="3">3. Threat Cleavage</button>
             </div>
             <div class="nature-screen">
                 <div id="nature-visual" class="nature-visual"></div>
                 <div class="nature-description">
-                    <h4 id="nature-step-title">Шаг 1: Атака вируса и запоминание врага</h4>
-                    <p id="nature-step-text">Загрузка симуляции...</p>
+                    <h4 id="nature-step-title">Step 1: Viral Attack & Immunological Memory</h4>
+                    <p id="nature-step-text">Loading simulation...</p>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- ВКЛАДКА 3: СОЗРЕВАНИЕ ПРЕ-crРНК -->
+<!-- TAB 3: RNA MATURATION FACTORY -->
 <section id="hub-rna" class="hub-content rna-factory-section">
     <div class="section-container block-layout">
-        <h2 data-i18n="factory-title">Фабрика РНК: Как программируется Cas9</h2>
-        <p class="section-subtitle" data-i18n="factory-subtitle">Пройди процесс созревания пре-crРНК от длинной архивной ленты до готового боевого комплекса</p>
+        <h2>RNA Factory: Programming Cas9</h2>
+        <p class="section-subtitle">Follow the pre-crRNA maturation process from a long archival strand to a functional complex</p>
         
         <div class="factory-box">
             <div class="factory-controls">
-                <button id="rna-step-1" class="factory-btn active" data-i18n="fac-tab-1">1. Синтез пре-crРНК</button>
-                <button id="rna-step-2" class="factory-btn" data-i18n="fac-tab-2" disabled>2. Наведение tracrРНК</button>
-                <button id="rna-step-3" class="factory-btn" data-i18n="fac-tab-3" disabled>3. Лазерная нарезка</button>
-                <button id="rna-step-4" class="factory-btn" data-i18n="fac-tab-4" disabled>4. Зарядка Cas9</button>
+                <button id="rna-step-1" class="factory-btn active">1. pre-crRNA Synthesis</button>
+                <button id="rna-step-2" class="factory-btn" disabled>2. tracrRNA Targeting</button>
+                <button id="rna-step-3" class="factory-btn" disabled>3. Laser Cleavage</button>
+                <button id="rna-step-4" class="factory-btn" disabled>4. Cas9 Loading</button>
             </div>
             <div class="factory-screen">
                 <div id="rna-assembly-line" class="rna-assembly-line"></div>
                 <div class="factory-description">
-                    <h4 id="factory-title-text">Этап 1: Транскрипция пре-crРНК</h4>
-                    <p id="factory-desc-text">Бактерия копирует весь свой архив CRISPR, создавая единую длинную ленту пре-crРНК.</p>
-                    <button id="next-factory-btn" class="factory-action-btn" data-i18n="fac-btn-next">Запустить процесс ➔</button>
+                    <h4 id="factory-title">Stage 1: pre-crRNA Transcription</h4>
+                    <p id="factory-text">The bacterium copies its entire CRISPR archive, creating a single long pre-crRNA strand.</p>
+                    <button id="next-factory-btn" class="factory-action-btn">Launch Process ➔</button>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- ВКЛАДКА 4: ИНТЕРАКТИВНЫЙ СИМУЛЯТОР ЛАБОРАТОРИИ -->
+<!-- TAB 4: INTERACTIVE LABORATORY -->
 <section id="hub-lab" class="hub-content simulation-section">
     <div class="section-container block-layout">
-        <h2 data-i18n="lab-title">Интерактивная Лаборатория (CRISPR в инженерии)</h2>
-        <p class="section-subtitle" data-i18n="lab-subtitle">Используйте архивные данные бактерий для модификации ДНК под протезы</p>
+        <h2>Interactive Laboratory (CRISPR Engineering)</h2>
+        <p class="section-subtitle">Utilize archival bacterial data to modify DNA for cybernetic prosthesis integration</p>
         
         <div class="preset-options">
-            <button class="preset-btn" data-target="ATGCC" data-replace="AAAAA" data-i18n="preset-1">🦾 Интеграция протеза</button>
-            <button class="preset-btn" data-target="CGTAG" data-replace="TTTTT" data-i18n="preset-2">👁️ Оптический апгрейд</button>
-            <button class="preset-btn" data-target="TAGCT" data-replace="GGGGG" data-i18n="preset-3">⚡ Нейро-интерфейс</button>
+            <button class="preset-btn" data-target="ATGCC" data-replace="AAAAA">🦾 Prosthesis Integration</button>
+            <button class="preset-btn" data-target="CGTAG" data-replace="TTTTT">👁️ Optical Upgrade</button>
+            <button class="preset-btn" data-target="TAGCT" data-replace="GGGGG">⚡ Neural Interface</button>
         </div>
 
         <div class="dna-editor">
-            <h3 data-i18n="monitor-title">Монитор CRISPR-Cas9</h3>
+            <h3>CRISPR-Cas9 Monitor</h3>
             <div id="injector-syringe">💉</div>
             <div id="dna-sequence" class="dna-sequence"></div>
 
             <div class="controls">
                 <div id="step-1">
-                    <input type="text" id="guideRNA" placeholder="Цель для поиска (например: CGTA)" data-i18n-placeholder="input-find-place" maxlength="20">
-                    <button id="findBtn" data-i18n="btn-find">Запустить Cas9</button>
+                    <input type="text" id="guideRNA" placeholder="Target sequence (e.g., CGTA)" maxlength="20">
+                    <button id="findBtn">Launch Cas9</button>
                 </div>
                 <div id="step-2" style="display: none;">
-                    <input type="text" id="replaceRNA" placeholder="Новая последовательность" data-i18n-placeholder="input-replace-place" maxlength="20">
-                    <button id="editBtn" data-i18n="btn-replace">Разрезать и заменить</button>
+                    <input type="text" id="replaceRNA" placeholder="New sequence (donor template)" maxlength="20">
+                    <button id="editBtn">Cut & Replace</button>
                 </div>
             </div>
 
-            <!-- НАУЧНЫЙ СПРАВОЧНИК -->
+            <!-- REFERENCE GUIDE -->
             <div class="science-guide">
-                <h4 data-i18n="guide-main-title">🧬 Справка: Что происходит при репарации ДНК?</h4>
+                <h4>🧬 Reference: What happens during DNA repair?</h4>
                 <div class="guide-grid">
                     <div class="guide-box hdr">
-                        <h5 data-i18n="guide-hdr-title">🟢 Путь HDR (30% успеха)</h5>
-                        <p data-i18n="guide-hdr-desc"><strong>Гомологичная репарация.</strong> Клетка аккуратно копирует последовательность с предоставленного вами донорского шаблона. Происходит идеальное, высокоточное редактирование кода.</p>
+                        <h5>🟢 HDR Pathway (30% Success Rate)</h5>
+                        <p><strong>Homology-Directed Repair.</strong> The cell precise-copies the sequence from the provided donor template. Results in perfect, high-fidelity genome editing.</p>
                     </div>
                     <div class="guide-box nhej">
-                        <h5 data-i18n="guide-nhej-title">🔴 Путь NHEJ (70% мутаций)</h5>
-                        <p data-i18n="guide-nhej-desc"><strong>Негомологичное соединение концов.</strong> Экстренный механизм клетки. Не имея сил обработать разрыв, она судорожно склеивает ДНК встык, часто теряя или добавляя случайные буквы.</p>
+                        <h5>🔴 NHEJ Pathway (70% Mutations)</h5>
+                        <p><strong>Non-Homologous End Joining.</strong> The cell's emergency mechanism. Unable to process the break carefully, it rapidly glues the DNA ends, frequently losing or adding random letters.</p>
                     </div>
                 </div>
             </div>
 
-            <!-- ЭТИЧЕСКИЙ ОПРОС -->
+            <!-- ETHICAL SURVEY -->
             <div class="ethics-panel">
-                <h4 data-i18n="ethics-title">⚖️ Этические границы: Где вы проведете черту?</h4>
-                <p class="ethics-subtitle" data-i18n="ethics-subtitle">Голосуйте и сравнивайте свое мнение с результатами других биоинженеров</p>
+                <h4>⚖️ Ethical Boundaries: Where will you draw the line?</h4>
+                <p class="ethics-subtitle">Vote and compare your opinion with the global database of bioengineers</p>
                 <div class="ethics-grid">
                     <div class="ethics-card" data-question="q1">
-                        <div class="ethics-text" data-i18n="eth-q1">Исправление врожденных тяжелых болезней у эмбрионов (Медицина)</div>
+                        <div class="ethics-text">Correcting congenital severe diseases in human embryos (Medicine)</div>
                         <div class="ethics-votes" style="display: none;">
-                            <span class="v-yes" data-i18n="eth-yes-label">ЗА</span>: 94% <span class="v-no" data-i18n="eth-no-label">ПРОТИВ</span>: 6%
+                            <span class="v-yes">FOR</span>: 94% <span class="v-no">AGAINST</span>: 6%
                         </div>
                         <div class="ethics-actions">
-                            <button class="vote-btn yes" data-i18n="btn-yes">👍 ЗА</button>
-                            <button class="vote-btn no" data-i18n="btn-no">👎 ПРОТИВ</button>
+                            <button class="vote-btn yes">👍 FOR</button>
+                            <button class="vote-btn no">👎 AGAINST</button>
                         </div>
                     </div>
                     <div class="ethics-card" data-question="q2">
-                        <div class="ethics-text" data-i18n="eth-q2">Выбор внешности, интеллекта и цвета глаз («Дизайнерские дети»)</div>
+                        <div class="ethics-text">Selecting appearance, intelligence, and eye color ("Designer Babies")</div>
                         <div class="ethics-votes" style="display: none;">
-                            <span class="v-yes" data-i18n="eth-yes-label">ЗА</span>: 18% <span class="v-no" data-i18n="eth-no-label">ПРОТИВ</span>: 82%
+                            <span class="v-yes">FOR</span>: 18% <span class="v-no">AGAINST</span>: 82%
                         </div>
                         <div class="ethics-actions">
-                            <button class="vote-btn yes" data-i18n="btn-yes">👍 ЗА</button>
-                            <button class="vote-btn no">👎 ПРОТИВ</button>
+                            <button class="vote-btn yes">👍 FOR</button>
+                            <button class="vote-btn no">👎 AGAINST</button>
                         </div>
                     </div>
                     <div class="ethics-card" data-question="q3">
-                        <div class="ethics-text" data-i18n="eth-q3">Модификация тела, внедрение кибер-интерфейсов и создание супер-способностей</div>
+                        <div class="ethics-text">Body enhancement, integrating cyber-interfaces, and creating super-abilities</div>
                         <div class="ethics-votes" style="display: none;">
-                            <span class="v-yes" data-i18n="eth-yes-label">ЗА</span>: 41% <span class="v-no" data-i18n="eth-no-label">ПРОТИВ</span>: 59%
+                            <span class="v-yes">FOR</span>: 41% <span class="v-no">AGAINST</span>: 59%
                         </div>
                         <div class="ethics-actions">
-                            <button class="vote-btn yes" data-i18n="btn-yes">👍 ЗА</button>
-                            <button class="vote-btn no">👎 ПРОТИВ</button>
+                            <button class="vote-btn yes">👍 FOR</button>
+                            <button class="vote-btn no">👎 AGAINST</button>
                         </div>
                     </div>
                 </div>

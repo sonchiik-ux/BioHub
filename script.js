@@ -488,24 +488,107 @@ if (editBtn) {
 }
 
 // ==========================================================================
-// БЛОК 3: ЛОГИКА ЭТИЧЕСКИХ ОПРОСОВ CRISPR (ФИНАЛ ФАЙЛА)
+// БЛОК 3: ЖИВАЯ СТАТИСТИКА CRISPR С БАЗОЙ ДАННЫХ GOOGLE FIRESTORE
 // ==========================================================================
+
+// Функция загрузки и отображения реальной статистики из Firebase
+async function loadEthicsStats() {
+    try {
+        const snapshot = await db.collection("ethics_votes").get();
+        let votesData = {
+            q1: { yes: 0, no: 0 },
+            q2: { yes: 0, no: 0 },
+            q3: { yes: 0, no: 0 }
+        };
+
+        // Собираем все голоса из базы данных
+        snapshot.forEach(doc => {
+            const data = doc.data();
+            if (votesData[data.question]) {
+                if (data.vote === 'yes') votesData[data.question].yes++;
+                if (data.vote === 'no') votesData[data.question].no++;
+            }
+        });
+
+        // Обновляем проценты на экране для каждой карточки
+        document.querySelectorAll(".ethics-card").forEach(card => {
+            const qId = card.getAttribute("data-question");
+            const qStats = votesData[qId];
+            const total = qStats.yes + qStats.no;
+
+            // Если голосов ещё нет, ставим базовые исторические значения, чтобы не было 0%
+            let yesPercent = total > 0 ? Math.round((qStats.yes / total) * 100) : (qId === 'q1' ? 94 : qId === 'q2' ? 18 : 41);
+            let noPercent = 100 - yesPercent;
+
+            const vYes = card.querySelector(".v-yes");
+            const vNo = card.querySelector(".v-no");
+
+            if (vYes && vNo) {
+                vYes.innerText = isEn ? `FOR: ${yesPercent}%` : `ЗА: ${yesPercent}%`;
+                vNo.innerText = isEn ? `AGAINST: ${noPercent}%` : `ПРОТИВ: ${noPercent}%`;
+            }
+        });
+    } catch (error) {
+        console.error("Ошибка загрузки статистики:", error);
+    }
+}
+
+// Запускаем скачивание реальной мировой статистики сразу при загрузке сайта
+loadEthicsStats();
+
+// Обработка кликов по кнопкам голосования
 document.querySelectorAll(".ethics-card").forEach(card => {
+    const qId = card.getAttribute("data-question");
     const actionBlock = card.querySelector(".ethics-actions");
     const votesBlock = card.querySelector(".ethics-votes");
 
     card.querySelectorAll(".vote-btn").forEach(btn => {
-        btn.addEventListener("click", () => {
+        btn.addEventListener("click", async () => {
+            const userVote = btn.classList.contains("yes") ? "yes" : "no";
+
             if (actionBlock && votesBlock) {
-                actionBlock.style.display = "none"; // Прячем кнопки "ЗА/ПРОТИВ"
-                votesBlock.style.display = "flex"; // Плавно открываем панель процентов
+                actionBlock.style.display = "none"; // Прячем кнопки управления
                 
-                // Двуязычное уведомление об успешном голосовании
-                showCyberToast(
-                    isEn ? "Your vote has been added to the global database!" : "Ваш голос учтен в глобальной базе биоинженеров!", 
-                    "success"
-                );
+                try {
+                    // ОТПРАВЛЯЕМ ГОЛОС В КОСМОС (В Firestore)
+                    await db.collection("ethics_votes").add({
+                        question: qId,
+                        vote: userVote,
+                        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+
+                    // Пересчитываем и плавно выводим обновленные проценты
+                    await loadEthicsStats();
+                    votesBlock.style.display = "flex";
+
+                    showCyberToast(
+                        isEn ? "Your vote has been securely synchronized with the global database!" : "Ваш голос успешно синхронизирован с глобальной базой биоинженеров!", 
+                        "success"
+                    );
+                } catch (error) {
+                    console.error("Ошибка отправки голоса:", error);
+                    votesBlock.style.display = "flex"; // Всё равно показываем графики, если сеть упала
+                }
             }
         });
     });
 });
+
+
+
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyA6NOupysk0cJjXa6Sf5oneahuMoK81XGU",
+  authDomain: "biohub-survey.firebaseapp.com",
+  databaseURL: "https://biohub-survey-default-rtdb.firebaseio.com",
+  projectId: "biohub-survey",
+  storageBucket: "biohub-survey.firebasestorage.app",
+  messagingSenderId: "496732337214",
+  appId: "1:496732337214:web:60666a67c600f910b88d6f",
+  measurementId: "G-3VXVKBG33K"
+};
+
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
