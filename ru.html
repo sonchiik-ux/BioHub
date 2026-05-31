@@ -9,23 +9,10 @@
     <link rel="preconnect" href="https://googleapis.com">
     <link rel="preconnect" href="https://gstatic.com" crossorigin>
     <link href="https://googleapis.com/css2?family=Poppins:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-<!-- КНОПКА ПЕРЕКЛЮЧЕНИЯ ЯЗЫКА (ИСПРАВЛЕННАЯ ССЫЛКА ДЛЯ INDEX.HTML) -->
-    <div class="lang-switcher-panel">
-        <a href="index.html" class="lang-link active">RU</a>
-        <span class="lang-divider">|</span>
-        <a href="en.html" class="lang-link">EN</a> <!-- Теперь эта ссылка железно ведет на английскую версию -->
-    </div>
 
 
 </head>
 <body>
-
-<!-- КНОПКА ПЕРЕКЛЮЧЕНИЯ ЯЗЫКА (ПЛАВАЮЩАЯ ВЕРХНЯЯ ПАНЕЛЬ) -->
-<div class="lang-switcher-panel">
-    <button class="lang-btn active" data-lang="ru">RU</button>
-    <span class="lang-divider">|</span>
-    <button class="lang-btn" data-lang="en">EN</button>
-</div>
 
 <header>
     <div class="cyber-grid-bg"></div>
@@ -36,11 +23,12 @@
     <div class="hero-container">
         <!-- Текстовый терминал управления -->
         <div class="hero-text glass-terminal">
-            <<!-- КНОПКА ПЕРЕКЛЮЧЕНИЯ ЯЗЫКА В INDEX.HTML -->
-        <div class="lang-switcher-panel">
-            <a href="index.html" class="lang-link active">RU</a>
+            <!-- КНОПКА ПЕРЕКЛЮЧЕНИЯ ЯЗЫКА В INDEX.HTML -->
+
+            <div class="lang-switcher-panel">
+            <a href="ru.html" class="lang-link active">RU</a>
             <span class="lang-divider">|</span>
-             <a href="en.html" class="lang-link">EN</a>
+            <a href="index.html" class="lang-link">EN</a>
         </div>
 
             
@@ -198,10 +186,49 @@
                 <button id="rna-step-4" class="factory-btn" data-i18n="fac-tab-4" disabled>4. Зарядка Cas9</button>
             </div>
             <div class="factory-screen">
-                <div id="rna-assembly-line" class="rna-assembly-line"></div>
+                <div id="rna-assembly-line" class="rna-assembly-line">
+    <!-- Повтор 1 -->
+    <div class="rna-segment repeat">
+        Повтор
+        <div class="tracr-link">tracrРНК</div>
+    </div>
+    <div class="laser-cutter"></div>
+
+    <!-- Вирус А -->
+    <div class="rna-segment spacer-red">Вирус_А</div>
+    <div class="laser-cutter"></div>
+
+    <!-- Повтор 2 -->
+    <div class="rna-segment repeat">
+        Повтор
+        <div class="tracr-link">tracrРНК</div>
+    </div>
+    <div class="laser-cutter"></div>
+
+    <!-- Вирус В -->
+    <div class="rna-segment spacer-yellow">Вирус_В</div>
+    <div class="laser-cutter"></div>
+
+    <!-- Повтор 3 -->
+    <div class="rna-segment repeat">
+        Повтор
+        <div class="tracr-link">tracrРНК</div>
+    </div>
+    <div class="laser-cutter"></div>
+
+    <!-- Вирус С -->
+    <div class="rna-segment spacer-blue">Вирус_С</div>
+    <div class="laser-cutter"></div>
+
+    <!-- Повтор 4 -->
+    <div class="rna-segment repeat">
+        Повтор
+    </div>
+</div>
+
                 <div class="factory-description">
-                    <h4 id="factory-title-text">Этап 1: Транскрипция пре-crРНК</h4>
-                    <p id="factory-desc-text">Бактерия копирует весь свой архив CRISPR, создавая единую длинную ленту пре-crРНК.</p>
+                    <h4 id="factory-title">Этап 1: Транскрипция пре-crРНК</h4>
+                    <p id="factory-text">Бактерия копирует весь свой архив CRISPR, создавая единую длинную ленту пре-crРНК.</p>
                     <button id="next-factory-btn" class="factory-action-btn" data-i18n="fac-btn-next">Запустить процесс ➔</button>
                 </div>
             </div>
