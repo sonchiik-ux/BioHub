@@ -1390,3 +1390,63 @@ header h1 {
         font-size: 0.8rem;
     }
 }
+
+/* ==========================================================================
+   МОБИЛЬНАЯ АДАПТАЦИЯ ДЛЯ СИМУЛЯЦИИ CRISPR (ЭКРАНЫ ДО 768px)
+   ========================================================================== */
+@media (max-max-width: 768px) {
+    /* 1. Делаем кнопки шагов природы компактнее */
+    .nature-tabs {
+        display: flex;
+        flex-direction: column; /* Выстраиваем кнопки 1, 2, 3 вертикально */
+        gap: 8px;
+        width: 100%;
+    }
+
+    .nature-tabs .tab-btn {
+        width: 100%;
+        padding: 10px;
+        font-size: 0.9rem;
+    }
+
+    /* 2. Перестраиваем экран симуляции */
+    .nature-screen {
+        display: flex;
+        flex-direction: column; /* Визуализация сверху, текст снизу */
+        gap: 20px;
+        padding: 15px;
+    }
+
+    /* 3. Ужимаем сам контейнер с графикой */
+    .nature-visual {
+        min-height: 180px; /* Уменьшаем высоту, чтобы не занимать весь экран */
+        flex-wrap: wrap;   /* Позволяем элементам внутри переноситься на новую строку */
+        justify-content: center;
+        gap: 15px;
+    }
+
+    /* 4. Делаем элементы внутри симуляции адаптивными */
+    .crisp-archive {
+        font-size: 0.85rem; /* Уменьшаем шрифт архива, чтобы буквы не вылезали */
+        padding: 8px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 5px;
+        width: 100%; /* Растягиваем архив на всю ширину */
+    }
+
+    .archive-spacer {
+        padding: 3px 6px;
+    }
+
+    /* Уменьшаем размеры вируса и белка Cas9, чтобы они не толкали друг друга */
+    .phage-virus, .cas9-protein {
+        font-size: 2rem !important; 
+    }
+
+    .virus-dna {
+        font-size: 0.9rem !important;
+        white-space: nowrap;
+    }
+}
