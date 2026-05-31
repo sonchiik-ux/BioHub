@@ -254,11 +254,53 @@ function updateFactoryUI() {
     const textEl = document.getElementById("factory-desc-text") || document.getElementById("factory-text");
     const nextBtn = document.getElementById("next-factory-btn");
 
+    // Элементы конвейера для анимации
+    const assemblyLine = document.getElementById("rna-assembly-line");
+    const repeatSegments = document.querySelectorAll(".rna-segment.repeat");
+    const lasers = document.querySelectorAll(".laser-cutter");
+
     if (titleEl && textEl && step) {
         titleEl.innerText = isEn ? (step.titleEn || step.title) : (step.titleRu || step.title);
         textEl.innerText = isEn ? (step.textEn || step.text) : (step.textRu || step.text);
     }
 
+    // ==========================================
+    // ЛОГИКА АНИМАЦИИ ПО ШАГАМ ФАБРИКИ
+    // ==========================================
+    
+    // Сбрасываем все анимации перед включением текущего шага
+    if (assemblyLine) assemblyLine.classList.remove("sliced");
+    repeatSegments.forEach(seg => seg.classList.remove("attached"));
+    lasers.forEach(laser => laser.classList.remove("active-cut"));
+
+    if (currentFactoryStep === 1) {
+        // Шаг 1: Просто лента (все эффекты сброшены выше)
+    } 
+    else if (currentFactoryStep === 2) {
+        // Шаг 2: Прилетает вспомогательная tracrРНК сверху
+        repeatSegments.forEach(seg => seg.classList.add("attached"));
+    } 
+    else if (currentFactoryStep === 3) {
+        // Шаг 3: Намертво пристыковываем tracrРНК и врубаем лазеры!
+        repeatSegments.forEach(seg => seg.classList.add("attached"));
+        lasers.forEach(laser => laser.classList.add("active-cut"));
+        
+        // Добавляем эффект распада конвейера (sliced) чуть позже, когда отработает лазер
+        setTimeout(() => {
+            if (currentFactoryStep === 3 && assemblyLine) {
+                assemblyLine.classList.add("sliced");
+            }
+        }, 400); // 400мс — время пробития лазера из CSS
+    } 
+    else if (currentFactoryStep === 4) {
+        // Шаг 4: Лента разрезана на кусочки, идет загрузка в Cas9
+        repeatSegments.forEach(seg => seg.classList.add("attached"));
+        if (assemblyLine) assemblyLine.classList.add("sliced");
+    }
+
+    // ==========================================
+    // ОБНОВЛЕНИЕ КНОПОК И ТЕРМИНАЛА
+    // ==========================================
     document.querySelectorAll(".factory-btn").forEach((btn, index) => {
         const btnStep = index + 1;
         if (btnStep === currentFactoryStep) {
@@ -282,6 +324,7 @@ function updateFactoryUI() {
         }
     }
 }
+
 
 const nextFactoryBtn = document.getElementById("next-factory-btn");
 if (nextFactoryBtn) {
