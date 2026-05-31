@@ -1,9 +1,9 @@
 // ==========================================================================
-// ЧАСТЬ 1: ИНИЦИАЛИЗАЦИЯ, СЛУЧАЙНАЯ ДНК, КИБЕР-ТОСТЫ И ГЛАВНЫЕ ВКЛАДКИ
+// ЧАСТЬ 1: СИСТЕМНЫЕ НАСТРОЙКИ, ГЕНЕРАТОР ДНК И КИБЕР-ТОСТЫ
 // ==========================================================================
 
 // УМНАЯ ПРОВЕРКА: JS автоматически понимает язык по названию файла страницы
-const isEn = window.location.href.includes("en.html");
+const isEn = window.location.href.includes("index.html");
 
 // Функция для генерации случайной ДНК-цепочки заданной длины
 function generateRandomDNA(length) {
@@ -29,16 +29,17 @@ const colors = {
 let lastStartIndex = -1;
 let lastTargetLength = 0;
 
-// Отрисовка ДНК-цепочки в интерфейсе Лаборатории
+// Безопасная отрисовка ДНК-цепочки
 function renderDNA() {
-    if (!container) return;
-    container.innerHTML = "";
+    const currentContainer = document.getElementById("dna-sequence");
+    if (!currentContainer) return; 
+    currentContainer.innerHTML = "";
     sequence.split("").forEach(base => {
         const span = document.createElement("div");
         span.classList.add("base");
         span.textContent = base;
         span.style.backgroundColor = colors[base] || "#9ca3af";
-        container.appendChild(span);
+        currentContainer.appendChild(span);
     });
 }
 
@@ -68,14 +69,16 @@ function showCyberToast(message, type = 'success') {
     
     toastContainer.appendChild(toast);
     
-    // Автоматическое удаление плашки через 4 секунды
     setTimeout(() => {
         toast.style.animation = 'toastFadeOut 0.5s ease forwards';
         setTimeout(() => toast.remove(), 500);
     }, 4000);
 }
 
-// ГЛАВНОЕ МЕНЮ ВКЛАДОК САЙТА (HUB NAVIGATION)
+// ==========================================================================
+// ЧАСТЬ 2: ГЛАВНОЕ МЕНЮ ВКЛАДОК И СИМУЛЯЦИЯ БАКТЕРИЙ В ПРИРОДЕ
+// ==========================================================================
+
 document.querySelectorAll(".hub-tab-btn").forEach(tabBtn => {
     tabBtn.addEventListener("click", () => {
         document.querySelectorAll(".hub-tab-btn").forEach(b => b.classList.remove("active"));
@@ -89,7 +92,6 @@ document.querySelectorAll(".hub-tab-btn").forEach(tabBtn => {
             targetContent.classList.add("active-content");
         }
         
-        // Сброс шагов природы при открытии вкладки бактерий
         if (hubId === 'nature') {
             renderNatureStep(1);
             const initialNatureTab = document.querySelector('.tab-btn[data-step="1"]');
@@ -103,7 +105,6 @@ document.querySelectorAll(".hub-tab-btn").forEach(tabBtn => {
     });
 });
 
-// Кнопка терминала "Начать исследование / Start Research" плавно ведет к хабу
 const startExploreBtn = document.getElementById("start-explore-btn");
 if (startExploreBtn) {
     startExploreBtn.addEventListener("click", () => {
@@ -114,11 +115,6 @@ if (startExploreBtn) {
     });
 }
 
-// ==========================================================================
-// ЧАСТЬ 2.1: НЕОНОВАЯ МОДИФИКАЦИЯ РУКИ И СИМУЛЯЦИЯ БАКТЕРИЙ
-// ==========================================================================
-
-// Функция управления визуальным состоянием робо-руки и верхней панели датчиков
 function updateProsthesisVisual(status) {
     const statusPanel = document.getElementById("prosthesis-status-panel");
     const statusIcon = document.getElementById("status-panel-icon");
@@ -177,21 +173,20 @@ function updateProsthesisVisual(status) {
     }
 }
 
-// ДАННЫЕ ДЛЯ БАКТЕРИЙ (ВКЛАДКА 2)
 const natureSteps = {
     1: {
-        title: isEn ? "Step 1: Viral Attack & Adaptation" : "Шаг 1: Атака вируса и Адаптация (Запоминание)",
-        text: isEn ? "A hostile virus (bacteriophage) attacks the cell and injects its DNA. Bacterial proteins cut out a fragment of the viral code and paste it into the CRISPR archive to remember the threat." : "Враждебный вирус (бактериофаг) атакует клетку и впрыскивает свою ДНК. Специальные белки бактерии вырезают фрагмент вирусного кода и вставляют его в геном бактерии — в архив CRISPR. Теперь у клетки есть «фотография» преступника.",
+        title: isEn ? "Step 1: Viral Attack & Adaptation (Archiving)" : "Шаг 1: Атака вируса и Адаптация (Запоминание)",
+        text: isEn ? "A hostile virus (bacteriophage) attacks the cell and injects its DNA. Bacterial proteins extract a fragment of the viral code and insert it into the bacterium's genome—directly into the CRISPR archive. The cell now holds a digital \"mugshot\" of the intruder." : "Враждебный вирус (бактериофаг) атакует клетку и впрыскивает свою ДНК. Специальные белки бактерии вырезают фрагмент вирусного кода и вставляют его в геном бактерии — в архив CRISPR. Теперь у клетки есть «фотография» преступника.",
         html: `<div class="phage-virus">👾</div><div class="virus-dna">➔ ➔ AGTC ➔</div><div class="bacteria-wall"></div><div class="crisp-archive"><span class="archive-spacer">${isEn ? 'CRISPR Archive:' : '⚠️ CRISPR Архив:'}</span><span class="archive-spacer">CGTA</span><span class="archive-spacer new-spacer">AGTC</span></div>`
     },
     2: {
-        title: isEn ? "Step 2: Expression & Processing" : "Шаг 2: Экспрессия (Выпуск ориентировок)",
-        text: isEn ? "The bacterium constantly copies these viral spacers, converting them into guide crRNA molecules. Each crRNA loads into a Cas9 patrol protein, creating an armed surveillance complex." : "Когда архив сформирован, бактерия постоянно копирует эти вирусные кусочки, превращая их в маленькие путеводные нити crРНК. Каждая такая РНК заряжается в молекулярный патрульный белок Cas9. Получается вооруженный комплекс с точной ориентировкой на вирус.",
+        title: isEn ? "Step 2: Expression & Processing (Issuing Wanted Posters)" : "Шаг 2: Экспрессия (Выпуск ориентировок)",
+        text: isEn ? "Once the archive is built, the bacterium continuously copies these viral segments, forging them into guide crRNA strands. Each crRNA is then loaded into a molecular Cas9 patrol protein, deploying an armed surveillance complex with a precise target lock." : "Когда архив сформирован, бактерия постоянно копирует эти вирусные кусочки, превращая их в маленькие путеводные нити crРНК. Каждая такая РНК заряжается в молекулярный патрульный белок Cas9. Получается вооруженный комплекс с точной ориентировкой на вирус.",
         html: `<div class="cas9-protein">🤖<div class="rna-tail">${isEn ? 'crRNA: AGTC' : 'crРНК: AGTC'}</div></div><div style="color: #00f0ff; font-size: 1.4rem; font-weight: bold; animation: blink 1.5s infinite;">${isEn ? '⚙️ Deploying patrols...' : '⚙️ Выпуск патрулей...'}</div>`
     },
     3: {
-        title: isEn ? "Step 3: Interference & Cleavage" : "Шаг 3: Интерференция (Уничтожение вируса)",
-        text: isEn ? "Upon another attack, Cas9 checks viral DNA against its crRNA. Once a perfect match is found, Cas9 activates its molecular blades and cleaves the viral DNA, neutralizing the threat." : "При повторной атаке вируса патруль Cas9 сверяет его ДНК со своей crРНК. Как только буквы идеально совпадают, Cas9 активирует свои лезвия и разрезает ДНК вируса пополам. Вирус обезврежен, бактерия спасена!",
+        title: isEn ? "Step 3: Interference & Cleavage (Neutralizing the Target)" : "Шаг 3: Интерференция (Уничтожение вируса)",
+        text: isEn ? "Upon a recurring viral breach, the Cas9 patrol cross-checks the hostile DNA with its guide crRNA. The moment a perfect sequence match is detected, Cas9 deploys its molecular blades, slicing the viral DNA in half to neutralize the threat." : "При повторной атаке вируса патруль Cas9 сверяет его ДНК со своей crРНК. Как только буквы идеально совпадают, Cas9 активирует свои лезвия и разрезает ДНК вируса пополам. Вирус обезеврежен, бактерия спасена!",
         html: `<div class="cas9-protein" style="animation: armFloat 2s infinite;">🤖<div class="rna-tail">AGTC</div></div><div style="font-size: 2.5rem; transform: rotate(-20deg);">✂️</div><div class="virus-dna" style="text-decoration: line-through; color: #4b5563; filter: blur(1px);">${isEn ? 'AGTC (VIRAL DNA)' : 'AGTC (ДНК ВИРУСА)'}</div><div style="font-size: 3rem;">💥</div>`
     }
 };
@@ -215,216 +210,162 @@ document.querySelectorAll(".tab-btn").forEach(btn => {
     btn.addEventListener("click", () => {
         document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
         btn.classList.add("active");
-        renderNatureStep(btn.getAttribute("data-step"));
+        const step = parseInt(btn.getAttribute("data-step"));
+        renderNatureStep(step);
     });
 });
 
 // ==========================================================================
-// ЧАСТЬ 2.2: КОНВЕЙЕР РНК, ШПРИЦ-ИНЖЕКТОР, СИМУЛЯТОР РЕДАКТИРОВАНИЯ И ОПРОС
+// ЧАСТЬ 3: ФАБРИКА СОЗРЕВАНИЯ РНК (ИНТЕРФЕЙС И УПРАВЛЕНИЕ)
 // ==========================================================================
 
-const factoryContainer = document.getElementById("rna-assembly-line");
-const nextFactoryBtn = document.getElementById("next-factory-btn");
-const factoryTitle = document.getElementById("factory-title-text");
-const factoryText = document.getElementById("factory-desc-text");
-
-let currentFactoryStep = 1;
-
-// Двуязычные массивы данных для фабрики созревания РНК
 const factoryStepData = {
     1: {
-        titleEn: "Stage 1: pre-crRNA Transcription", titleRu: "Этап 1: Транскрипция пре-crРНК",
-        textEn: "The bacterium copies its CRISPR archive, creating a long continuous pre-crRNA strand consisting of gray repeats and multicolored unique spacers (viral codes).",
+        titleEn: "Stage 1: pre-crRNA Transcription", 
+        titleRu: "Этап 1: Транскрипция пре-crРНК",
+        textEn: "The bacterium transcribes its CRISPR archive, synthesizing a long, continuous pre-crRNA strand. This archival tape alternates between neutral repeat-cassettes and vibrant, unique target vectors extracted from captured viruses.",
         textRu: "Бактерия копирует свой архив CRISPR, создавая единую длинную ленту пре-crРНК. Она состоит из серых повторов (кассет) и разноцветных уникальных спейсеров (кодов пойманных вирусов)."
     },
     2: {
-        titleEn: "Stage 2: tracrRNA Alignment", titleRu: "Этап 2: Наведение tracrРНК",
-        textEn: "The cell releases auxiliary violet tracrRNA strands. They arrive from above and bind tightly to the gray repeat-cassettes, marking future cleavage zones.",
-        textRu: "Клетка выпускает вспомогательные фиолетовые нити tracrРНК. Они прилетают сверху и по закону комплементарности намертво пристыковуваются к серым кассетам-повторам, размечая будущие зоны разрезов."
+        titleEn: "Stage 2: tracrRNA Alignment (Target Locking)", 
+        titleRu: "Этап 2: Наведение tracrРНК",
+        textEn: "The cell deploys auxiliary tracrRNA strands. Fired from above, they bind complementarily to the repeat-cassettes, precision-marking the coordinates for the upcoming molecular incisions.",
+        textRu: "Клетка выпускает вспомогательные фиолетовые нити tracrРНК. Они прилетают сверху и по закону комплементарности намертво пристыковываются к серым кассетам-повторам, размечая будущие зоны разрезов."
     },
     3: {
-        titleEn: "Stage 3: Laser Cleavage (RNase III)", titleRu: "Этап 3: Лазерная нарезка (РНКаза III)",
-        textEn: "The cellular engine-scissors (RNase III) activate, firing laser beams precisely at the borders of the repeats, dividing the strand into separate functional crRNA molecules.",
+        titleEn: "Stage 3: Laser Cleavage (RNase III Engine)", 
+        titleRu: "Этап 3: Лазерная нарезка (РНКаза III)",
+        textEn: "The cellular execution enzyme (RNase III) fires precise energy beams right at the repeat boundaries, processing the long tape into distinct, isolated crRNA targeting modules.",
         textRu: "Активируется клеточный фермент-ножницы (РНКаза III). Он бьёт лазерными лучами точно по границам повторов, разделяя длинную общую ленту на отдельные независимые боевые ориентировки — crРНК."
     },
     4: {
-        titleEn: "Stage 4: Arming the Cas9 Weapon", titleRu: "Этап 4: Зарядка оружия Cas9",
-        textEn: "One matured RNA piece smoothly loads inside the massive Cas9 protein. Armed with the viral guide, the complex transitions to an active patrol state!",
+        titleEn: "Stage 4: Arming the Cas9 Matrix", 
+        titleRu: "Этап 4: Зарядка оружия Cas9",
+        textEn: "A single matured crRNA module locks seamlessly into the core of the massive Cas9 protein. Weapon system loaded: the surveillance complex initializes and transitions into a combat-ready patrol state!",
         textRu: "Один из созревших РНК-кусочков плавно затягивается внутрь массивного белка Cas9. Оружие заряжено ориентировкой на вирус, комплекс переходит в режим боевого патрулирования клетки!"
     }
 };
 
-function renderFactoryLine() {
-    if (!factoryContainer) return;
-    factoryContainer.innerHTML = `
-        <div class="rna-segment repeat">${isEn ? 'Repeat' : 'Повтор'}<div class="tracr-link">tracrРНК</div></div>
-        <div class="laser-cutter"></div>
-        <div class="rna-segment spacer-red">${isEn ? 'Virus_A' : 'Вирус_A'}</div>
-        <div class="laser-cutter"></div>
-        <div class="rna-segment repeat">${isEn ? 'Repeat' : 'Повтор'}<div class="tracr-link">tracrРНК</div></div>
-        <div class="laser-cutter"></div>
-        <div class="rna-segment spacer-yellow">${isEn ? 'Virus_B' : 'Вирус_B'}</div>
-        <div class="laser-cutter"></div>
-        <div class="rna-segment repeat">${isEn ? 'Repeat' : 'Повтор'}<div class="tracr-link">tracrРНК</div></div>
-        <div class="laser-cutter"></div>
-        <div class="rna-segment spacer-blue">${isEn ? 'Virus_C' : 'Вирус_C'}</div>
-        <div class="laser-cutter"></div>
-        <div class="rna-segment repeat">${isEn ? 'Repeat' : 'Повтор'}<div class="tracr-link">tracrРНК</div></div>
-    `;
-}
+let currentFactoryStep = 1;
 
-renderFactoryLine();
+function updateFactoryUI() {
+    const step = factoryStepData ? factoryStepData[currentFactoryStep] : null;
+    const titleEl = document.getElementById("factory-title-text") || document.getElementById("factory-title");
+    const textEl = document.getElementById("factory-desc-text") || document.getElementById("factory-text");
+    const nextBtn = document.getElementById("next-factory-btn");
 
-if (nextFactoryBtn) {
-    nextFactoryBtn.addEventListener("click", () => {
-        currentFactoryStep++;
-        
-        if (currentFactoryStep > 4) {
-            currentFactoryStep = 1;
-            renderFactoryLine();
-            factoryContainer.classList.remove("sliced");
-            document.querySelectorAll(".factory-btn").forEach((b, idx) => {
-                b.classList.remove("active");
-                if(idx === 0) b.classList.add("active");
-            });
-            updateFactoryText();
-            nextFactoryBtn.innerText = isEn ? "Launch Process ➔" : "Запустить процесс ➔";
-            return;
+    if (titleEl && textEl && step) {
+        titleEl.innerText = isEn ? (step.titleEn || step.title) : (step.titleRu || step.title);
+        textEl.innerText = isEn ? (step.textEn || step.text) : (step.textRu || step.text);
+    }
+
+    document.querySelectorAll(".factory-btn").forEach((btn, index) => {
+        const btnStep = index + 1;
+        if (btnStep === currentFactoryStep) {
+            btn.classList.add("active");
+        } else {
+            btn.classList.remove("active");
         }
-
-        const currentTab = document.getElementById(`rna-step-${currentFactoryStep}`);
-        if (currentTab) {
-            document.querySelectorAll(".factory-btn").forEach(b => b.classList.remove("active"));
-            currentTab.disabled = false;
-            currentTab.classList.add("active");
+        if (btnStep <= currentFactoryStep) {
+            btn.removeAttribute("disabled");
         }
-
-        if (currentFactoryStep === 2) {
-            document.querySelectorAll(".rna-segment.repeat").forEach(el => el.classList.add("attached"));
-            showCyberToast(isEn ? "tracrRNA successfully aligned with repeats!" : "tracrРНК успешно пристыковалась к повторам!", "success");
-        } 
-        else if (currentFactoryStep === 3) {
-            document.querySelectorAll(".laser-cutter").forEach(el => el.classList.add("active-cut"));
-            setTimeout(() => {
-                factoryContainer.classList.add("sliced");
-                showCyberToast(isEn ? "RNase III executed site-specific cleavage!" : "РНКаза III выполнила точечный разрез ленты!", "success");
-            }, 500);
-        } 
-        else if (currentFactoryStep === 4) {
-            const luckySpacer = document.querySelector(".spacer-yellow");
-            if (luckySpacer) {
-                luckySpacer.style.transform = "translateY(-40px) scale(1.2)";
-                luckySpacer.style.boxShadow = "0 0 30px 10px #00f0ff";
-                luckySpacer.style.background = "#00f0ff";
-                luckySpacer.style.color = "#111827";
-            }
-            showCyberToast(isEn ? "Guide RNA assembly loaded into Cas9 active pocket!" : "Гидовая РНК успешно загружена в белок Cas9!", "success");
-            nextFactoryBtn.innerText = isEn ? "🔄 Restart Conveyor" : "🔄 Перезапустить конвейер";
-        }
-
-        updateFactoryText();
     });
-}
 
-function updateFactoryText() {
-    const data = factoryStepData[currentFactoryStep];
-    if (data && factoryTitle && factoryText) {
-        factoryTitle.innerText = isEn ? data.titleEn : data.titleRu;
-        factoryText.innerText = isEn ? data.textEn : data.textRu;
+    if (nextBtn) {
+        nextBtn.style.display = "block"; 
+        if (currentFactoryStep === 4) {
+            nextBtn.innerText = isEn ? "System Armed 🤖" : "Система Заряжена 🤖";
+            nextBtn.style.background = "linear-gradient(90deg, #2dc72d, #10b981)";
+        } else {
+            nextBtn.innerText = isEn ? "Launch Process ➔" : "Запустить Процесс ➔";
+            nextBtn.style.background = "";
+        }
     }
 }
 
-// ==========================================================================
-// ЧАСТЬ 2.2: КНОПКИ ПРЕСЕТОВ И ПОИСК ЦЕЛИ CAS9
-// ==========================================================================
+const nextFactoryBtn = document.getElementById("next-factory-btn");
+if (nextFactoryBtn) {
+    nextFactoryBtn.addEventListener("click", () => {
+        if (currentFactoryStep < 4) {
+            currentFactoryStep++;
+            updateFactoryUI();
+            showCyberToast(isEn ? `Stage ${currentFactoryStep} Initialized` : `Этап ${currentFactoryStep} активирован!`, "success");
+        } else {
+            showCyberToast(isEn ? "Cas9 Security System is fully operational!" : "Комплекс Cas9 полностью готов к патрулированию клетки!", "success");
+        }
+    });
+}
 
-// Кнопки-пресеты готовых мутаций в Лаборатории
-document.querySelectorAll(".preset-btn").forEach(btn => {
+document.querySelectorAll(".factory-btn").forEach((btn, index) => {
     btn.addEventListener("click", () => {
-        const target = btn.getAttribute("data-target");
-        const replace = btn.getAttribute("data-replace");
-        
-        // Вживляем цель в случайное место ДНК для бесшовного UX
-        const midPoint = Math.floor(sequence.length / 3);
-        const leftPart = sequence.slice(0, midPoint);
-        const rightPart = sequence.slice(midPoint + target.length + 2);
-        
-        sequence = leftPart + target + "GG" + rightPart;
-        renderDNA();
-        updateProsthesisVisual('nominal'); // Сбрасываем свечение руки в режим ожидания
-
-        document.getElementById("guideRNA").value = target;
-        document.getElementById("replaceRNA").value = replace;
-        
-        document.getElementById("step-2").style.display = "none";
-        if (cas9) cas9.style.left = "-100px";
-        
-        showCyberToast(isEn ? `Preset loaded! Target: ${target}. Donor: ${replace}` : `Пресет загружен! Цель: ${target}. Донор: ${replace}`, "success");
+        currentFactoryStep = index + 1;
+        updateFactoryUI();
     });
 });
 
-// КНОПКА ЗАПУСКА СAS9 (ШАГ 1 СИМУЛЯТОРА)
+updateFactoryUI();
+
+// ==========================================================================
+// ЧАСТЬ 4: ЛАБОРАТОРИЯ, МОНИТОР ДНК И СТАТИСТИКА FIREBASE
+// ==========================================================================
+
+// ПРЕСЕТЫ ЛАБОРАТОРИИ (КЛИКИ ПО ГОТОВЫМ МОДИФИКАЦИЯМ С АВТОПОДСТРОЙКОЙ ЦЕПИ)
+document.querySelectorAll(".preset-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+        const target = btn.getAttribute("data-target");
+        const replace = btn.getAttribute("data-replace"); 
+        
+        const guideInput = document.getElementById("guideRNA");
+        const replaceInput = document.getElementById("replaceRNA");
+
+        if (guideInput && replaceInput && target) {
+            // АВТОПОДСТРОЙКА: Если целевой последовательности нет в текущей ДНК, вживляем её в центр
+            if (!sequence.includes(target)) {
+                const midIndex = Math.floor(sequence.length / 2) - 2;
+                // Разрезаем текущую цепь и аккуратно вставляем шаблон посередине
+                sequence = sequence.slice(0, midIndex) + target + sequence.slice(midIndex + target.length);
+                renderDNA(); // Моментально перерисовываем нить с новыми буквами на экране
+            }
+
+            // Заполняем поля ввода значениями из шаблона
+            guideInput.value = target;
+            replaceInput.value = replace || "AAAAA";
+        }
+    });
+});
+
 const findBtn = document.getElementById("findBtn");
 if (findBtn) {
     findBtn.addEventListener("click", () => {
         const target = document.getElementById("guideRNA").value.toUpperCase().trim();
-
         if (!target) {
-            showCyberToast(isEn ? "Please enter target sequence!" : "Введите последовательность для поиска!", "error");
+            showCyberToast(isEn ? "Enter target sequence!" : "Введите целевую цепочку для поиска!", "error");
             return;
         }
 
-        let start = sequence.indexOf(target);
-        const bases = document.querySelectorAll(".base");
-        bases.forEach(b => b.classList.remove("target", "pam-target", "slice-effect"));
-
-        // Если такой комбинации в рандомной строке нет — аккуратно вживляем её
-        if (start === -1) {
-            const insertIndex = Math.floor(sequence.length / 2);
-            const leftPart = sequence.slice(0, insertIndex);
-            const rightPart = sequence.slice(insertIndex + target.length + 2);
-            sequence = leftPart + target + "GG" + rightPart;
-            renderDNA();
-            start = insertIndex;
+        const index = sequence.indexOf(target);
+        if (index === -1) {
+            showCyberToast(isEn ? "Sequence match not found! Scanning failed." : "Последовательность не найдена! Сканирование провалено.", "error");
+            updateProsthesisVisual('error');
+            return;
         }
 
-        // По законам биологии форматируем две буквы после цели в PAM-маркер (GG)
-        const pamIndex = start + target.length;
-        const updatedSequenceArray = sequence.split("");
-        updatedSequenceArray[pamIndex] = "G";
-        updatedSequenceArray[pamIndex + 1] = "G";
-        sequence = updatedSequenceArray.join("");
-        renderDNA();
-
-        const updatedBases = document.querySelectorAll(".base");
-        lastStartIndex = start;
+        lastStartIndex = index;
         lastTargetLength = target.length;
 
-        // Подсвечиваем цель гена в цепочке
-        for (let i = start; i < start + target.length; i++) {
-            updatedBases[i].classList.add("target");
-        }
-        
-        // Подсвечиваем PAM-маркер фиолетовым неоном
-        updatedBases[pamIndex].classList.add("pam-target");
-        updatedBases[pamIndex + 1].classList.add("pam-target");
-
-        // Перемещаем ножницы Cas9 точно к цели
-        const targetElement = updatedBases[start];
-        const rect = targetElement.getBoundingClientRect();
-        if (cas9) {
-            cas9.style.left = (rect.left + window.scrollX + (rect.width / 2) - 20) + "px";
-            cas9.style.top = (rect.top + window.scrollY - 50) + "px";
+        const bases = document.querySelectorAll(".base");
+        const dnaContainer = document.getElementById("dna-sequence");
+        if (bases[index] && cas9 && dnaContainer) {
+            const targetRect = bases[index].getBoundingClientRect();
+            const containerRect = dnaContainer.getBoundingClientRect();
+            cas9.style.left = `${targetRect.left - containerRect.left}px`;
         }
 
-        showCyberToast(isEn ? "Cas9 successfully docked! PAM-marker (GG) identified." : "Cas9 успешно состыковался с целью! Найден PAM-маркер (GG).", "success");
-        document.getElementById("step-2").style.display = "flex"; // Открываем шаг 2
+        showCyberToast(isEn ? "Target locked! Cas9 positioned at cleavage site." : "Цель захвачена! Патруль Cas9 выведен на позицию разреза.", "success");
+        document.getElementById("step-2").style.background = "rgba(0, 240, 255, 0.05)";
+        document.getElementById("step-2").style.display = "block";
     });
 }
-
-// ==========================================================================
-// БЛОК 2: АНИМАЦИЯ ШПРИЦА, РАЗРЕЗ ДНК И МОДИФИКАЦИЯ РОБО-РУКИ
-// ==========================================================================
 
 const editBtn = document.getElementById("editBtn");
 if (editBtn) {
@@ -437,46 +378,38 @@ if (editBtn) {
             return;
         }
 
-        // АНИМАЦИЯ ИНЪЕКЦИИ: Шприц плавно опускается в ДНК-редактор
         if (syringe) {
             syringe.classList.add("injecting");
             showCyberToast(isEn ? "Injecting donor RNA complex..." : "Впрыск донорского РНК комплекса...", "success");
         }
 
-        // Задержка 800мс, пока шприц делает укол, затем запускаем разрез
         setTimeout(() => {
-            if (syringe) syringe.classList.remove("injecting"); // Убираем шприц обратно вверх
+            if (syringe) syringe.classList.remove("injecting");
 
             const bases = document.querySelectorAll(".base");
             for (let i = lastStartIndex; i < lastStartIndex + lastTargetLength; i++) {
-                if (bases[i]) bases[i].classList.add("slice-effect"); // Запуск анимации взрыва ДНК
+                if (bases[i]) bases[i].classList.add("slice-effect");
             }
 
-            // Ждем еще 500мс, пока отработает взрыв цепи, и меняем геном
             setTimeout(() => {
                 const leftPart = sequence.slice(0, lastStartIndex);
                 const rightPart = sequence.slice(lastStartIndex + lastTargetLength);
-                
-                // Симуляция шанса успеха: 30% на точную вставку (HDR), 70% на мутацию (NHEJ)
                 const successChance = Math.random(); 
                 
                 if (successChance <= 0.30) {
-                    // Идеальный исход (HDR)
                     sequence = leftPart + replacement + rightPart;
                     showCyberToast(isEn ? `HDR Success! Template integrated: ${replacement}` : `Успех HDR! Клетка успешно внедрила шаблон: ${replacement}`, "success");
-                    updateProsthesisVisual('success'); // Рука заливается стабильным бирюзовым неоном
+                    updateProsthesisVisual('success');
                 } else {
-                    // Сбой и случайная мутация (NHEJ)
                     const mutations = ["AAAA", "TTTT", "CC", "GG", "🧬X"];
                     const randomMutation = mutations[Math.floor(Math.random() * mutations.length)];
                     sequence = leftPart + randomMutation + rightPart;
                     showCyberToast(isEn ? `HDR Failure! NHEJ emergency pathway activated. Mutation: ${randomMutation}` : `Сбой HDR! Сработал метод NHEJ. Возникла мутация: ${randomMutation}`, "error");
-                    updateProsthesisVisual('error'); // Рука начинает тревожно мигать красным
+                    updateProsthesisVisual('error');
                 }
                 
-                renderDNA(); // Перерисовываем нить с новыми буквами
+                renderDNA();
                 
-                // Сбрасываем симулятор в режим ожидания нового ввода
                 if (cas9) cas9.style.left = "-100px";
                 document.getElementById("step-2").style.display = "none";
                 document.getElementById("guideRNA").value = "";
@@ -486,3 +419,104 @@ if (editBtn) {
         }, 800);
     });
 }
+
+async function loadEthicsStats() {
+    try {
+        if (typeof db === 'undefined') {
+            console.warn("Firebase не подключен. Используются стандартные значения статистики.");
+            setDefaultStats();
+            return;
+        }
+
+        const snapshot = await db.collection("ethics_votes").get();
+        let votesData = {
+            q1: { yes: 0, no: 0 },
+            q2: { yes: 0, no: 0 },
+            q3: { yes: 0, no: 0 }
+        };
+
+        snapshot.forEach(doc => {
+            const data = doc.data();
+            if (votesData[data.question]) {
+                if (data.vote === 'yes') votesData[data.question].yes++;
+                if (data.vote === 'no') votesData[data.question].no++;
+            }
+        });
+
+        updateStatsUI(votesData);
+    } catch (error) {
+        console.error("Ошибка загрузки статистики:", error);
+        setDefaultStats();
+    }
+}
+
+function updateStatsUI(votesData) {
+    document.querySelectorAll(".ethics-card").forEach(card => {
+        const qId = card.getAttribute("data-question");
+        const qStats = votesData[qId];
+        const total = qStats.yes + qStats.no;
+
+        let yesPercent = total > 0 ? Math.round((qStats.yes / total) * 100) : getFallbackPercent(qId);
+        let noPercent = 100 - yesPercent;
+
+        const vYes = card.querySelector(".v-yes");
+        const vNo = card.querySelector(".v-no");
+
+        if (vYes && vNo) {
+            vYes.innerText = isEn ? `FOR: ${yesPercent}%` : `ЗА: ${yesPercent}%`;
+            vNo.innerText = isEn ? `AGAINST: ${noPercent}%` : `ПРОТИВ: ${noPercent}%`;
+        }
+    });
+}
+
+function getFallbackPercent(qId) {
+    if (qId === 'q1') return 94;
+    if (qId === 'q2') return 18;
+    return 41;
+}
+
+function setDefaultStats() {
+    let mockData = {
+        q1: { yes: 94, no: 6 },
+        q2: { yes: 18, no: 82 },
+        q3: { yes: 41, no: 59 }
+    };
+    document.querySelectorAll(".ethics-card").forEach(card => {
+        const qId = card.getAttribute("data-question");
+        const vYes = card.querySelector(".v-yes");
+        const vNo = card.querySelector(".v-no");
+        if (vYes && vNo) {
+            vYes.innerText = isEn ? `FOR: ${mockData[qId].yes}%` : `ЗА: ${mockData[qId].yes}%`;
+            vNo.innerText = isEn ? `AGAINST: ${mockData[qId].no}%` : `ПРОТИВ: ${mockData[qId].no}%`;
+        }
+    });
+}
+
+loadEthicsStats();
+
+document.querySelectorAll(".ethics-card").forEach(card => {
+    const qId = card.getAttribute("data-question");
+    
+    card.querySelectorAll(".vote-btn").forEach(btn => {
+        btn.addEventListener("click", async () => {
+            const userVote = btn.classList.contains("yes") ? "yes" : "no";
+            showCyberToast(isEn ? "Registering your vote in global ledger..." : "Регистрация вашего голоса в глобальном реестре...", "success");
+            
+            if (typeof db !== 'undefined') {
+                try {
+                    await db.collection("ethics_votes").add({
+                        question: qId,
+                        vote: userVote,
+                        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                    showCyberToast(isEn ? "Vote submitted successfully!" : "Ваш голос успешно учтен!", "success");
+                    loadEthicsStats();
+                } catch (e) {
+                    console.error("Ошибка при отправке голоса:", e);
+                }
+            } else {
+                showCyberToast(isEn ? "Demo Mode: Vote saved locally!" : "Демо-режим: Голос учтен локально!", "success");
+            }
+        });
+    });
+});
