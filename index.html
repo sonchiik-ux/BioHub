@@ -20,7 +20,6 @@
 </div>
 
 
-
 <header>
     <!-- Live cyber background: laser grid -->
     <div class="cyber-grid-bg"></div>
@@ -179,6 +178,7 @@
 </section>
 
 <!-- TAB 3: RNA MATURATION FACTORY -->
+<!-- TAB 3: RNA MATURATION FACTORY (ENGLISH) -->
 <section id="hub-rna" class="hub-content rna-factory-section">
     <div class="section-container block-layout">
         <h2>RNA Factory: Programming Cas9</h2>
@@ -191,17 +191,60 @@
                 <button id="rna-step-3" class="factory-btn" disabled>3. Laser Cleavage</button>
                 <button id="rna-step-4" class="factory-btn" disabled>4. Cas9 Loading</button>
             </div>
+            
             <div class="factory-screen">
-                <div id="rna-assembly-line" class="rna-assembly-line"></div>
+                <!-- КОНВЕЙЕРНАЯ ЛЕНТА С ПЛАШКАМИ -->
+                <div id="rna-assembly-line" class="rna-assembly-line">
+                    <!-- Repeat 1 -->
+                    <div class="rna-segment repeat">
+                        Repeat
+                        <div class="tracr-link">tracrRNA</div>
+                    </div>
+                    <div class="laser-cutter"></div>
+
+                    <!-- Virus A -->
+                    <div class="rna-segment spacer-red">Virus_A</div>
+                    <div class="laser-cutter"></div>
+
+                    <!-- Repeat 2 -->
+                    <div class="rna-segment repeat">
+                        Repeat
+                        <div class="tracr-link">tracrRNA</div>
+                    </div>
+                    <div class="laser-cutter"></div>
+
+                    <!-- Virus B -->
+                    <div class="rna-segment spacer-yellow">Virus_B</div>
+                    <div class="laser-cutter"></div>
+
+                    <!-- Repeat 3 -->
+                    <div class="rna-segment repeat">
+                        Repeat
+                        <div class="tracr-link">tracrRNA</div>
+                    </div>
+                    <div class="laser-cutter"></div>
+
+                    <!-- Virus C -->
+                    <div class="rna-segment spacer-blue">Virus_C</div>
+                    <div class="laser-cutter"></div>
+
+                    <!-- Repeat 4 -->
+                    <div class="rna-segment repeat">
+                        Repeat
+                    </div>
+                </div><!-- КОНЕЦ КОНВЕЙЕРА -->
+
+                <!-- БЛОК ОПИСАНИЯ И КНОПКА (ОНИ СТРОГО СНАРУЖИ ЛЕНТЫ) -->
                 <div class="factory-description">
-                    <h4 id="factory-title">Stage 1: pre-crRNA Transcription</h4>
-                    <p id="factory-text">The bacterium copies its entire CRISPR archive, creating a single long pre-crRNA strand.</p>
+                    <h4 id="factory-title-text">Stage 1: pre-crRNA Transcription</h4>
+                    <p id="factory-desc-text">The bacterium copies its entire CRISPR archive, creating a single long pre-crRNA strand.</p>
                     <button id="next-factory-btn" class="factory-action-btn">Launch Process ➔</button>
                 </div>
             </div>
         </div>
     </div>
 </section>
+
 
 <!-- TAB 4: INTERACTIVE LABORATORY -->
 <section id="hub-lab" class="hub-content simulation-section">
