@@ -2,8 +2,8 @@
 // ЧАСТЬ 1: СИСТЕМНЫЕ НАСТРОЙКИ, ГЕНЕРАТОР ДНК И КИБЕР-ТОСТЫ
 // ==========================================================================
 
-// УМНАЯ ПРОВЕРКА: JS автоматически понимает язык по названию файла страницы
-const isEn = window.location.href.includes("index.html");
+// ЖЕЛЕЗОБЕТОННАЯ ПРОВЕРКА ЯЗЫКА
+const isEn = document.documentElement.lang === "en" || !window.location.href.includes("ru.html");
 
 // Функция для генерации случайной ДНК-цепочки заданной длины
 function generateRandomDNA(length) {
@@ -17,8 +17,6 @@ function generateRandomDNA(length) {
 
 // Создаем стартовую цепочку (56 нуклеотидов)
 let sequence = generateRandomDNA(56);
-const container = document.getElementById("dna-sequence");
-
 const colors = {
     A: "#d42c2cff",
     T: "#4d79ff",
@@ -28,11 +26,13 @@ const colors = {
 
 let lastStartIndex = -1;
 let lastTargetLength = 0;
+let cas9BaseListeners = []; // Отслеживаем слушатели базовых элементов
 
 // Безопасная отрисовка ДНК-цепочки
 function renderDNA() {
     const currentContainer = document.getElementById("dna-sequence");
-    if (!currentContainer) return; 
+    if (!currentContainer) return;
+    
     currentContainer.innerHTML = "";
     sequence.split("").forEach(base => {
         const span = document.createElement("div");
@@ -79,42 +79,62 @@ function showCyberToast(message, type = 'success') {
 // ЧАСТЬ 2: ГЛАВНОЕ МЕНЮ ВКЛАДОК И СИМУЛЯЦИЯ БАКТЕРИЙ В ПРИРОДЕ
 // ==========================================================================
 
-document.querySelectorAll(".hub-tab-btn").forEach(tabBtn => {
-    tabBtn.addEventListener("click", () => {
-        document.querySelectorAll(".hub-tab-btn").forEach(b => b.classList.remove("active"));
-        tabBtn.classList.add("active");
+// Инициализация табов
+function initTabs() {
+    const tabButtons = document.querySelectorAll(".hub-tab-btn");
+    if (!tabButtons.length) return;
 
-        document.querySelectorAll(".hub-content").forEach(content => content.classList.remove("active-content"));
-        
-        const hubId = tabBtn.getAttribute("data-hub");
-        const targetContent = document.getElementById(`hub-${hubId}`);
-        if (targetContent) {
-            targetContent.classList.add("active-content");
-        }
-        
-        if (hubId === 'nature') {
-            renderNatureStep(1);
-            const initialNatureTab = document.querySelector('.tab-btn[data-step="1"]');
-            if (initialNatureTab) {
-                document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
-                initialNatureTab.classList.add("active");
+    tabButtons.forEach(tabBtn => {
+        tabBtn.addEventListener("click", () => {
+            // Удаляем активный класс со всех кнопок
+            tabButtons.forEach(b => b.classList.remove("active"));
+            tabBtn.classList.add("active");
+
+            // Скрываем все контент-блоки
+            const contentBlocks = document.querySelectorAll(".hub-content");
+            contentBlocks.forEach(content => content.classList.remove("active-content"));
+            
+            // Показываем нужный контент
+            const hubId = tabBtn.getAttribute("data-hub");
+            const targetContent = document.getElementById(`hub-${hubId}`);
+            if (targetContent) {
+                targetContent.classList.add("active-content");
             }
-        }
-        
-        if (cas9) cas9.style.left = "-100px";
-    });
-});
-
-const startExploreBtn = document.getElementById("start-explore-btn");
-if (startExploreBtn) {
-    startExploreBtn.addEventListener("click", () => {
-        const contentHub = document.getElementById("content-hub");
-        if (contentHub) {
-            contentHub.scrollIntoView({ behavior: "smooth" });
-        }
+            
+            // Специальная обработка для "природы"
+            if (hubId === 'nature') {
+                renderNatureStep(1);
+                const initialNatureTab = document.querySelector('.tab-btn[data-step="1"]');
+                if (initialNatureTab) {
+                    document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+                    initialNatureTab.classList.add("active");
+                }
+            }
+            
+            // Прячем Cas9 ножницы
+            if (cas9) cas9.style.left = "-100px";
+        });
     });
 }
 
+initTabs();
+
+// Инициализация кнопки "Start Explore"
+function initExploreButton() {
+    const startExploreBtn = document.getElementById("start-explore-btn");
+    if (startExploreBtn) {
+        startExploreBtn.addEventListener("click", () => {
+            const contentHub = document.getElementById("content-hub");
+            if (contentHub) {
+                contentHub.scrollIntoView({ behavior: "smooth" });
+            }
+        });
+    }
+}
+
+initExploreButton();
+
+// Обновление визуала протеза
 function updateProsthesisVisual(status) {
     const statusPanel = document.getElementById("prosthesis-status-panel");
     const statusIcon = document.getElementById("status-panel-icon");
@@ -122,71 +142,88 @@ function updateProsthesisVisual(status) {
     const armSvg = document.getElementById("interactive-prosthesis");
     
     const neonElements = [
-        document.getElementById("elbow-neon"), document.getElementById("wrist-neon"),
-        document.getElementById("palm-neon"), document.getElementById("thumb-neon"),
-        document.getElementById("f1-neon"), document.getElementById("f2-neon"),
-        document.getElementById("f3-neon"), document.getElementById("f4-neon")
-    ];
+        document.getElementById("elbow-neon"), 
+        document.getElementById("wrist-neon"),
+        document.getElementById("palm-neon"), 
+        document.getElementById("thumb-neon"),
+        document.getElementById("f1-neon"), 
+        document.getElementById("f2-neon"),
+        document.getElementById("f3-neon"), 
+        document.getElementById("f4-neon")
+    ].filter(el => el !== null); // Фильтруем null элементы
 
     if (!statusPanel || !statusIcon || !statusText || !armSvg) return;
 
     if (status === 'success') {
         statusPanel.className = "cyber-status-panel status-success";
         statusIcon.innerText = "🔵";
-        statusText.innerText = isEn ? "INTEGRATION: SUCCESSFUL // NEURAL INTERFACE SYNCHRONIZED" : "ИНТЕГРАЦИЯ: УСПЕШНО // НЕЙРО-ИНТЕРФЕЙС СИНХРОНИЗИРОВАН";
+        statusText.innerText = isEn 
+            ? "INTEGRATION: SUCCESSFUL // NEURAL INTERFACE SYNCHRONIZED" 
+            : "ИНТЕГРАЦИЯ: УСПЕШНО // НЕЙРО-ИНТЕРФЕЙС СИНХРОНИЗИРОВАН";
         
         armSvg.style.filter = "drop-shadow(0 15px 30px rgba(0, 240, 255, 0.6))";
         neonElements.forEach(el => {
-            if (el) {
-                el.style.stroke = "#00f0ff";
-                if (el.tagName === 'circle') el.style.fill = "#00f0ff";
-                el.style.animation = "none";
-                el.style.opacity = "1";
-            }
+            el.style.stroke = "#00f0ff";
+            if (el.tagName === 'circle') el.style.fill = "#00f0ff";
+            el.style.animation = "none";
+            el.style.opacity = "1";
         });
     } else if (status === 'error') {
         statusPanel.className = "cyber-status-panel status-error";
         statusIcon.innerText = "🔴";
-        statusText.innerText = isEn ? "INTEGRATION: FAILED // TISSUE CONFLICT (PROSTHESIS REJECTION)" : "ИНТЕГРАЦИЯ: СБОЙ // КОНФЛИКТ ТКАНЕЙ (ОТТОРЖЕНИЕ ПРОТЕЗА)";
+        statusText.innerText = isEn 
+            ? "INTEGRATION: FAILED // TISSUE CONFLICT (PROSTHESIS REJECTION)" 
+            : "ИНТЕГРАЦИЯ: СБОЙ // КОНФЛИКТ ТКАНЕЙ (ОТТОРЖЕНИЕ ПРОТЕЗА)";
         
         armSvg.style.filter = "drop-shadow(0 15px 30px rgba(255, 0, 85, 0.6))";
         neonElements.forEach(el => {
-            if (el) {
-                el.style.stroke = "#ff0055";
-                if (el.tagName === 'circle') el.style.fill = "#ff0055";
-                el.style.animation = "blink 0.4s infinite";
-            }
+            el.style.stroke = "#ff0055";
+            if (el.tagName === 'circle') el.style.fill = "#ff0055";
+            el.style.animation = "blink 0.4s infinite";
         });
     } else {
         statusPanel.className = "cyber-status-panel status-nominal";
         statusIcon.innerText = "🟢";
-        statusText.innerText = isEn ? "INTEGRATION: STABLE (AWAITING MODIFICATION)" : "ИНТЕГРАЦИЯ: СТАБИЛЬНО (ОЖИДАНИЕ МОДИФИКАЦИИ)";
+        statusText.innerText = isEn 
+            ? "INTEGRATION: STABLE (AWAITING MODIFICATION)" 
+            : "ИНТЕГРАЦИЯ: СТАБИЛЬНО (ОЖИДАНИЕ МОДИФИКАЦИИ)";
         armSvg.style.filter = "drop-shadow(0 10px 20px rgba(0,0,0,0.25))";
         neonElements.forEach(el => {
-            if (el) {
-                el.style.stroke = "#00f0ff";
-                if (el.tagName === 'circle') el.style.fill = "#00f0ff";
-                el.style.animation = "none";
-                el.style.opacity = "1";
-            }
+            el.style.stroke = "#00f0ff";
+            if (el.tagName === 'circle') el.style.fill = "#00f0ff";
+            el.style.animation = "none";
+            el.style.opacity = "1";
         });
     }
 }
 
+// Данные о природе
 const natureSteps = {
     1: {
-        title: isEn ? "Step 1: Viral Attack & Adaptation (Archiving)" : "Шаг 1: Атака вируса и Адаптация (Запоминание)",
-        text: isEn ? "A hostile virus (bacteriophage) attacks the cell and injects its DNA. Bacterial proteins extract a fragment of the viral code and insert it into the bacterium's genome—directly into the CRISPR archive. The cell now holds a digital \"mugshot\" of the intruder." : "Враждебный вирус (бактериофаг) атакует клетку и впрыскивает свою ДНК. Специальные белки бактерии вырезают фрагмент вирусного кода и вставляют его в геном бактерии — в архив CRISPR. Теперь у клетки есть «фотография» преступника.",
+        title: isEn 
+            ? "Step 1: Viral Attack & Adaptation (Archiving)" 
+            : "Шаг 1: Атака вируса и Адаптация (Запоминание)",
+        text: isEn 
+            ? "A hostile virus (bacteriophage) attacks the cell and injects its DNA. Bacterial proteins extract a fragment of the viral code and insert it into the bacterium's genome—directly into the CRISPR archive. The cell now holds a digital \"mugshot\" of the intruder." 
+            : "Враждебный вирус (бактериофаг) атакует клетку и впрыскивает свою ДНК. Специальные белки бактерии вырезают фрагмент вирусного кода и вставляют его в геном бактерии — в архив CRISPR. Теперь у клетки есть «фотография» преступника.",
         html: `<div class="phage-virus">👾</div><div class="virus-dna">➔ ➔ AGTC ➔</div><div class="bacteria-wall"></div><div class="crisp-archive"><span class="archive-spacer">${isEn ? 'CRISPR Archive:' : '⚠️ CRISPR Архив:'}</span><span class="archive-spacer">CGTA</span><span class="archive-spacer new-spacer">AGTC</span></div>`
     },
     2: {
-        title: isEn ? "Step 2: Expression & Processing (Issuing Wanted Posters)" : "Шаг 2: Экспрессия (Выпуск ориентировок)",
-        text: isEn ? "Once the archive is built, the bacterium continuously copies these viral segments, forging them into guide crRNA strands. Each crRNA is then loaded into a molecular Cas9 patrol protein, deploying an armed surveillance complex with a precise target lock." : "Когда архив сформирован, бактерия постоянно копирует эти вирусные кусочки, превращая их в маленькие путеводные нити crРНК. Каждая такая РНК заряжается в молекулярный патрульный белок Cas9. Получается вооруженный комплекс с точной ориентировкой на вирус.",
+        title: isEn 
+            ? "Step 2: Expression & Processing (Issuing Wanted Posters)" 
+            : "Шаг 2: Экспрессия (Выпуск ориентировок)",
+        text: isEn 
+            ? "Once the archive is built, the bacterium continuously copies these viral segments, forging them into guide crRNA strands. Each crRNA is then loaded into a molecular Cas9 patrol protein, deploying an armed surveillance complex with a precise target lock." 
+            : "Когда архив сформирован, бактерия постоянно копирует эти вирусные кусочки, превращая их в маленькие путеводные нити crРНК. Каждая такая РНК заряжается в молекулярный патрульный белок Cas9. Получается вооруженный комплекс с точной ориентировкой на вирус.",
         html: `<div class="cas9-protein">🤖<div class="rna-tail">${isEn ? 'crRNA: AGTC' : 'crРНК: AGTC'}</div></div><div style="color: #00f0ff; font-size: 1.4rem; font-weight: bold; animation: blink 1.5s infinite;">${isEn ? '⚙️ Deploying patrols...' : '⚙️ Выпуск патрулей...'}</div>`
     },
     3: {
-        title: isEn ? "Step 3: Interference & Cleavage (Neutralizing the Target)" : "Шаг 3: Интерференция (Уничтожение вируса)",
-        text: isEn ? "Upon a recurring viral breach, the Cas9 patrol cross-checks the hostile DNA with its guide crRNA. The moment a perfect sequence match is detected, Cas9 deploys its molecular blades, slicing the viral DNA in half to neutralize the threat." : "При повторной атаке вируса патруль Cas9 сверяет его ДНК со своей crРНК. Как только буквы идеально совпадают, Cas9 активирует свои лезвия и разрезает ДНК вируса пополам. Вирус обезеврежен, бактерия спасена!",
+        title: isEn 
+            ? "Step 3: Interference & Cleavage (Neutralizing the Target)" 
+            : "Шаг 3: Интерференция (Уничтожение вируса)",
+        text: isEn 
+            ? "Upon a recurring viral breach, the Cas9 patrol cross-checks the hostile DNA with its guide crRNA. The moment a perfect sequence match is detected, Cas9 deploys its molecular blades, slicing the viral DNA in half to neutralize the threat." 
+            : "При повторной атаке вируса патруль Cas9 сверяет его ДНК со своей crРНК. Как только буквы идеально совпадают, Cas9 активирует свои лезвия и разрезает ДНК вируса пополам. Вирус обезеврежен, бактерия спасена!",
         html: `<div class="cas9-protein" style="animation: armFloat 2s infinite;">🤖<div class="rna-tail">AGTC</div></div><div style="font-size: 2.5rem; transform: rotate(-20deg);">✂️</div><div class="virus-dna" style="text-decoration: line-through; color: #4b5563; filter: blur(1px);">${isEn ? 'AGTC (VIRAL DNA)' : 'AGTC (ДНК ВИРУСА)'}</div><div style="font-size: 3rem;">💥</div>`
     }
 };
@@ -206,14 +243,22 @@ function renderNatureStep(stepNumber) {
 
 renderNatureStep(1);
 
-document.querySelectorAll(".tab-btn").forEach(btn => {
-    btn.addEventListener("click", () => {
-        document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
-        const step = parseInt(btn.getAttribute("data-step"));
-        renderNatureStep(step);
+// Инициализация природных табов
+function initNatureTabs() {
+    const tabButtons = document.querySelectorAll(".tab-btn");
+    if (!tabButtons.length) return;
+
+    tabButtons.forEach(btn => {
+        btn.addEventListener("click", () => {
+            tabButtons.forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+            const step = parseInt(btn.getAttribute("data-step"));
+            renderNatureStep(step);
+        });
     });
-});
+}
+
+initNatureTabs();
 
 // ==========================================================================
 // ЧАСТЬ 3: ФАБРИКА СОЗРЕВАНИЯ РНК (ИНТЕРФЕЙС И УПРАВЛЕНИЕ)
@@ -249,12 +294,11 @@ const factoryStepData = {
 let currentFactoryStep = 1;
 
 function updateFactoryUI() {
-    const step = factoryStepData ? factoryStepData[currentFactoryStep] : null;
+    const step = factoryStepData[currentFactoryStep];
     const titleEl = document.getElementById("factory-title-text") || document.getElementById("factory-title");
     const textEl = document.getElementById("factory-desc-text") || document.getElementById("factory-text");
     const nextBtn = document.getElementById("next-factory-btn");
 
-    // Элементы конвейера для анимации
     const assemblyLine = document.getElementById("rna-assembly-line");
     const repeatSegments = document.querySelectorAll(".rna-segment.repeat");
     const lasers = document.querySelectorAll(".laser-cutter");
@@ -264,44 +308,32 @@ function updateFactoryUI() {
         textEl.innerText = isEn ? (step.textEn || step.text) : (step.textRu || step.text);
     }
 
-    // ==========================================
-    // ЛОГИКА АНИМАЦИИ ПО ШАГАМ ФАБРИКИ
-    // ==========================================
-    
-    // Сбрасываем все анимации перед включением текущего шага
     if (assemblyLine) assemblyLine.classList.remove("sliced");
     repeatSegments.forEach(seg => seg.classList.remove("attached"));
     lasers.forEach(laser => laser.classList.remove("active-cut"));
 
     if (currentFactoryStep === 1) {
-        // Шаг 1: Просто лента (все эффекты сброшены выше)
+        // Базовое состояние ленты
     } 
     else if (currentFactoryStep === 2) {
-        // Шаг 2: Прилетает вспомогательная tracrРНК сверху
         repeatSegments.forEach(seg => seg.classList.add("attached"));
     } 
     else if (currentFactoryStep === 3) {
-        // Шаг 3: Намертво пристыковываем tracrРНК и врубаем лазеры!
         repeatSegments.forEach(seg => seg.classList.add("attached"));
         lasers.forEach(laser => laser.classList.add("active-cut"));
-        
-        // Добавляем эффект распада конвейера (sliced) чуть позже, когда отработает лазер
         setTimeout(() => {
             if (currentFactoryStep === 3 && assemblyLine) {
                 assemblyLine.classList.add("sliced");
             }
-        }, 400); // 400мс — время пробития лазера из CSS
+        }, 400); 
     } 
     else if (currentFactoryStep === 4) {
-        // Шаг 4: Лента разрезана на кусочки, идет загрузка в Cas9
         repeatSegments.forEach(seg => seg.classList.add("attached"));
         if (assemblyLine) assemblyLine.classList.add("sliced");
     }
 
-    // ==========================================
-    // ОБНОВЛЕНИЕ КНОПОК И ТЕРМИНАЛА
-    // ==========================================
-    document.querySelectorAll(".factory-btn").forEach((btn, index) => {
+    const factoryButtons = document.querySelectorAll(".factory-btn");
+    factoryButtons.forEach((btn, index) => {
         const btnStep = index + 1;
         if (btnStep === currentFactoryStep) {
             btn.classList.add("active");
@@ -325,159 +357,340 @@ function updateFactoryUI() {
     }
 }
 
+// Инициализация фабрики
+function initFactory() {
+    const nextFactoryBtn = document.getElementById("next-factory-btn");
+    if (nextFactoryBtn) {
+        nextFactoryBtn.addEventListener("click", () => {
+            if (currentFactoryStep < 4) {
+                currentFactoryStep++;
+                updateFactoryUI();
+                showCyberToast(
+                    isEn ? `Stage ${currentFactoryStep} Initialized` : `Этап ${currentFactoryStep} активирован!`, 
+                    "success"
+                );
+            } else {
+                showCyberToast(
+                    isEn 
+                        ? "Cas9 Security System is fully operational!" 
+                        : "Комплекс Cas9 полностью готов к патрулированию клетки!", 
+                    "success"
+                );
+            }
+        });
+    }
 
-const nextFactoryBtn = document.getElementById("next-factory-btn");
-if (nextFactoryBtn) {
-    nextFactoryBtn.addEventListener("click", () => {
-        if (currentFactoryStep < 4) {
-            currentFactoryStep++;
+    const factoryButtons = document.querySelectorAll(".factory-btn");
+    factoryButtons.forEach((btn, index) => {
+        btn.addEventListener("click", () => {
+            currentFactoryStep = index + 1;
             updateFactoryUI();
-            showCyberToast(isEn ? `Stage ${currentFactoryStep} Initialized` : `Этап ${currentFactoryStep} активирован!`, "success");
-        } else {
-            showCyberToast(isEn ? "Cas9 Security System is fully operational!" : "Комплекс Cas9 полностью готов к патрулированию клетки!", "success");
-        }
+        });
+    });
+
+    updateFactoryUI();
+}
+
+initFactory();
+
+// ==========================================================================
+// ЧАСТЬ 4: CRISPR SURGICAL MONITOR & LAB MISSIONS
+// ==========================================================================
+
+let selectedPathway = ""; // Хранит выбранный путь ремонта (nhej или hdr)
+
+// Инициализация миссий лаборатории
+function initLabMissions() {
+    const presetButtons = document.querySelectorAll(".preset-btn");
+    if (!presetButtons.length) return;
+
+    presetButtons.forEach(btn => {
+        btn.addEventListener("click", () => {
+            presetButtons.forEach(b => b.classList.remove("selected-mission"));
+            btn.classList.add("selected-mission");
+
+            const target = btn.getAttribute("data-target");
+            const replace = btn.getAttribute("data-replace"); 
+            
+            const guideInput = document.getElementById("guideRNA");
+            const replaceInput = document.getElementById("replaceRNA");
+
+            if (guideInput && replaceInput && target) {
+                if (!sequence.includes(target)) {
+                    const midIndex = Math.floor(sequence.length / 2) - 3;
+                    sequence = sequence.slice(0, midIndex) + target + sequence.slice(midIndex + target.length);
+                    renderDNA(); 
+                }
+
+                guideInput.value = target;
+                replaceInput.value = replace; 
+                
+                const panelTitle = document.getElementById("mission-panel-title");
+                if (panelTitle) {
+                    panelTitle.innerText = `🎯 TARGET ACQUIRED: LOCATE AND EXCISE THE "${target}" MUTATION`;
+                }
+
+                showCyberToast(
+                    isEn 
+                        ? "Anomaly detected! Click 'Launch Cas9' to dock the gRNA Complex." 
+                        : "Аномалия обнаружена! Нажми 'Launch Cas9' для активации.", 
+                    "success"
+                );
+            }
+        });
     });
 }
 
-document.querySelectorAll(".factory-btn").forEach((btn, index) => {
-    btn.addEventListener("click", () => {
-        currentFactoryStep = index + 1;
-        updateFactoryUI();
+initLabMissions();
+
+// Очистка старых слушателей базовых элементов
+function cleanupBaseListeners() {
+    cas9BaseListeners.forEach(({ element, listeners }) => {
+        Object.entries(listeners).forEach(([event, handler]) => {
+            element.removeEventListener(event, handler);
+        });
     });
-});
+    cas9BaseListeners = [];
+}
 
-updateFactoryUI();
+// Активация Cas9 и управление базами
+function triggerCas9Activation(clientX, clientY) {
+    if (!cas9) return;
 
-// ==========================================================================
-// ЧАСТЬ 4: ЛАБОРАТОРИЯ, МОНИТОР ДНК И СТАТИСТИКА FIREBASE
-// ==========================================================================
+    const dnaDropZone = document.getElementById("dna-sequence");
+    if (!dnaDropZone) return;
 
-// ПРЕСЕТЫ ЛАБОРАТОРИИ (КЛИКИ ПО ГОТОВЫМ МОДИФИКАЦИЯМ С АВТОПОДСТРОЙКОЙ ЦЕПИ)
-document.querySelectorAll(".preset-btn").forEach(btn => {
-    btn.addEventListener("click", () => {
-        const target = btn.getAttribute("data-target");
-        const replace = btn.getAttribute("data-replace"); 
+    const containerRect = dnaDropZone.getBoundingClientRect();
+    let relativeLeft = clientX - containerRect.left;
+    if (relativeLeft < 0) relativeLeft = 20;
+    if (relativeLeft > containerRect.width) relativeLeft = containerRect.width - 20;
+    
+    cas9.style.left = `${relativeLeft}px`;
+
+    showCyberToast(
+        isEn 
+            ? "Cas9 Armed! Click on DNA letters to select for cutting." 
+            : "Cas9 активирован! Кликни на буквы ДНК для выбора.", 
+        "success"
+    );
+    
+    updateProsthesisVisual('nominal');
+
+    const bases = document.querySelectorAll(".base");
+    let selectedBasesForCut = [];
+
+    // Очищаем старые слушатели перед добавлением новых
+    cleanupBaseListeners();
+
+    bases.forEach((base, index) => {
+        base.style.cursor = "pointer";
         
-        const guideInput = document.getElementById("guideRNA");
-        const replaceInput = document.getElementById("replaceRNA");
+        const mouseenterHandler = () => {
+            if (!base.classList.contains("slice-effect")) {
+                base.style.border = "2px solid #ff0055";
+            }
+        };
 
-        if (guideInput && replaceInput && target) {
-            // АВТОПОДСТРОЙКА: Если целевой последовательности нет в текущей ДНК, вживляем её в центр
-            if (!sequence.includes(target)) {
-                const midIndex = Math.floor(sequence.length / 2) - 2;
-                // Разрезаем текущую цепь и аккуратно вставляем шаблон посередине
-                sequence = sequence.slice(0, midIndex) + target + sequence.slice(midIndex + target.length);
-                renderDNA(); // Моментально перерисовываем нить с новыми буквами на экране
+        const mouseleaveHandler = () => {
+            if (!base.classList.contains("slice-effect")) {
+                base.style.border = "";
+            }
+        };
+
+        const clickHandler = () => {
+            base.classList.add("slice-effect"); 
+            base.style.backgroundColor = "#ff0055"; 
+            
+            if (!selectedBasesForCut.includes(index)) {
+                selectedBasesForCut.push(index);
             }
 
-            // Заполняем поля ввода значениями из шаблона
-            guideInput.value = target;
-            replaceInput.value = replace || "AAAAA";
-        }
-    });
-});
+            if (selectedBasesForCut.length > 0) {
+                lastStartIndex = Math.min(...selectedBasesForCut);
+                lastTargetLength = selectedBasesForCut.length;
+                
+                const step2Block = document.getElementById("step-2");
+                if (step2Block) step2Block.style.display = "block";
+            }
+        };
 
-const findBtn = document.getElementById("findBtn");
-if (findBtn) {
-    findBtn.addEventListener("click", () => {
-        const target = document.getElementById("guideRNA").value.toUpperCase().trim();
-        if (!target) {
-            showCyberToast(isEn ? "Enter target sequence!" : "Введите целевую цепочку для поиска!", "error");
-            return;
-        }
+        base.addEventListener("mouseenter", mouseenterHandler);
+        base.addEventListener("mouseleave", mouseleaveHandler);
+        base.addEventListener("click", clickHandler);
 
-        const index = sequence.indexOf(target);
-        if (index === -1) {
-            showCyberToast(isEn ? "Sequence match not found! Scanning failed." : "Последовательность не найдена! Сканирование провалено.", "error");
-            updateProsthesisVisual('error');
-            return;
-        }
-
-        lastStartIndex = index;
-        lastTargetLength = target.length;
-
-        const bases = document.querySelectorAll(".base");
-        const dnaContainer = document.getElementById("dna-sequence");
-        if (bases[index] && cas9 && dnaContainer) {
-            const targetRect = bases[index].getBoundingClientRect();
-            const containerRect = dnaContainer.getBoundingClientRect();
-            cas9.style.left = `${targetRect.left - containerRect.left}px`;
-        }
-
-        showCyberToast(isEn ? "Target locked! Cas9 positioned at cleavage site." : "Цель захвачена! Патруль Cas9 выведен на позицию разреза.", "success");
-        document.getElementById("step-2").style.background = "rgba(0, 240, 255, 0.05)";
-        document.getElementById("step-2").style.display = "block";
+        // Сохраняем слушатели для очистки
+        cas9BaseListeners.push({
+            element: base,
+            listeners: {
+                mouseenter: mouseenterHandler,
+                mouseleave: mouseleaveHandler,
+                click: clickHandler
+            }
+        });
     });
 }
 
-const editBtn = document.getElementById("editBtn");
-if (editBtn) {
-    editBtn.addEventListener("click", () => {
-        const replacement = document.getElementById("replaceRNA").value.toUpperCase().trim();
+// ===== LAUNCH CAS9 BUTTON FIX =====
+function initLaunchCas9Button() {
+    const findBtn = document.getElementById("findBtn");
+    if (!findBtn) return;
+
+    findBtn.addEventListener("click", () => {
+        const dnaDropZone = document.getElementById("dna-sequence");
+        if (dnaDropZone) {
+            const rect = dnaDropZone.getBoundingClientRect();
+            triggerCas9Activation(rect.left + rect.width / 2, rect.top + rect.height / 2);
+        }
+    });
+}
+
+initLaunchCas9Button();
+
+// Инициализация выбора путей ремонта
+function initRepairPathways() {
+    const btnNhej = document.getElementById("pathway-nhej");
+    const btnHdr = document.getElementById("pathway-hdr");
+    const actionRepairBtn = document.getElementById("editBtn");
+
+    if (!btnNhej || !btnHdr || !actionRepairBtn) return;
+
+    btnNhej.addEventListener("click", () => {
+        selectedPathway = "nhej";
+        btnNhej.className = "pathway-select-btn chosen-nhej";
+        btnHdr.className = "pathway-select-btn";
+        actionRepairBtn.innerText = isEn 
+            ? "Execute NHEJ (Emergency Sticking)" 
+            : "Выполнить NHEJ (Экстренное склеивание)";
+        actionRepairBtn.style.display = "block";
+    });
+
+    btnHdr.addEventListener("click", () => {
+        selectedPathway = "hdr";
+        btnHdr.className = "pathway-select-btn chosen-hdr";
+        btnNhej.className = "pathway-select-btn";
+        actionRepairBtn.innerText = isEn 
+            ? "Execute HDR (Donor Blueprint Insertion)" 
+            : "Выполнить HDR (Вставка донорской цепи)";
+        actionRepairBtn.style.display = "block";
+    });
+}
+
+initRepairPathways();
+
+// Выполнение клеточной починки
+function initRepairAction() {
+    const actionRepairBtn = document.getElementById("editBtn");
+    if (!actionRepairBtn) return;
+
+    actionRepairBtn.addEventListener("click", () => {
         const syringe = document.getElementById("injector-syringe");
+        const replacement = document.getElementById("replaceRNA")?.value || "";
+        const btnNhej = document.getElementById("pathway-nhej");
+        const btnHdr = document.getElementById("pathway-hdr");
         
-        if (!replacement) {
-            showCyberToast(isEn ? "Please enter donor sequence!" : "Введите новую последовательность для вставки!", "error");
+        if (!selectedPathway) {
+            showCyberToast(
+                isEn ? "Please select a repair pathway first!" : "Выбери путь ремонта!",
+                "error"
+            );
             return;
         }
 
-        if (syringe) {
+        if (syringe && selectedPathway === "hdr") {
             syringe.classList.add("injecting");
-            showCyberToast(isEn ? "Injecting donor RNA complex..." : "Впрыск донорского РНК комплекса...", "success");
+            showCyberToast(
+                isEn ? "Injecting donor template matrix..." : "Внедрение донорской матрицы...",
+                "success"
+            );
+        } else {
+            showCyberToast(
+                isEn ? "NHEJ enzymes activated. Fusing chromosomal ends..." : "NHEJ активирован. Склеивание концов...",
+                "success"
+            );
         }
 
         setTimeout(() => {
             if (syringe) syringe.classList.remove("injecting");
 
-            const bases = document.querySelectorAll(".base");
-            for (let i = lastStartIndex; i < lastStartIndex + lastTargetLength; i++) {
-                if (bases[i]) bases[i].classList.add("slice-effect");
-            }
-
-            setTimeout(() => {
-                const leftPart = sequence.slice(0, lastStartIndex);
-                const rightPart = sequence.slice(lastStartIndex + lastTargetLength);
-                const successChance = Math.random(); 
+            const leftPart = sequence.slice(0, lastStartIndex);
+            const rightPart = sequence.slice(lastStartIndex + lastTargetLength);
+            
+            if (selectedPathway === "nhej") {
+                // NHEJ: удаляет буквы, склеивает концы
+                sequence = leftPart + rightPart;
                 
-                if (successChance <= 0.30) {
-                    sequence = leftPart + replacement + rightPart;
-                    showCyberToast(isEn ? `HDR Success! Template integrated: ${replacement}` : `Успех HDR! Клетка успешно внедрила шаблон: ${replacement}`, "success");
+                showCyberToast(
+                    isEn 
+                        ? `NHEJ Sticking Completed! The deleted fragment caused a frameshift mutation. DNA shortened by ${lastTargetLength} bases.` 
+                        : `NHEJ завершён! Удаление вызвало сдвиг рамки. ДНК укорочена на ${lastTargetLength} оснований.`,
+                    "error"
+                );
+                updateProsthesisVisual('error');
+            } 
+            else if (selectedPathway === "hdr") {
+                // HDR: замена на новую последовательность
+                const cyberCodedPieces = ["🦾CYBER", "⚡NEURAL", "👁️OPTIC", "🧬NANO"];
+                const finalReplacement = replacement && replacement.trim() !== "" 
+                    ? replacement 
+                    : cyberCodedPieces[Math.floor(Math.random() * cyberCodedPieces.length)];
+                
+                const successChance = Math.random(); 
+                if (successChance <= 0.60) { 
+                    sequence = leftPart + finalReplacement + rightPart;
+                    showCyberToast(
+                        isEn 
+                            ? `HDR Success! Target gene precision-replaced with bionic module: ${finalReplacement}` 
+                            : `HDR успешен! Ген заменён на: ${finalReplacement}`,
+                        "success"
+                    );
                     updateProsthesisVisual('success');
                 } else {
-                    const mutations = ["AAAA", "TTTT", "CC", "GG", "🧬X"];
-                    const randomMutation = mutations[Math.floor(Math.random() * mutations.length)];
-                    sequence = leftPart + randomMutation + rightPart;
-                    showCyberToast(isEn ? `HDR Failure! NHEJ emergency pathway activated. Mutation: ${randomMutation}` : `Сбой HDR! Сработал метод NHEJ. Возникла мутация: ${randomMutation}`, "error");
+                    // Если сбой при HDR, используется NHEJ
+                    sequence = leftPart + rightPart;
+                    showCyberToast(
+                        isEn 
+                            ? "HDR Failed! Donor matrix rejected. Cell used emergency NHEJ to glue remaining ends." 
+                            : "HDR провалился! Матрица отторгнута. Клетка использовала NHEJ.",
+                        "error"
+                    );
                     updateProsthesisVisual('error');
                 }
-                
-                renderDNA();
-                
-                if (cas9) cas9.style.left = "-100px";
-                document.getElementById("step-2").style.display = "none";
-                document.getElementById("guideRNA").value = "";
-                document.getElementById("replaceRNA").value = "";
-            }, 500);
-
-        }, 800);
+            }
+            
+            renderDNA();
+            
+            if (cas9) cas9.style.left = "-100px";
+            
+            const step2Block = document.getElementById("step-2");
+            if (step2Block) step2Block.style.display = "none";
+            
+            // Сброс выбора пути
+            if (btnNhej) btnNhej.className = "pathway-select-btn";
+            if (btnHdr) btnHdr.className = "pathway-select-btn";
+            selectedPathway = "";
+            
+            // Очищаем слушатели
+            cleanupBaseListeners();
+        }, 1200);
     });
 }
+
+initRepairAction();
+
+// ==========================================================================
+// ЧАСТЬ 5: FIREBASE ЭТИЧЕСКИЕ СТАТИСТИКА
+// ==========================================================================
 
 async function loadEthicsStats() {
     try {
         if (typeof db === 'undefined') {
-            console.warn("Firebase не подключен. Используются стандартные значения статистики.");
             setDefaultStats();
             return;
         }
 
         const snapshot = await db.collection("ethics_votes").get();
-        let votesData = {
-            q1: { yes: 0, no: 0 },
-            q2: { yes: 0, no: 0 },
-            q3: { yes: 0, no: 0 }
-        };
-
+        let votesData = { q1: { yes: 0, no: 0 }, q2: { yes: 0, no: 0 }, q3: { yes: 0, no: 0 } };
+        
         snapshot.forEach(doc => {
             const data = doc.data();
             if (votesData[data.question]) {
@@ -485,81 +698,113 @@ async function loadEthicsStats() {
                 if (data.vote === 'no') votesData[data.question].no++;
             }
         });
-
+        
         updateStatsUI(votesData);
     } catch (error) {
-        console.error("Ошибка загрузки статистики:", error);
+        console.warn("Firebase load failed, using default stats:", error);
         setDefaultStats();
     }
 }
 
 function updateStatsUI(votesData) {
-    document.querySelectorAll(".ethics-card").forEach(card => {
+    const ethicsCards = document.querySelectorAll(".ethics-card");
+    if (!ethicsCards.length) return;
+
+    ethicsCards.forEach(card => {
         const qId = card.getAttribute("data-question");
         const qStats = votesData[qId];
+        
+        if (!qStats) return;
+        
         const total = qStats.yes + qStats.no;
-
         let yesPercent = total > 0 ? Math.round((qStats.yes / total) * 100) : getFallbackPercent(qId);
         let noPercent = 100 - yesPercent;
-
+        
         const vYes = card.querySelector(".v-yes");
         const vNo = card.querySelector(".v-no");
-
+        
         if (vYes && vNo) {
-            vYes.innerText = isEn ? `FOR: ${yesPercent}%` : `ЗА: ${yesPercent}%`;
-            vNo.innerText = isEn ? `AGAINST: ${noPercent}%` : `ПРОТИВ: ${noPercent}%`;
+            vYes.innerText = `FOR: ${yesPercent}%`;
+            vNo.innerText = `AGAINST: ${noPercent}%`;
         }
     });
 }
 
 function getFallbackPercent(qId) {
-    if (qId === 'q1') return 94;
-    if (qId === 'q2') return 18;
-    return 41;
+    const fallbacks = { q1: 94, q2: 18, q3: 41 };
+    return fallbacks[qId] || 50;
 }
 
 function setDefaultStats() {
-    let mockData = {
-        q1: { yes: 94, no: 6 },
-        q2: { yes: 18, no: 82 },
-        q3: { yes: 41, no: 59 }
-    };
-    document.querySelectorAll(".ethics-card").forEach(card => {
+    const mockData = { q1: { yes: 94, no: 6 }, q2: { yes: 18, no: 82 }, q3: { yes: 41, no: 59 } };
+    const ethicsCards = document.querySelectorAll(".ethics-card");
+    
+    ethicsCards.forEach(card => {
         const qId = card.getAttribute("data-question");
+        const stats = mockData[qId];
+        
+        if (!stats) return;
+        
         const vYes = card.querySelector(".v-yes");
         const vNo = card.querySelector(".v-no");
+        
         if (vYes && vNo) {
-            vYes.innerText = isEn ? `FOR: ${mockData[qId].yes}%` : `ЗА: ${mockData[qId].yes}%`;
-            vNo.innerText = isEn ? `AGAINST: ${mockData[qId].no}%` : `ПРОТИВ: ${mockData[qId].no}%`;
+            vYes.innerText = `FOR: ${stats.yes}%`;
+            vNo.innerText = `AGAINST: ${stats.no}%`;
         }
     });
 }
 
+// Загружаем статистику при инициализации
 loadEthicsStats();
 
-document.querySelectorAll(".ethics-card").forEach(card => {
-    const qId = card.getAttribute("data-question");
-    
-    card.querySelectorAll(".vote-btn").forEach(btn => {
-        btn.addEventListener("click", async () => {
-            const userVote = btn.classList.contains("yes") ? "yes" : "no";
-            showCyberToast(isEn ? "Registering your vote in global ledger..." : "Регистрация вашего голоса в глобальном реестре...", "success");
-            
-            if (typeof db !== 'undefined') {
-                try {
-                    await db.collection("ethics_votes").add({
-                        question: qId,
-                        vote: userVote,
-                        timestamp: firebase.firestore.FieldValue.serverTimestamp()
-                    });
-                    showCyberToast(isEn ? "Vote submitted successfully!" : "Ваш голос успешно учтен!", "success");
-                    loadEthicsStats();
-                } catch (e) {
-                    console.error("Ошибка при отправке голоса:", e);
+// Инициализация голосования
+function initVoting() {
+    const ethicsCards = document.querySelectorAll(".ethics-card");
+    if (!ethicsCards.length) return;
+
+    ethicsCards.forEach(card => {
+        const qId = card.getAttribute("data-question");
+        const voteButtons = card.querySelectorAll(".vote-btn");
+        
+        voteButtons.forEach(btn => {
+            btn.addEventListener("click", async () => {
+                const userVote = btn.classList.contains("yes") ? "yes" : "no";
+                showCyberToast(
+                    isEn ? "Registering your vote in global ledger..." : "Регистрация голоса...",
+                    "success"
+                );
+
+                if (typeof db !== 'undefined') {
+                    try {
+                        const timestamp = firebase?.firestore?.FieldValue?.serverTimestamp?.() || new Date();
+                        await db.collection("ethics_votes").add({
+                            question: qId,
+                            vote: userVote,
+                            timestamp: timestamp
+                        });
+                        
+                        showCyberToast(
+                            isEn ? "Vote submitted successfully!" : "Голос зарегистрирован!",
+                            "success"
+                        );
+                        loadEthicsStats();
+                    } catch (e) {
+                        console.error("Vote submission error:", e);
+                        showCyberToast(
+                            isEn ? "Error submitting vote" : "Ошибка при голосовании",
+                            "error"
+                        );
+                    }
+                } else {
+                    showCyberToast(
+                        isEn ? "Demo Mode: Vote saved locally!" : "Демо-режим: голос сохранён локально!",
+                        "success"
+                    );
                 }
-            } else {
-                showCyberToast(isEn ? "Demo Mode: Vote saved locally!" : "Демо-режим: Голос учтен локально!", "success");
-            }
+            });
         });
     });
-});
+}
+
+initVoting();
