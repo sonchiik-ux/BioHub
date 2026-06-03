@@ -12,13 +12,12 @@
 </head>
 <body>
 
-<!-- КНОПКА ПЕРЕКЛЮЧЕНИЯ ЯЗЫКА В EN.HTML -->
+<!-- LANGUAGE SWITCHER -->
 <div class="lang-switcher-panel">
     <a href="ru.html" class="lang-link">RU</a>
     <span class="lang-divider">|</span>
     <a href="index.html" class="lang-link active">EN</a>
 </div>
-
 
 <header>
     <!-- Live cyber background: laser grid -->
@@ -178,7 +177,6 @@
 </section>
 
 <!-- TAB 3: RNA MATURATION FACTORY -->
-<!-- TAB 3: RNA MATURATION FACTORY (ENGLISH) -->
 <section id="hub-rna" class="hub-content rna-factory-section">
     <div class="section-container block-layout">
         <h2>RNA Factory: Programming Cas9</h2>
@@ -193,7 +191,6 @@
             </div>
             
             <div class="factory-screen">
-                <!-- КОНВЕЙЕРНАЯ ЛЕНТА С ПЛАШКАМИ -->
                 <div id="rna-assembly-line" class="rna-assembly-line">
                     <!-- Repeat 1 -->
                     <div class="rna-segment repeat">
@@ -232,9 +229,9 @@
                     <div class="rna-segment repeat">
                         Repeat
                     </div>
-                </div><!-- КОНЕЦ КОНВЕЙЕРА -->
+                </div>
 
-                <!-- БЛОК ОПИСАНИЯ И КНОПКА (ОНИ СТРОГО СНАРУЖИ ЛЕНТЫ) -->
+                <!-- FACTORY DESCRIPTION AND BUTTON -->
                 <div class="factory-description">
                     <h4 id="factory-title-text">Stage 1: pre-crRNA Transcription</h4>
                     <p id="factory-desc-text">The bacterium copies its entire CRISPR archive, creating a single long pre-crRNA strand.</p>
@@ -244,7 +241,6 @@
         </div>
     </div>
 </section>
-
 
 <!-- TAB 4: INTERACTIVE LABORATORY -->
 <section id="hub-lab" class="hub-content simulation-section">
@@ -263,13 +259,21 @@
             <div id="injector-syringe">💉</div>
             <div id="dna-sequence" class="dna-sequence"></div>
 
-            <div class="controls">
+                        <div class="controls">
                 <div id="step-1">
                     <input type="text" id="guideRNA" placeholder="Target sequence (e.g., CGTA)" maxlength="20">
                     <button id="findBtn">Launch Cas9</button>
                 </div>
                 <div id="step-2" style="display: none;">
                     <input type="text" id="replaceRNA" placeholder="New sequence (donor template)" maxlength="20">
+                    
+                    <!-- REPAIR PATHWAY SELECTION -->
+                    <div class="pathway-selection">
+                        <p>Select DNA Repair Pathway:</p>
+                        <button id="pathway-nhej" class="pathway-select-btn">🔴 NHEJ (Emergency Glue)</button>
+                        <button id="pathway-hdr" class="pathway-select-btn">🟢 HDR (Precision Insert)</button>
+                    </div>
+                    
                     <button id="editBtn">Cut & Replace</button>
                 </div>
             </div>
@@ -288,6 +292,7 @@
                     </div>
                 </div>
             </div>
+
 
             <!-- ETHICAL SURVEY -->
             <div class="ethics-panel">
