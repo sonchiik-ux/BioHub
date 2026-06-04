@@ -1643,5 +1643,429 @@ header h1 {
     box-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
 }
 
+/* ========================================
+   DNA STRAND & LASER EFFECTS
+   ======================================== */
 
+.dna-strand-container {
+    position: relative;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+    transition: all 0.5s ease;
+}
 
+.dna-strand-container.sliced {
+    gap: 60px;
+}
+
+.laser-beam {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 10px;
+    background: #00f5ff !important;
+    box-shadow: 0 0 25px #00f5ff, 0 0 50px #00a8ff, 0 0 100px #ffffff;
+    z-index: 99999;
+    pointer-events: none;
+    transform: scaleY(0);
+    opacity: 0;
+    transform-origin: center;
+}
+
+.laser-beam.fire {
+    animation: laserShoot 0.4s ease-out forwards;
+}
+
+@keyframes laserShoot {
+    0% { transform: scaleY(0); opacity: 1; width: 6px; }
+    30% { transform: scaleY(1); opacity: 1; width: 22px; filter: brightness(2); }
+    100% { transform: scaleY(1); opacity: 0; width: 3px; }
+}
+
+/* ========================================
+   DONOR DNA INSERTION
+   ======================================== */
+
+.donor-insert {
+    position: absolute;
+    width: 40px;
+    height: 100%;
+    background: #22c55e;
+    border-radius: 4px;
+    opacity: 0;
+    transform: translateY(-50px);
+    transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.donor-insert.inserted {
+    opacity: 1;
+    transform: translateY(0);
+    box-shadow: 0 0 15px rgba(34, 197, 94, 0.7);
+}
+
+/* ========================================
+   PATHWAY SELECTION
+   ======================================== */
+
+.pathway-selection p {
+    color: #94a3b8 !important;
+}
+
+/* ========================================
+   CHARACTER CREATOR - MODAL OVERLAY
+   ======================================== */
+
+#character-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(8, 12, 24, 0.97);
+    z-index: 99999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+#character-modal.active {
+    display: flex;
+}
+
+.modal-window {
+    background: #0f172a;
+    border: 2px solid #1e293b;
+    border-radius: 16px;
+    padding: 40px;
+    width: 900px;
+    max-width: 95%;
+    position: relative;
+    box-shadow: 0 0 50px rgba(0,0,0,0.8);
+}
+
+.modal-title {
+    color: #00f5ff;
+    margin-top: 0;
+    font-size: 1.8rem;
+}
+
+.modal-subtitle {
+    color: #64748b;
+    margin-bottom: 30px;
+}
+
+.modal-close-x {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    background: transparent;
+    color: #64748b;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.modal-close-x:hover {
+    color: #ff0055;
+}
+
+/* ========================================
+   LAYOUT & GRID
+   ======================================== */
+
+.creator-flex-layout {
+    display: flex;
+    gap: 40px;
+}
+
+.modal-controls {
+    flex: 1;
+}
+
+/* ========================================
+   AVATAR & MASCOT
+   ======================================== */
+
+.avatar-zone {
+    width: 280px;
+    height: 280px;
+    background: #090d16;
+    border: 2px solid #1f2937;
+    border-radius: 12px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.avatar-zone.upgraded {
+    border-color: #00ff66;
+    box-shadow: 0 0 20px rgba(0,255,102,0.2);
+}
+
+.avatar-zone.pulse-flash {
+    animation: cyberFlash 0.3s ease-out;
+}
+
+.mascot-base,
+.mascot-render {
+    height: 95%;
+    width: auto;
+    object-fit: contain;
+    filter: grayscale(80%) brightness(0.5);
+    transition: all 0.4s ease;
+}
+
+.mascot-base.active-genome,
+.mascot-render.active-genome {
+    filter: grayscale(0%) brightness(1.1) drop-shadow(0 0 15px rgba(0, 245, 255, 0.4));
+}
+
+.scan-line,
+.ui-scan-line {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: rgba(0,245,255,0.3);
+    animation: scanLine 2s linear infinite;
+}
+
+@keyframes cyberFlash {
+    0% { border-color: #ff0055; box-shadow: 0 0 30px #ff0055; }
+    100% { border-color: #00ff66; box-shadow: 0 0 15px rgba(0,255,102,0.2); }
+}
+
+@keyframes scanLine {
+    0% { top: 0; }
+    100% { top: 100%; }
+}
+
+/* ========================================
+   PREVIEW CARD
+   ======================================== */
+
+.modal-preview-card {
+    width: 320px;
+    background: #070a12;
+    border: 2px solid #ff0055;
+    border-radius: 12px;
+    padding: 20px;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.modal-preview-card.upgraded {
+    border-color: #00ff66;
+    box-shadow: 0 0 20px rgba(0,255,102,0.2);
+}
+
+.avatar-container-box {
+    width: 100%;
+    height: 260px;
+    background: #020408;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 15px;
+}
+
+/* ========================================
+   SLIDERS & INPUTS
+   ======================================== */
+
+.slider-group {
+    margin-bottom: 20px;
+}
+
+.slider-group label {
+    display: block;
+    color: #94a3b8;
+    margin-bottom: 6px;
+    font-weight: bold;
+}
+
+.cyber-slider {
+    width: 100%;
+    height: 6px;
+    background: #1e293b;
+    border-radius: 3px;
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.cyber-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 4px;
+    background: #00f5ff;
+    cursor: pointer;
+    box-shadow: 0 0 8px #00f5ff;
+    transition: background 0.2s;
+}
+
+.cyber-slider::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 4px;
+    background: #00f5ff;
+    cursor: pointer;
+    box-shadow: 0 0 8px #00f5ff;
+    border: none;
+    transition: background 0.2s;
+}
+
+.cyber-slider:active::-webkit-slider-thumb,
+.cyber-slider:active::-moz-range-thumb {
+    background: #00ff66;
+    box-shadow: 0 0 12px #00ff66;
+}
+
+/* ========================================
+   DNA DISPLAY
+   ======================================== */
+
+.dna-stream {
+    background: #020408;
+    padding: 6px 12px;
+    border-radius: 6px;
+    margin-top: 6px;
+    font-family: monospace;
+    font-size: 0.85rem;
+    color: #4b5563;
+}
+
+.mut-text {
+    color: #ff0055;
+    font-weight: bold;
+}
+
+.fixed-text {
+    color: #00ff66;
+    font-weight: bold;
+    text-decoration: line-through;
+}
+
+.inserted-text {
+    color: #00ff66;
+    font-weight: bold;
+}
+
+/* ========================================
+   INFO TEXT
+   ======================================== */
+
+.bio-text-info h3 {
+    margin-top: 0;
+    font-size: 1.1rem;
+    color: #94a3b8;
+}
+
+.bio-text-info p {
+    margin: 6px 0;
+    font-size: 0.9rem;
+    color: #94a3b8;
+}
+
+.status-bad {
+    color: #ff0055;
+    font-weight: bold;
+}
+
+.status-good {
+    color: #00ff66;
+    font-weight: bold;
+}
+
+/* ========================================
+   BADGES
+   ======================================== */
+
+.crispr-badge,
+.crispr-badge-ui {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    padding: 3px 8px;
+    font-family: monospace;
+    font-size: 0.7rem;
+    background: #1e293b;
+    border-radius: 4px;
+    color: #64748b;
+    transition: all 0.2s ease;
+}
+
+.crispr-badge.active,
+.crispr-badge-ui.active {
+    background: #00ff66;
+    color: #000;
+    font-weight: bold;
+    box-shadow: 0 0 10px #00ff66;
+}
+
+/* ========================================
+   BUTTONS
+   ======================================== */
+
+.cyber-trigger-btn {
+    background: transparent;
+    color: #00f5ff;
+    border: 2px solid #00f5ff;
+    padding: 15px 35px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 0 15px rgba(0, 245, 255, 0.2);
+    transition: all 0.3s ease;
+}
+
+.cyber-trigger-btn:hover {
+    background: #00f5ff;
+    color: #090d16;
+    box-shadow: 0 0 25px #00f5ff;
+}
+
+/* ========================================
+   LEGACY PANEL STYLES (BACKWARD COMPATIBLE)
+   ======================================== */
+
+.controls-panel,
+.subject-card {
+    background: #111827;
+    border: 2px solid #1f2937;
+    border-radius: 12px;
+    padding: 25px;
+    width: 450px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.controls-panel {
+    border-color: #00f5ff;
+    box-shadow: 0 0 15px rgba(0,245,255,0.1);
+}
+
+.subject-card {
+    border-color: #ff0055;
+    box-shadow: 0 0 15px rgba(255,0,85,0.1);
+}
+
+.subject-card.upgraded {
+    border-color: #00ff66;
+    box-shadow: 0 0 20px rgba(0,255,102,0.2);
+}
