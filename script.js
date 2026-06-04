@@ -577,7 +577,7 @@ function initRepairPathways() {
 
 initRepairPathways();
 
-// Выполнение клеточной починки
+// Выполнение клеточной починки - FIXED VERSION
 function initRepairAction() {
     const actionRepairBtn = document.getElementById("editBtn");
     if (!actionRepairBtn) return;
@@ -596,6 +596,7 @@ function initRepairAction() {
             return;
         }
 
+        // Запускаем эффекты
         if (syringe && selectedPathway === "hdr") {
             syringe.classList.add("injecting");
             showCyberToast(
@@ -609,68 +610,55 @@ function initRepairAction() {
             );
         }
 
+        // Задержка перед изменением ДНК
         setTimeout(() => {
             if (syringe) syringe.classList.remove("injecting");
 
-            const leftPart = sequence.slice(0, lastStartIndex);
-            const rightPart = sequence.slice(lastStartIndex + lastTargetLength);
-            
-            if (selectedPathway === "nhej") {
-                // NHEJ: удаляет буквы, склеивает концы
-                sequence = leftPart + rightPart;
+            // Проверяем валидность индексов
+            if (lastStartIndex >= 0 && lastTargetLength > 0) {
+                const leftPart = sequence.slice(0, lastStartIndex);
+                const rightPart = sequence.slice(lastStartIndex + lastTargetLength);
                 
-                showCyberToast(
-                    isEn 
-                        ? `NHEJ Sticking Completed! The deleted fragment caused a frameshift mutation. DNA shortened by ${lastTargetLength} bases.` 
-                        : `NHEJ завершён! Удаление вызвало сдвиг рамки. ДНК укорочена на ${lastTargetLength} оснований.`,
-                    "error"
-                );
-                updateProsthesisVisual('error');
-            } 
-            else if (selectedPathway === "hdr") {
-                // HDR: замена на новую последовательность
-                const cyberCodedPieces = ["🦾CYBER", "⚡NEURAL", "👁️OPTIC", "🧬NANO"];
-                const finalReplacement = replacement && replacement.trim() !== "" 
-                    ? replacement 
-                    : cyberCodedPieces[Math.floor(Math.random() * cyberCodedPieces.length)];
-                
-                const successChance = Math.random(); 
-                if (successChance <= 0.60) { 
-                    sequence = leftPart + finalReplacement + rightPart;
-                    showCyberToast(
-                        isEn 
-                            ? `HDR Success! Target gene precision-replaced with bionic module: ${finalReplacement}` 
-                            : `HDR успешен! Ген заменён на: ${finalReplacement}`,
-                        "success"
-                    );
-                    updateProsthesisVisual('success');
-                } else {
-                    // Если сбой при HDR, используется NHEJ
+                if (selectedPathway === "nhej") {
                     sequence = leftPart + rightPart;
                     showCyberToast(
                         isEn 
-                            ? "HDR Failed! Donor matrix rejected. Cell used emergency NHEJ to glue remaining ends." 
-                            : "HDR провалился! Матрица отторгнута. Клетка использовала NHEJ.",
-                        "error"
+                            ? `NHEJ Sticking Completed! DNA shortened by ${lastTargetLength} bases.`
+                            : `NHEJ Склеивание завершено! ДНК укорочена на ${lastTargetLength} оснований.`,
+                        "success"
                     );
                     updateProsthesisVisual('error');
+                } else if (selectedPathway === "hdr") {
+                    sequence = leftPart + replacement + rightPart;
+                    showCyberToast(
+                        isEn 
+                            ? `HDR Repair Completed! Sequence replaced with: ${replacement}`
+                            : `HDR Ремонт завершено! Последовательность заменена на: ${replacement}`,
+                        "success"
+                    );
+                    updateProsthesisVisual('success');
                 }
+                
+                // Обновляем ДНК на экране
+                renderDNA();
             }
             
-            renderDNA();
-            
-            if (cas9) cas9.style.left = "-100px";
-            
+            // Прячем шаг 2 после операции
             const step2Block = document.getElementById("step-2");
             if (step2Block) step2Block.style.display = "none";
             
-            // Сброс выбора пути
+            // Сброс состояния
             if (btnNhej) btnNhej.className = "pathway-select-btn";
             if (btnHdr) btnHdr.className = "pathway-select-btn";
             selectedPathway = "";
+            lastStartIndex = -1;
+            lastTargetLength = 0;
             
             // Очищаем слушатели
             cleanupBaseListeners();
+            
+            // Прячем Cas9
+            if (cas9) cas9.style.left = "-100px";
         }, 1200);
     });
 }
@@ -808,3 +796,127 @@ function initVoting() {
 }
 
 initVoting();
+
+// ==========================================================================
+// ЧАСТЬ 6: РЕДАКТОР ПЕРСОНАЖА ДНК (CHARACTER CREATOR)
+// ==========================================================================
+
+function initModalCharacterCreator() {
+    const modal = document.getElementById('character-modal');
+    const openBtn = document.getElementById('open-creator-btn');
+    const closeBtn = document.getElementById('close-creator-btn');
+
+    if (!modal || !openBtn || !closeBtn) return;
+
+    // Открытие модального окна при клике на кнопку
+    openBtn.addEventListener('click', () => {
+        modal.style.display = 'flex';
+    });
+
+    // Закрытие окна при клике на крестик
+    closeBtn.addEventListener('click', () => {
+        modal.style.display = 'none';
+    });
+
+    // Элементы управления геномом
+    const ccr5 = document.getElementById('ccr5-slider');
+    const cep290 = document.getElementById('cep290-slider');
+    const mstn = document.getElementById('mstn-slider');
+
+    if (!ccr5 || !cep290 || !mstn) return;
+
+    function updateMascotLogic() {
+        const score = parseInt(ccr5.value) + parseInt(cep290.value) + parseInt(mstn.value);
+        const statusTag = document.getElementById('status-tag');
+        const card = document.getElementById('subject-card');
+        const badge = document.getElementById('crispr-badge');
+        const mascot = document.getElementById('mascot-img');
+        const avatarZone = document.querySelector('.avatar-zone');
+
+        // Пульс при сдвиге ползунка
+        if (avatarZone) {
+            avatarZone.classList.add('pulse-flash');
+            setTimeout(() => avatarZone.classList.remove('pulse-flash'), 300);
+        }
+
+        if (score > 0) {
+            statusTag.textContent = score === 3 ? "PERFECT GENOME" : "GENETICALLY MODIFIED";
+            statusTag.className = "status-good";
+            card.classList.add('upgraded');
+            badge.textContent = "CRISPR ACTIVE";
+            badge.classList.add('active');
+            
+            if (mascot) {
+                if (score === 3) {
+                    mascot.style.filter = "grayscale(0%) brightness(1.1) drop-shadow(0 0 15px #00ff66)";
+                } else {
+                    mascot.style.filter = "grayscale(20%) brightness(1.0)";
+                }
+            }
+        } else {
+            statusTag.textContent = "UNMODIFIED";
+            statusTag.className = "status-bad";
+            card.classList.remove('upgraded');
+            badge.textContent = "CRISPR IDLE";
+            badge.classList.remove('active');
+            
+            if (mascot) {
+                mascot.style.filter = "grayscale(80%) brightness(0.5)";
+            }
+        }
+    }
+
+    // Слушатели для ползунков
+    ccr5.addEventListener('input', (e) => {
+        const dna = document.getElementById('ccr5-dna');
+        const info = document.getElementById('info-immunity');
+        if (e.target.value === "1") {
+            dna.innerHTML = 'Sequence: GGTGGTC...<span style="color:#00ff66; font-weight:bold; text-decoration:line-through;">CTGGTG</span>...TC';
+            info.textContent = "Immune to HIV (Δ32)";
+            info.style.color = "#00ff66";
+        } else {
+            dna.innerHTML = 'Sequence: GGTGGTC...<span class="mut-text">CTGGTG</span>...TC';
+            info.textContent = "Standard";
+            info.style.color = "";
+        }
+        updateMascotLogic();
+    });
+
+    cep290.addEventListener('input', (e) => {
+        const dna = document.getElementById('cep290-dna');
+        const info = document.getElementById('info-vision');
+        if (e.target.value === "1") {
+            dna.innerHTML = 'Sequence: AAAGTT...<span style="color:#00ff66; font-weight:bold;">C</span>...GAAAA';
+            info.textContent = "100% Perfect Vision";
+            info.style.color = "#00ff66";
+        } else {
+            dna.innerHTML = 'Sequence: AAAGTT...<span class="mut-text">T</span>...GAAAA';
+            info.textContent = "Leber Amaurosis Risk";
+            info.style.color = "";
+        }
+        updateMascotLogic();
+    });
+
+    mstn.addEventListener('input', (e) => {
+        const dna = document.getElementById('mstn-dna');
+        const info = document.getElementById('info-muscle');
+        if (e.target.value === "1") {
+            dna.innerHTML = 'Sequence: TACTTG...<span style="color:#00ff66; font-weight:bold;">A</span>...AAATTT';
+            info.textContent = "Enhanced Muscle Tone";
+            info.style.color = "#00ff66";
+        } else {
+            dna.innerHTML = 'Sequence: TACTTG...<span class="mut-text">G</span>...AAATTT';
+            info.textContent = "Standard Tone";
+            info.style.color = "";
+        }
+        updateMascotLogic();
+    });
+}
+
+// Запуск при загрузке документа
+document.addEventListener("DOMContentLoaded", () => {
+    initModalCharacterCreator();
+});
+
+
+
