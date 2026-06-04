@@ -235,10 +235,73 @@
     </div>
 </section>
 
+<!-- СЕКЦИЯ: РЕДАКТОР ПЕРСОНАЖА ДНК -->
+<section id="dna-creator-section" class="simulation-section">
+    <!-- КНОПКА ЗАПУСКА НА ГЛАВНОЙ СТРАНИЦЕ -->
+<div class="launch-container" style="text-align: center; margin: 40px 0;">
+    <button id="open-creator-btn" class="cyber-trigger-btn">
+        🧬 LAUNCH GENOME CHARACTER CREATOR
+    </button>
+</div>
+
+<!-- ПОЛНОЭКРАННОЕ ОКНО РЕДАКТОРА (СКРЫТО ПО УМОЛЧАНИЮ) -->
+<div id="character-modal" class="cyber-modal-overlay">
+    <div class="modal-window">
+        <!-- Кнопка «Закрыть» -->
+        <button id="close-creator-btn" class="modal-close-x">&times;</button>
+        
+        <h2 class="modal-title">🧬 GENOME CHARACTER CREATOR</h2>
+        <p class="modal-subtitle">Modify real human traits in real-time using CRISPR-Cas9 technology</p>
+
+        <div class="creator-flex-layout">
+            <!-- Левая часть: Ползунки -->
+            <div class="modal-controls">
+                <div class="slider-group">
+                    <label>🛡️ HIV Resistance (CCR5 Gene)</label>
+                    <input type="range" id="ccr5-slider" min="0" max="1" value="0" class="cyber-slider">
+                    <div class="dna-stream" id="ccr5-dna">Sequence: GGTGGTC...<span class="mut-text">CTGGTG</span>...TC</div>
+                </div>
+
+                <div class="slider-group">
+                    <label>👁️ Vision Restoration (CEP290 Gene)</label>
+                    <input type="range" id="cep290-slider" min="0" max="1" value="0" class="cyber-slider">
+                    <div class="dna-stream" id="cep290-dna">Sequence: AAAGTT...<span class="mut-text">T</span>...GAAAA</div>
+                </div>
+
+                <div class="slider-group">
+                    <label>💪 Muscle Density (MSTN Gene)</label>
+                    <input type="range" id="mstn-slider" min="0" max="1" value="0" class="cyber-slider">
+                    <div class="dna-stream" id="mstn-dna">Sequence: TACTTG...<span class="mut-text">G</span>...AAATTT</div>
+                </div>
+            </div>
+
+            <!-- Правая часть: Карточка досье с маскотом -->
+            <div class="modal-preview-card" id="subject-card">
+                <div class="avatar-container-box">
+                    <!-- ⚠️ ВНИМАНИЕ: Проверь путь к картинке тут! -->
+                    <img src="mascot.jpg" id="mascot-img" class="mascot-render" alt="Mascot">
+                    <div class="ui-scan-line"></div>
+                </div>
+                <div class="bio-text-info">
+                    <h3>STATUS: <span id="status-tag" class="status-bad">UNMODIFIED</span></h3>
+                    <p>🛡️ <strong>Immunity:</strong> <span id="info-immunity">Standard</span></p>
+                    <p>👁️ <strong>Vision:</strong> <span id="info-vision">Leber Amaurosis Risk</span></p>
+                    <p>💪 <strong>Physical:</strong> <span id="info-muscle">Standard Tone</span></p>
+                </div>
+                <div class="crispr-badge-ui" id="crispr-badge">CRISPR IDLE</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</section>
+
+
 <!-- TAB 4: INTERACTIVE LABORATORY -->
 <section id="hub-lab" class="hub-content simulation-section">
     <div class="section-container block-layout">
         <h2>Interactive Laboratory (CRISPR Engineering)</h2>
+
         <p class="section-subtitle">Utilize archival bacterial data to modify DNA for cybernetic prosthesis integration</p>
         
         <div class="preset-options">
@@ -248,9 +311,12 @@
         </div>
 
         <div class="dna-editor">
-            <h3>CRISPR-Cas9 Monitor</h3>
-            <div id="injector-syringe">💉</div>
-            <div id="dna-sequence" class="dna-sequence"></div>
+    <h3>CRISPR-Cas9 Monitor</h3>
+    <div id="injector-syringe">💉</div>
+    
+    <!-- Переносим лазер внутрь контейнера ДНК -->
+    <div id="dna-sequence" class="dna-sequence">
+    </div>
 
                         <div class="controls">
                 <div id="step-1">
@@ -330,6 +396,8 @@
 </section>
 
 <div id="toast-container"></div>
+
+<div class="laser-beam"></div>
 
 <script src="script.js?v=2.0"></script>
 </body>
