@@ -512,6 +512,9 @@ function triggerCas9Activation(clientX, clientY) {
                 const step2Block = document.getElementById("step-2");
                 if (step2Block) step2Block.style.display = "block";
             }
+
+            // ========== FIX #2: FIRE LASER WHEN DNA BASE IS CLICKED ==========
+            fireLaser(base);
         };
 
         base.addEventListener("mouseenter", mouseenterHandler);
@@ -528,6 +531,28 @@ function triggerCas9Activation(clientX, clientY) {
             }
         });
     });
+}
+
+// ========== FIX #2: LASER FIRING FUNCTION ==========
+function fireLaser(baseElement) {
+    const laser = document.querySelector('.laser-beam');
+    if (!laser) return;
+
+    const baseRect = baseElement.getBoundingClientRect();
+    const laserX = baseRect.left + (baseRect.width / 2);
+    
+    laser.style.left = `${laserX}px`;
+    laser.classList.remove('fire'); // Reset animation
+    
+    // Trigger animation
+    setTimeout(() => {
+        laser.classList.add('fire');
+    }, 10);
+    
+    // Remove animation class after it ends
+    setTimeout(() => {
+        laser.classList.remove('fire');
+    }, 450);
 }
 
 // ===== LAUNCH CAS9 BUTTON FIX =====
@@ -577,7 +602,7 @@ function initRepairPathways() {
 
 initRepairPathways();
 
-// Выполнение клеточной починки - FIXED VERSION
+// Выполнение клеточной починки
 function initRepairAction() {
     const actionRepairBtn = document.getElementById("editBtn");
     if (!actionRepairBtn) return;
@@ -798,7 +823,7 @@ function initVoting() {
 initVoting();
 
 // ==========================================================================
-// ЧАСТЬ 6: РЕДАКТОР ПЕРСОНАЖА ДНК (CHARACTER CREATOR)
+// ЧАСТЬ 6: РЕДАКТОР ПЕРСОНАЖА ДНК (CHARACTER CREATOR) - WITH EYE GLOW FIX
 // ==========================================================================
 
 function initModalCharacterCreator() {
@@ -848,9 +873,12 @@ function initModalCharacterCreator() {
             
             if (mascot) {
                 if (score === 3) {
-                    mascot.style.filter = "grayscale(0%) brightness(1.1) drop-shadow(0 0 15px #00ff66)";
+                    // ========== FIX #1: ADD MASCOT EYE GLOW ==========
+                    mascot.style.filter = "grayscale(0%) brightness(1.1) drop-shadow(0 0 15px #00ff66) drop-shadow(inset 0 0 20px rgba(0, 255, 102, 0.5))";
+                    mascot.classList.add('mascot-eyes-glow');
                 } else {
                     mascot.style.filter = "grayscale(20%) brightness(1.0)";
+                    mascot.classList.remove('mascot-eyes-glow');
                 }
             }
         } else {
@@ -862,6 +890,7 @@ function initModalCharacterCreator() {
             
             if (mascot) {
                 mascot.style.filter = "grayscale(80%) brightness(0.5)";
+                mascot.classList.remove('mascot-eyes-glow');
             }
         }
     }
@@ -917,6 +946,3 @@ function initModalCharacterCreator() {
 document.addEventListener("DOMContentLoaded", () => {
     initModalCharacterCreator();
 });
-
-
-
