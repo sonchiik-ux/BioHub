@@ -5,10 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BioHub — Interactive Bioengineering</title>
     <base href="./">
-    <link rel="stylesheet" href="style.css">
+    <!-- Подключаем твой киберпанк-CSS напрямую из облака GitHub -->
+    <link rel="stylesheet" href="style.css?v=2.1">
+
     <link rel="preconnect" href="https://googleapis.com">
     <link rel="preconnect" href="https://gstatic.com" crossorigin>
-    <link href="https://googleapis.com/css2?family=Poppins:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -276,24 +277,50 @@
             </div>
 
             <!-- Правая часть: Карточка досье с маскотом -->
+                        <!-- Правая часть: Карточка досье с маскотом -->
             <div class="modal-preview-card" id="subject-card">
-                <div class="avatar-container-box">
-                    <!-- ✅ FIXED: Updated to mascot.png -->
-                    <img src="mascot.jpg" id="mascot-img" class="mascot-render" alt="Mascot">
-                    <div class="ui-scan-line"></div>
-                </div>
+                <div class="avatar-container-box" style="position: relative; width: 100%; overflow: hidden;">
+    <!-- Базовое изображение маскота -->
+    <img src="mascot.png" id="mascot-img" class="mascot-render" alt="Mascot" style="width: 100%; display: block;">
+    
+    <!-- Слой светящихся глаз (изначально скрыт) -->
+    <div id="mascot-glow-eyes" class="mascot-glow-layer" style="opacity: 0; position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; transition: opacity 0.4s ease;">
+        <!-- Мы подсветим эту область с помощью CSS, либо здесь может быть отдельная картинка только глаз eyes-glow.png -->
+    </div>
+
+    <!-- Слой светящихся волос/тела (изначально скрыт) -->
+    <div id="mascot-glow-hair" class="mascot-glow-layer" style="opacity: 0; position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; transition: opacity 0.4s ease;">
+    </div>
+
+    <div class="ui-scan-line"></div>
+</div>
+
                 <div class="bio-text-info">
                     <h3>STATUS: <span id="status-tag" class="status-bad">UNMODIFIED</span></h3>
                     <p>🛡️ <strong>Immunity:</strong> <span id="info-immunity">Standard</span></p>
                     <p>👁️ <strong>Vision:</strong> <span id="info-vision">Leber Amaurosis Risk</span></p>
                     <p>💪 <strong>Physical:</strong> <span id="info-muscle">Standard Tone</span></p>
+                    
+                    <!-- 📊 НОВЫЙ БЛОК: КАЛЬКУЛЯТОР GC-СОСТАВА -->
+                    <div class="gc-calculator-box" style="margin-top: 15px; padding: 10px; background: rgba(0,255,0,0.05); border: 1px dashed #00ff00; border-radius: 5px;">
+                        <p style="margin: 0 0 5px 0; font-size: 12px; color: #00ff00; font-family: monospace;">🧬 TOTAL GC-CONTENT: <span id="gc-percentage">0%</span></p>
+                        <div style="width: 100%; background: #222; height: 6px; border-radius: 3px; overflow: hidden;">
+                            <div id="gc-bar" style="width: 0%; height: 100%; background: #00ff00; transition: width 0.3s ease;"></div>
+                        </div>
+                    </div>
                 </div>
                 <div class="crispr-badge-ui" id="crispr-badge">CRISPR IDLE</div>
+                <!-- Кнопка скачивания паспорта -->
+<div style="text-align: center; margin-top: 15px;">
+    <button id="download-passport-btn" class="cyber-trigger-btn" style="padding: 8px 15px; font-size: 12px; width: 100%; letter-spacing: 1px;">
+        💾 DOWNLOAD GENOME PASSPORT
+    </button>
+</div>
+
             </div>
         </div>
     </div>
 </div>
-
 </section>
 
 
@@ -399,6 +426,9 @@
 
 <div class="laser-beam"></div>
 
-<script src="script.js?v=2.0"></script>
+<!-- Подключение библиотеки для создания скриншотов HTML-кода -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+<script src="script.js?v=2.1"></script>
 </body>
 </html>
