@@ -2167,10 +2167,50 @@ header {
     padding: 42px 28px 48px !important;
     display: flex !important;
     align-items: center !important;
+    position: relative !important;
+    overflow: hidden !important;
     background:
-        linear-gradient(135deg, rgba(10, 20, 31, 0.96), rgba(9, 30, 39, 0.9)),
-        radial-gradient(circle at 78% 20%, rgba(244, 114, 182, 0.14), transparent 34%) !important;
+        radial-gradient(circle at 72% 18%, rgba(20, 184, 166, 0.34) 0 7%, transparent 23%),
+        radial-gradient(circle at 18% 82%, rgba(56, 189, 248, 0.26) 0 8%, transparent 28%),
+        linear-gradient(135deg, #031119 0%, #062432 48%, #02121b 100%) !important;
     border-bottom: 1px solid var(--bio-line) !important;
+}
+
+.cyber-grid-bg {
+    opacity: 1 !important;
+    background: none !important;
+    animation: none !important;
+    overflow: hidden !important;
+}
+
+.cyber-grid-bg::before,
+.cyber-grid-bg::after {
+    content: "" !important;
+    position: absolute !important;
+    inset: -18% !important;
+    pointer-events: none !important;
+}
+
+.cyber-grid-bg::before {
+    background:
+        radial-gradient(circle, rgba(160, 255, 244, 0.95) 0 4px, rgba(45, 212, 191, 0.2) 5px 10px, transparent 11px),
+        linear-gradient(62deg, transparent 47%, rgba(45, 212, 191, 0.36) 48%, rgba(45, 212, 191, 0.36) 50%, transparent 51%),
+        linear-gradient(118deg, transparent 47%, rgba(56, 189, 248, 0.24) 48%, rgba(56, 189, 248, 0.24) 50%, transparent 51%) !important;
+    background-size: 74px 74px, 74px 74px, 74px 74px !important;
+    background-position: 0 0, 12px 0, 12px 0 !important;
+    filter: drop-shadow(0 0 16px rgba(45, 212, 191, 0.42)) !important;
+    opacity: 0.34 !important;
+    transform: rotate(-17deg) scale(1.12) !important;
+}
+
+.cyber-grid-bg::after {
+    background:
+        radial-gradient(circle at 12% 22%, rgba(45, 212, 191, 0.46) 0 34px, transparent 35px),
+        radial-gradient(circle at 82% 16%, rgba(125, 249, 255, 0.4) 0 48px, transparent 49px),
+        radial-gradient(circle at 68% 74%, rgba(20, 184, 166, 0.32) 0 56px, transparent 57px),
+        radial-gradient(circle at 24% 78%, rgba(56, 189, 248, 0.28) 0 42px, transparent 43px) !important;
+    filter: blur(1px) drop-shadow(0 0 34px rgba(45, 212, 191, 0.44)) !important;
+    opacity: 0.88 !important;
 }
 
 .hero-container,
@@ -2245,6 +2285,19 @@ header h1 {
     min-height: 560px !important;
     flex: 0 1 520px !important;
     align-items: center !important;
+    isolation: isolate !important;
+}
+
+.visual-hub::before {
+    content: "" !important;
+    position: absolute !important;
+    inset: 7% 5% !important;
+    border-radius: 50% !important;
+    background:
+        radial-gradient(circle at 50% 48%, rgba(45, 212, 191, 0.16), transparent 48%),
+        conic-gradient(from 120deg, transparent, rgba(45, 212, 191, 0.28), transparent, rgba(56, 189, 248, 0.22), transparent) !important;
+    filter: blur(0.5px) drop-shadow(0 0 46px rgba(45, 212, 191, 0.28)) !important;
+    z-index: -1 !important;
 }
 
 .prosthesis {
@@ -2465,10 +2518,22 @@ header h1 {
     .hero-container {
         flex-direction: column !important;
         align-items: stretch !important;
+        gap: 28px !important;
+    }
+
+    .glass-terminal {
+        flex: 0 1 auto !important;
     }
 
     .visual-hub {
-        min-height: 460px !important;
+        height: 420px !important;
+        min-height: 420px !important;
+        max-height: 420px !important;
+        flex: 0 0 420px !important;
+    }
+
+    .prosthesis {
+        width: min(100%, 360px) !important;
     }
 
     .cards,
@@ -2483,11 +2548,13 @@ header h1 {
 
 @media (max-width: 680px) {
     header {
-        padding: 22px 14px 24px !important;
+        min-height: auto !important;
+        padding: 14px 14px 18px !important;
+        align-items: flex-start !important;
     }
 
     .hero-container {
-        gap: 16px !important;
+        gap: 14px !important;
     }
 
     .glass-terminal,
@@ -2498,35 +2565,39 @@ header h1 {
     }
 
     .glass-terminal {
-        padding: 18px !important;
+        padding: 14px 16px !important;
         display: block !important;
         flex: 0 1 auto !important;
+        text-align: center !important;
+        background: rgba(2, 15, 24, 0.64) !important;
+        box-shadow: 0 18px 42px rgba(0, 0, 0, 0.28), inset 0 0 36px rgba(45, 212, 191, 0.08) !important;
     }
 
     .terminal-header {
-        margin-bottom: 16px !important;
+        margin-bottom: 10px !important;
         justify-content: center !important;
         flex-wrap: wrap !important;
     }
 
     .label {
-        margin-bottom: 12px !important;
+        margin-bottom: 8px !important;
+        padding: 7px 14px !important;
     }
 
     .hero-text h1,
     header h1 {
-        font-size: 2.7rem !important;
-        margin-bottom: 12px !important;
+        font-size: 2.45rem !important;
+        margin: 8px 0 8px !important;
     }
 
     .hero-text p,
     .section-subtitle {
-        font-size: 0.98rem !important;
+        font-size: 0.94rem !important;
     }
 
     .hero-text p {
-        line-height: 1.55 !important;
-        margin: 8px auto 18px !important;
+        line-height: 1.48 !important;
+        margin: 6px auto 14px !important;
     }
 
     .terminal-actions {
@@ -2534,8 +2605,8 @@ header h1 {
     }
 
     .cta {
-        margin-top: 10px !important;
-        padding: 14px 28px !important;
+        margin-top: 6px !important;
+        padding: 13px 26px !important;
     }
 
     .hub-content.active-content {
@@ -2549,49 +2620,62 @@ header h1 {
 
     .visual-hub {
         position: relative !important;
-        height: 260px !important;
-        min-height: 260px !important;
-        max-height: 260px !important;
-        flex: 0 0 260px !important;
+        height: 318px !important;
+        min-height: 318px !important;
+        max-height: 318px !important;
+        flex: 0 0 318px !important;
         display: flex !important;
         align-items: center !important;
         justify-content: center !important;
-        overflow: hidden !important;
+        overflow: visible !important;
+        padding: 52px 8px 44px !important;
+        border: 1px solid rgba(45, 212, 191, 0.22) !important;
+        border-radius: 18px !important;
+        background:
+            radial-gradient(circle at 52% 48%, rgba(45, 212, 191, 0.2), transparent 50%),
+            rgba(3, 20, 30, 0.34) !important;
+        box-shadow: inset 0 0 60px rgba(45, 212, 191, 0.08), 0 20px 44px rgba(0, 0, 0, 0.22) !important;
     }
 
     .prosthesis {
         display: block !important;
-        width: 235px !important;
+        width: 250px !important;
         margin: 0 auto !important;
+        filter: drop-shadow(0 0 24px rgba(45, 212, 191, 0.3)) !important;
     }
 
     .cyber-widget {
         position: absolute !important;
-        padding: 9px 12px !important;
+        padding: 8px 11px !important;
         font-size: 0.78rem !important;
         max-width: 170px !important;
+        background: rgba(2, 18, 28, 0.82) !important;
+        backdrop-filter: blur(10px) !important;
     }
 
     .widget-left {
-        top: 4px !important;
-        left: 4px !important;
+        top: 66px !important;
+        left: 12px !important;
     }
 
     .widget-right {
-        top: 4px !important;
-        right: 4px !important;
-        bottom: auto !important;
+        top: auto !important;
+        right: 12px !important;
+        bottom: 48px !important;
     }
 
     .cyber-status-panel {
         position: absolute !important;
-        left: 6px !important;
-        right: 6px !important;
-        bottom: 6px !important;
+        left: 18px !important;
+        right: 18px !important;
+        top: 14px !important;
+        bottom: auto !important;
         max-width: none !important;
         margin: 0 !important;
-        padding: 10px 12px !important;
+        padding: 9px 12px !important;
         font-size: 0.74rem !important;
+        transform: translateY(-50%) !important;
+        background: rgba(1, 23, 32, 0.9) !important;
     }
 
     .nature-tabs,
