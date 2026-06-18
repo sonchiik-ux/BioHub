@@ -2720,3 +2720,46 @@ header h1 {
     }
 
 }
+
+
+/* Вставляем строго в самый конец CSS-файла */
+@media (max-width: 768px) {
+    
+    /* 1. Находим блоки симуляций и статусов и заставляем их идти друг за другом сверху вниз */
+    .status-panel, 
+    .header-status, 
+    [class*="status"], 
+    [class*="monitor"] {
+        position: static !important;  /* Отменяет absolute наложение */
+        display: flex !important;
+        flex-direction: column !important; /* Выстраиваем плашки друг под другом */
+        align-items: center !important;
+        justify-content: center !important;
+        margin: 10px auto !important;
+        transform: none !important;    /* Сбрасываем сдвиги, если они были */
+        width: 90% !important;         /* Занимают красивую ширину экрана */
+        box-sizing: border-box !important;
+    }
+
+    /* 2. Усмиряем саму графику симуляции (стрелки, бактерии), чтобы они не лезли под текст */
+    .simulation-container, 
+    .stage-container, 
+    [class*="simulation"] {
+        position: relative !important;
+        height: auto !important;       /* Позволяет контенту растягиваться по высоте */
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 20px !important;
+    }
+
+    /* Все элементы внутри симуляции тоже выстраиваем по порядку */
+    .simulation-container *, 
+    .stage-container * {
+        position: static !important;   /* Отключаем абсолютный хаос */
+        transform: none !important;
+        margin: 0 auto !important;
+        max-width: 100% !important;
+    }
+}
+
