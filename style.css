@@ -2763,3 +2763,47 @@ header h1 {
     }
 }
 
+/* ИДЕАЛЬНОЕ СЖАТИЕ ДИЗАЙНА ШАПКИ ДЛЯ МОБИЛОК */
+@media (max-width: 768px) {
+
+    /* 1. Уменьшаем центральный анимированный узел, чтобы освободить место по бокам */
+    .hero-visual {
+        transform: scale(0.65) !important; /* Уменьшаем молекулу на 35% */
+        transform-origin: center center !important;
+        margin: -20px auto !important; /* Подтягиваем её повыше */
+    }
+
+    /* 2. Уменьшаем сами карточки статусов, чтобы они стали компактными плашками */
+    .status-card {
+        width: 140px !important; /* Делаем их аккуратными и маленькими */
+        padding: 8px !important;  /* Сжимаем внутренние отступы */
+        font-size: 11px !important; /* Уменьшаем шрифт */
+    }
+
+    /* Подгоняем шрифты внутри карточек, чтобы всё влезло в одну строку */
+    .status-card h4, .status-card div, .status-card p {
+        font-size: 10px !important;
+        margin: 2px 0 !important;
+    }
+
+    /* 3. Двигаем карточки так, чтобы они красиво стояли по бокам и НЕ наезжали */
+    /* (Если у тебя в коде они разделены по ID или классам, например левая и правая) */
+    .status-card:nth-child(1) { 
+        left: 2% !important;  /* Сдвигаем левую плашку к самому левому краю */
+        top: 45% !important;
+    }
+    
+    .status-card:nth-child(2) { 
+        right: 2% !important; /* Сдвигаем правую плашку к самому правому краю */
+        top: 45% !important;
+    }
+
+    /* 4. Сжимаем длинную полосу интеграции, чтобы она не вылезала за края экрана */
+    .status-bar {
+        width: 85% !important;
+        font-size: 11px !important;
+        padding: 6px !important;
+        margin: 10px auto !important;
+    }
+}
+
