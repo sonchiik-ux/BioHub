@@ -2,6 +2,24 @@
 // ЧАСТЬ 1: СИСТЕМНЫЕ НАСТРОЙКИ, ГЕНЕРАТОР ДНК И КИБЕР-ТОСТЫ
 // ==========================================================================
 
+// Плавный скролл от шапки к симуляции
+function initHeaderActions() {
+    const startBtn = document.getElementById("start-explore-btn");
+    // Предполагаем, что твой блок симуляции имеет id="simulation-section" или "step-1"
+    const targetSection = document.getElementById("step-1") || document.querySelector("main");
+
+    if (startBtn && targetSection) {
+        startBtn.addEventListener("click", () => {
+            targetSection.scrollIntoView({ behavior: "smooth" });
+            showCyberToast(isEn ? "Initiating Molecular Scanner..." : "Запуск молекулярного сканера...", "success");
+        });
+    }
+}
+
+// Запускаем инициализацию шапки
+initHeaderActions();
+
+
 // ЖЕЛЕЗОБЕТОННАЯ ПРОВЕРКА ЯЗЫКА
 const isEn = document.documentElement.lang === "en" || !window.location.href.includes("ru.html");
 
@@ -397,9 +415,44 @@ initFactory();
 // ЧАСТЬ 4: CRISPR SURGICAL MONITOR & LAB MISSIONS
 // ==========================================================================
 
-let selectedPathway = ""; // Хранит выбранный путь ремонта (nhej или hdr)
+// Наша единая научная база данных для миссий
+const GENE_DATABASE = {
+    ccr5: {
+        name: isEn ? "CCR5 (HIV Resistance)" : "CCR5 (Иммунитет к ВИЧ)",
+        targetSequence: "GTCATCCT", // Что нужно найти
+        pam: "CGG",                 // PAM-сайт, который должен идти СРАЗУ за мишенью
+        correctPathway: "nhej",     // Для поломки гена нужен NHEJ
+        replacementNeeded: "",       // Матрица не нужна
+        successMsg: isEn ? "HIV resistance locked! Immune boost activated." : "Иммунитет к ВИЧ получен! Защита активирована."
+    },
+    cep290: {
+        name: isEn ? "CEP290 (Cyber-Vision Repair)" : "CEP290 (Восстановление зрения)",
+        targetSequence: "TTTGCAGC",
+        pam: "AGG",
+        correctPathway: "hdr",      // Для починки нужен точный ремонт HDR
+        replacementNeeded: "AAACGTCG", // Эту матрицу пользователь должен ввести сам
+        successMsg: isEn ? "Photoreceptor synthesis restored! Vision matrix stable." : "Синтез фоторецепторов восстановлен! Зрение стабильно."
+    },
+    mstn: {
+        name: isEn ? "MSTN (Muscle Density Boost)" : "MSTN (Мышечный апгрейд)",
+        targetSequence: "AGCTCACGG",
+        pam: "TGG",
+        correctPathway: "nhej",
+        replacementNeeded: "",
+        successMsg: isEn ? "Myostatin blocked! Muscle hypertrophy initiated." : "Миостатин заблокирован! Рост мышечной массы запущен."
+    },
+    ampd1: {
+        name: isEn ? "AMPD1 (Bio-Battery / Stamina)" : "AMPD1 (Био-Батарейка)",
+        targetSequence: "CCGATTGA",
+        pam: "GGG",
+        correctPathway: "hdr",
+        replacementNeeded: "GGCTAACT",
+        successMsg: isEn ? "ATP recycling upgraded! Continuous energy stream." : "Рециркуляция АТФ улучшена! Бесконечная энергия."
+    }
+};
 
-// Инициализация миссий лаборатории
+let currentGeneQuest = null; // Переменная для хранения активного квеста
+
 function initLabMissions() {
     const presetButtons = document.querySelectorAll(".preset-btn");
     if (!presetButtons.length) return;
@@ -409,39 +462,86 @@ function initLabMissions() {
             presetButtons.forEach(b => b.classList.remove("selected-mission"));
             btn.classList.add("selected-mission");
 
-            const target = btn.getAttribute("data-target");
-            const replace = btn.getAttribute("data-replace"); 
-            
+            const geneKey = btn.getAttribute("data-gene") || btn.getAttribute("data-target")?.toLowerCase();
+            currentGeneQuest = GENE_DATABASE[geneKey];
+
+            if (!currentGeneQuest) {
+                showCyberToast("Unknown gene configuration!", "error");
+                return;
+            }
+
             const guideInput = document.getElementById("guideRNA");
             const replaceInput = document.getElementById("replaceRNA");
+            
+            // ВРЕМЕННО ДЛЯ ТЕСТА: пусть ИИ сам заполняет поле, чтобы проверить механику кликов!
+            if (guideInput) guideInput.value = currentGeneQuest.targetSequence;
+            if (replaceInput) replaceInput.value = currentGeneQuest.replacementNeeded;
 
-            if (guideInput && replaceInput && target) {
-                if (!sequence.includes(target)) {
-                    const midIndex = Math.floor(sequence.length / 2) - 3;
-                    sequence = sequence.slice(0, midIndex) + target + sequence.slice(midIndex + target.length);
-                    renderDNA(); 
-                }
-
-                guideInput.value = target;
-                replaceInput.value = replace; 
-                
-                const panelTitle = document.getElementById("mission-panel-title");
-                if (panelTitle) {
-                    panelTitle.innerText = `🎯 TARGET ACQUIRED: LOCATE AND EXCISE THE "${target}" MUTATION`;
-                }
-
-                showCyberToast(
-                    isEn 
-                        ? "Anomaly detected! Click 'Launch Cas9' to dock the gRNA Complex." 
-                        : "Аномалия обнаружена! Нажми 'Launch Cas9' для активации.", 
-                    "success"
-                );
+            const panelTitle = document.getElementById("mission-panel-title");
+            if (panelTitle) {
+                panelTitle.innerHTML = `
+                    <span style="color: #00f0ff;">🧬 MISSION: ${currentGeneQuest.name}</span><br>
+                    <small style="color: #9ca3af; font-size: 0.85rem; display: block; margin-top: 5px;">
+                        ${isEn ? "Target sequence:" : "Целевая последовательность:"} <b>${currentGeneQuest.targetSequence}</b><br>
+                        ${isEn ? "PAM site:" : "PAM-сайт:"} <span style="color: #ff0055;"><b>${currentGeneQuest.pam}</b></span>
+                    </small>
+                `;
             }
+
+            // Генерируем ДНК, где точно есть этот ген
+            generateRealBioDNA(currentGeneQuest.targetSequence, currentGeneQuest.pam);
+
+            showCyberToast(
+                isEn ? `Data loaded. Ready to launch Cas9!` : `Данные загружены. Готово к запуску Cas9!`, 
+                "info"
+            );
         });
     });
+
+    // --- ЖЕСТКАЯ ПРИВЯЗКА КНОПКИ ЗАПУСКА ---
+    const launchBtn = document.getElementById("findBtn");
+    if (launchBtn) {
+        // Убираем старые слушатели, чтобы не было дубликатов
+        const newLaunchBtn = launchBtn.cloneNode(true);
+        launchBtn.parentNode.replaceChild(newLaunchBtn, launchBtn);
+        
+        newLaunchBtn.addEventListener("click", (event) => {
+            console.log("Кнопка Launch Cas9 успешно нажата! Активируем лазер...");
+            // Запускаем нашу функцию активации и передаем координаты мыши
+            triggerCas9Activation(event.clientX, event.clientY);
+        });
+    }
+}
+
+
+// Вспомогательная функция: создает случайную ДНК, но аккуратно вшивает туда наш квест
+function generateRealBioDNA(target, pam) {
+    const bases = ["A", "T", "G", "C"];
+    console.log("Найдено букв ДНК для кликов:", bases.length);
+if (bases.length === 0) {
+    console.error("ОШИБКА: Элементы с классом .base не найдены на странице! Проверь функцию renderDNA.");
+}
+
+    let randomPrefix = "";
+    let randomSuffix = "";
+    
+    // Создаем случайные буквы вокруг нашего гена
+    for (let i = 0; i < 15; i++) {
+        randomPrefix += bases[Math.floor(Math.random() * bases.length)];
+        randomSuffix += bases[Math.floor(Math.random() * bases.length)];
+    }
+    
+    // Склеиваем: случайное начало + ГЕН + PAM-сайт + случайный конец
+    sequence = randomPrefix + target + pam + randomSuffix;
+    
+    // Перерисовываем ДНК на экране (вызываем твою функцию отрисовки)
+    if (typeof renderDNA === "function") {
+        renderDNA();
+    }
 }
 
 initLabMissions();
+
 
 // Очистка старых слушателей базовых элементов
 function cleanupBaseListeners() {
@@ -467,19 +567,24 @@ function triggerCas9Activation(clientX, clientY) {
     
     cas9.style.left = `${relativeLeft}px`;
 
-    showCyberToast(
-        isEn 
-            ? "Cas9 Armed! Click on DNA letters to select for cutting." 
-            : "Cas9 активирован! Кликни на буквы ДНК для выбора.", 
-        "success"
-    );
+    // Подсказка пользователю
+    if (currentGeneQuest) {
+        showCyberToast(
+            isEn 
+                ? `Cas9 Armed! Click on the START of the target sequence: ${currentGeneQuest.targetSequence}` 
+                : `Cas9 готов! Кликни на НАЧАЛО целевой последовательности: ${currentGeneQuest.targetSequence}`, 
+            "info"
+        );
+    } else {
+        showCyberToast(
+            isEn ? "Cas9 Armed! Select DNA target." : "Cas9 активирован! Выберите цель на ДНК.", 
+            "success"
+        );
+    }
     
-    updateProsthesisVisual('nominal');
+    if (typeof updateProsthesisVisual === 'function') updateProsthesisVisual('nominal');
 
     const bases = document.querySelectorAll(".base");
-    let selectedBasesForCut = [];
-
-    // Очищаем старые слушатели перед добавлением новых
     cleanupBaseListeners();
 
     bases.forEach((base, index) => {
@@ -487,7 +592,7 @@ function triggerCas9Activation(clientX, clientY) {
         
         const mouseenterHandler = () => {
             if (!base.classList.contains("slice-effect")) {
-                base.style.border = "2px solid #ff0055";
+                base.style.border = "2px solid #00f0ff"; // Голубая подсветка при наведении — сканирование
             }
         };
 
@@ -498,40 +603,126 @@ function triggerCas9Activation(clientX, clientY) {
         };
 
         const clickHandler = () => {
-            base.classList.add("slice-effect"); 
-            base.style.backgroundColor = "#ff0055"; 
+            // Если миссия не выбрана, работаем по старой логике свободных кликов
+            if (!currentGeneQuest) {
+                processFreeCut(base, index);
+                return;
+            }
+
+            // --- НАУЧНАЯ ПРОВЕРКА КЛИКА (РЕАЛИЗМ) ---
+            const targetLen = currentGeneQuest.targetSequence.length;
+            const pamLen = currentGeneQuest.pam.length;
             
-            if (!selectedBasesForCut.includes(index)) {
-                selectedBasesForCut.push(index);
+            // Вырезаем из реальной цепочки ДНК кусок, на который нажал пользователь + длину PAM-сайта
+            const userSelectedSegment = sequence.slice(index, index + targetLen);
+            const userSelectedPam = sequence.slice(index + targetLen, index + targetLen + pamLen);
+            
+            // Получаем то, что пользователь ввёл в поле гидовой РНК
+            const enteredGuideRNA = (document.getElementById("guideRNA")?.value || "").toUpperCase().trim();
+
+            // 1. Проверяем, ввёл ли пользователь gRNA в текстовое поле
+            if (enteredGuideRNA !== currentGeneQuest.targetSequence) {
+                showCyberToast(
+                    isEn 
+                        ? "gRNA Error: Your guide RNA sequence design is incorrect!" 
+                        : "Ошибка gRNA: Последовательность гидовой РНК сконструирована неверно!", 
+                    "error"
+                );
+                return;
             }
 
-            if (selectedBasesForCut.length > 0) {
-                lastStartIndex = Math.min(...selectedBasesForCut);
-                lastTargetLength = selectedBasesForCut.length;
-                
-                const step2Block = document.getElementById("step-2");
-                if (step2Block) step2Block.style.display = "block";
+            // 2. Проверяем, кликнул ли пользователь именно на то место, где начинается мишень
+            if (userSelectedSegment !== currentGeneQuest.targetSequence) {
+                showCyberToast(
+                    isEn 
+                        ? "Off-target risk! CRISPR cannot bind here. Find the exact matching sequence." 
+                        : "Риск внецелевой мутации! CRISPR не может связаться здесь. Найдите точное совпадение.", 
+                    "error"
+                );
+                // Эффект ошибки на руке
+                if (typeof updateProsthesisVisual === 'function') updateProsthesisVisual('error');
+                return;
             }
 
-            // ========== FIX #2: FIRE LASER WHEN DNA BASE IS CLICKED ==========
-            fireLaser(base);
+            // 3. Проверяем наличие PAM-сайта (NGG) сразу за мишенью
+            // Проверяем две последние буквы, так как первая может быть любой (N)
+            const pamMatch = userSelectedPam.endsWith("GG"); 
+            if (!pamMatch) {
+                showCyberToast(
+                    isEn 
+                        ? "Binding failed! No PAM site (NGG) detected adjacent to the target." 
+                        : "Связывание сорвано! Не обнаружен PAM-сайт (NGG) рядом с мишенью.", 
+                    "error"
+                );
+                return;
+            }
+
+            // ЕСЛИ ВСЕ ПРОВЕРКИ ПРОЙДЕНЫ — КУТ-ЭФФЕКТ (УСПЕХ)
+            showCyberToast(
+                isEn ? "Target Bound! PAM recognized. Activating Cas9 Endonuclease..." : "Цель захвачена! PAM распознан. Активация эндонуклеазы Cas9...",
+                "success"
+            );
+            
+            // Подсвечиваем весь вырезаемый кусок ДНК на экране
+            let affectedBases = [];
+            for (let i = 0; i < targetLen; i++) {
+                const targetBaseEl = bases[index + i];
+                if (targetBaseEl) {
+                    targetBaseEl.classList.add("slice-effect");
+                    targetBaseEl.style.backgroundColor = "#ff0055";
+                    if (typeof fireLaser === 'function') fireLaser(targetBaseEl);
+                }
+                affectedBases.push(index + i);
+            }
+
+            // Сохраняем координаты для Шага 2 (Ремонт)
+            lastStartIndex = index;
+            lastTargetLength = targetLen;
+            
+            // Активируем панель Шага 2
+            const step2Block = document.getElementById("step-2");
+            if (step2Block) {
+                step2Block.style.display = "block";
+                // Подсказка для шага 2
+                const repairHint = document.getElementById("repair-pathway-hint");
+                if (repairHint) {
+                    repairHint.innerHTML = isEn 
+                        ? `Required pathway: <b style="color:#00f0ff">${currentGeneQuest.correctPathway.toUpperCase()}</b>. ${currentGeneQuest.replacementNeeded ? 'Donor matrix needed.' : 'No matrix needed.'}`
+                        : `Требуемый путь: <b style="color:#00f0ff">${currentGeneQuest.correctPathway.toUpperCase()}</b>. ${currentGeneQuest.replacementNeeded ? 'Нужна донорская матрица.' : 'Матрица не нужна.'}`;
+                }
+            }
         };
 
         base.addEventListener("mouseenter", mouseenterHandler);
         base.addEventListener("mouseleave", mouseleaveHandler);
         base.addEventListener("click", clickHandler);
 
-        // Сохраняем слушатели для очистки
         cas9BaseListeners.push({
             element: base,
-            listeners: {
-                mouseenter: mouseenterHandler,
-                mouseleave: mouseleaveHandler,
-                click: clickHandler
-            }
+            listeners: { mouseenter: mouseenterHandler, mouseleave: mouseleaveHandler, click: clickHandler }
         });
     });
 }
+
+// Старая логика свободных кликов, если миссия не выбрана (чтобы ничего не ломалось)
+function processFreeCut(base, index) {
+    base.classList.add("slice-effect"); 
+    base.style.backgroundColor = "#ff0055"; 
+    if (typeof fireLaser === 'function') fireLaser(base);
+    
+    // Инициализируем массив, если он не был создан глобально
+    if (typeof selectedBasesForCut === 'undefined') window.selectedBasesForCut = [];
+    if (!window.selectedBasesForCut.includes(index)) {
+        window.selectedBasesForCut.push(index);
+    }
+
+    lastStartIndex = Math.min(...window.selectedBasesForCut);
+    lastTargetLength = window.selectedBasesForCut.length;
+    
+    const step2Block = document.getElementById("step-2");
+    if (step2Block) step2Block.style.display = "block";
+}
+
 
 // ========== FIX #2: LASER FIRING FUNCTION ==========
 function fireLaser(baseElement) {
@@ -603,13 +794,20 @@ function initRepairPathways() {
 initRepairPathways();
 
 // Выполнение клеточной починки
+// Переменная вне функции, чтобы не вешать клики бесконечно
+let isRepairActionInitialized = false;
+
 function initRepairAction() {
     const actionRepairBtn = document.getElementById("editBtn");
-    if (!actionRepairBtn) return;
+    if (!actionRepairBtn || isRepairActionInitialized) return;
+
+    // Флаг, что слушатель уже повешен
+    isRepairActionInitialized = true;
 
     actionRepairBtn.addEventListener("click", () => {
         const syringe = document.getElementById("injector-syringe");
-        const replacement = document.getElementById("replaceRNA")?.value || "";
+        // Получаем введенный пользователем текст замены, если его нет — оставляем пустым
+        const replacement = (document.getElementById("replaceRNA")?.value || "").toUpperCase().trim();
         const btnNhej = document.getElementById("pathway-nhej");
         const btnHdr = document.getElementById("pathway-hdr");
         
@@ -621,7 +819,16 @@ function initRepairAction() {
             return;
         }
 
-        // Запускаем эффекты
+        // Проверяем, был ли сделан разрез (выбран ли участок ДНК)
+        if (lastStartIndex === -1 || lastTargetLength === 0) {
+            showCyberToast(
+                isEn ? "CRISPR-Cas9 must cut the DNA before repair!" : "Сначала CRISPR-Cas9 должен разрезать ДНК!",
+                "error"
+            );
+            return;
+        }
+
+        // Анимация шприца или ферментов
         if (syringe && selectedPathway === "hdr") {
             syringe.classList.add("injecting");
             showCyberToast(
@@ -635,59 +842,62 @@ function initRepairAction() {
             );
         }
 
-        // Задержка перед изменением ДНК
+        // Задержка на анимацию (1.2 секунды)
         setTimeout(() => {
             if (syringe) syringe.classList.remove("injecting");
 
-            // Проверяем валидность индексов
-            if (lastStartIndex >= 0 && lastTargetLength > 0) {
-                const leftPart = sequence.slice(0, lastStartIndex);
-                const rightPart = sequence.slice(lastStartIndex + lastTargetLength);
-                
-                if (selectedPathway === "nhej") {
-                    sequence = leftPart + rightPart;
-                    showCyberToast(
-                        isEn 
-                            ? `NHEJ Sticking Completed! DNA shortened by ${lastTargetLength} bases.`
-                            : `NHEJ Склеивание завершено! ДНК укорочена на ${lastTargetLength} оснований.`,
-                        "success"
-                    );
-                    updateProsthesisVisual('error');
-                } else if (selectedPathway === "hdr") {
-                    sequence = leftPart + replacement + rightPart;
-                    showCyberToast(
-                        isEn 
-                            ? `HDR Repair Completed! Sequence replaced with: ${replacement}`
-                            : `HDR Ремонт завершено! Последовательность заменена на: ${replacement}`,
-                        "success"
-                    );
-                    updateProsthesisVisual('success');
-                }
-                
-                // Обновляем ДНК на экране
-                renderDNA();
+            const leftPart = sequence.slice(0, lastStartIndex);
+            const rightPart = sequence.slice(lastStartIndex + lastTargetLength);
+            
+            if (selectedPathway === "nhej") {
+                // При NHEJ кусок ДНК просто удаляется (мутация «индель»)
+                sequence = leftPart + rightPart;
+                showCyberToast(
+                    isEn 
+                        ? `NHEJ Completed! DNA shortened.`
+                        : `NHEJ Склеивание завершено! ДНК укорочена.`,
+                    "success"
+                );
+                if (typeof updateProsthesisVisual === 'function') updateProsthesisVisual('error');
+            } else if (selectedPathway === "hdr") {
+                // При HDR вставляется донорская матрица
+                sequence = leftPart + replacement + rightPart;
+                showCyberToast(
+                    isEn 
+                        ? `HDR Repair Completed! Replacement successful.`
+                        : `HDR Ремонт завершен! Матрица успешно встроена.`,
+                    "success"
+                );
+                if (typeof updateProsthesisVisual === 'function') updateProsthesisVisual('success');
             }
             
-            // Прячем шаг 2 после операции
-            const step2Block = document.getElementById("step-2");
-            if (step2Block) step2Block.style.display = "none";
+            // Важно: перерисовываем ДНК на экране, чтобы пользователь увидел изменения!
+            if (typeof renderDNA === 'function') renderDNA();
             
-            // Сброс состояния
+            // Управляем отображением шагов интерфейса
+            const step2Block = document.getElementById("step-2");
+            const step3Block = document.getElementById("step-3"); // Ищем следующий шаг
+            
+            if (step2Block) step2Block.style.display = "none";
+            if (step3Block) step3Block.style.display = "block"; // Показываем финальный шаг
+            
+            // Сбрасываем визуальные стили кнопок выбора пути
             if (btnNhej) btnNhej.className = "pathway-select-btn";
             if (btnHdr) btnHdr.className = "pathway-select-btn";
+            
+            // Мягкий сброс путей
             selectedPathway = "";
-            lastStartIndex = -1;
-            lastTargetLength = 0;
             
-            // Очищаем слушатели
-            cleanupBaseListeners();
+            // Очищаем слушатели и прячем Cas9
+            if (typeof cleanupBaseListeners === 'function') cleanupBaseListeners();
+            const cas9Element = document.getElementById("cas9"); // Исправлено обращение к элементу
+            if (cas9Element) cas9Element.style.left = "-200px";
             
-            // Прячем Cas9
-            if (cas9) cas9.style.left = "-100px";
         }, 1200);
     });
 }
 
+// Запуск инициализации
 initRepairAction();
 
 // ==========================================================================
@@ -1141,3 +1351,85 @@ downloadPassportBtn.addEventListener('click', function () {
     });
 });
 }
+
+function updateProsthesisVisual(resultType) {
+    const statusPanel = document.getElementById("prosthesis-status-panel");
+    const statusIcon = document.getElementById("status-panel-icon");
+    const statusText = document.getElementById("status-panel-text");
+    
+    // Находим неоновые элементы внутри SVG робо-руки
+    const neonElements = [
+        document.getElementById("elbow-neon"),
+        document.getElementById("wrist-neon"),
+        document.getElementById("palm-neon"),
+        document.getElementById("thumb-neon"),
+        document.getElementById("f1-neon"),
+        document.getElementById("f2-neon"),
+        document.getElementById("f3-neon"),
+        document.getElementById("f4-neon")
+    ];
+
+    if (!statusPanel) return;
+
+    if (resultType === 'success') {
+        // Если ремонт ДНК прошел успешно (Зеленый статус)
+        statusPanel.className = "cyber-status-panel status-nominal"; // Твой CSS класс для успеха
+        if (statusIcon) statusIcon.innerText = "🟢";
+        statusText.innerText = isEn 
+            ? "BIOLINK STABLE: GENETIC INTEGRATION 100%" 
+            : "БИО-СВЯЗЬ СТАБИЛЬНА: ГЕНЕТИЧЕСКАЯ ИНТЕГРАЦИЯ 100%";
+
+        // Перекрашиваем неон робо-руки в сочный бирюзовый/зеленый
+        neonElements.forEach(el => {
+            if (el) {
+                el.style.stroke = "#00ff88";
+                if (el.tagName === "circle") el.style.fill = "#00ff88";
+            }
+        });
+
+    } else if (resultType === 'error') {
+        // Если произошла мутация/разрыв (Красный статус)
+        statusPanel.className = "cyber-status-panel status-critical"; // Твой CSS класс для ошибки
+        if (statusIcon) statusIcon.innerText = "🔴";
+        statusText.innerText = isEn 
+            ? "CRITICAL CRASH: BIOMATERIAL REJECTION DETECTED" 
+            : "КРИТИЧЕСКИЙ СБОЙ: ОБНАРУЖЕНО ОТТОРЖЕНИЕ БИОМАТЕРИАЛА";
+
+        // Перекрашиваем неон робо-руки в тревожный красный/неоновый розовый
+        neonElements.forEach(el => {
+            if (el) {
+                el.style.stroke = "#ff0055";
+                if (el.tagName === "circle") el.style.fill = "#ff0055";
+            }
+        });
+    }
+}
+
+// Логика переключения кнопок ремонта в интерфейсе
+function initPathwayButtons() {
+    const btnNhej = document.getElementById("pathway-nhej");
+    const btnHdr = document.getElementById("pathway-hdr");
+
+    if (btnNhej && btnHdr) {
+        btnNhej.addEventListener("click", () => {
+            selectedPathway = "nhej";
+            btnNhej.style.background = "#ff0055"; // Подсвечиваем красным при выборе
+            btnNhej.style.color = "#fff";
+            btnHdr.style.background = ""; // Сбрасываем вторую кнопку
+            btnHdr.style.color = "";
+            showCyberToast(isEn ? "NHEJ Selected: Preparing for gene knockout." : "Выбран NHEJ: Подготовка к отключению гена.", "info");
+        });
+
+        btnHdr.addEventListener("click", () => {
+            selectedPathway = "hdr";
+            btnHdr.style.background = "#00ff88"; // Подсвечиваем зеленым при выборе
+            btnHdr.style.color = "#000";
+            btnNhej.style.background = ""; // Сбрасываем вторую кнопку
+            btnNhej.style.color = "";
+            showCyberToast(isEn ? "HDR Selected: Insert donor matrix template." : "Выбран HDR: Введите донорскую матрицу.", "info");
+        });
+    }
+}
+
+// Запускаем инициализацию кнопок
+initPathwayButtons();
