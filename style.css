@@ -554,7 +554,7 @@
  .simulation-section {
      background: #f0f4f3;
      padding: 120px 40px;
-     border-top: 1px solid #e2e8f0;
+     border-top: 1px solid #060816;
 }
  .section-subtitle {
      font-size: 1.3rem;
@@ -1546,17 +1546,24 @@
      transition: all 0.4s ease;
 }
 /* Сама картинка внутри паспорта */
- .mascot-render {
-     width: 100%;
-     height: 100%;
-     object-fit: cover;
-    /* Картинка аккуратно заполняет паспортный формат */
-     object-position: center top;
-    /* Фокус на лице персонажа */
+ /* Сама картинка внутри паспорта */
+ .avatar-container-box .mascot-render {
+     width: 100% !important;
+     height: 100% !important;
+     
+     /* 1. Заставляем картинку растягиваться и заполнять всё пространство */
+     object-fit: cover !important; 
+     
+     /* 2. Приближаем персонажа (увеличь 1.6, если нужно еще крупнее) */
+     transform: scale(1.1) !important; 
+     
+     /* 3. Опускаем лицо чуть ниже, чтобы оно было по центру рамки */
+     object-position: center 35% !important; 
+     
      filter: grayscale(20%) brightness(0.9);
-    /* Делаем фото чуть более строгим по умолчанию */
      transition: all 0.4s ease;
 }
+
 /* Эффект сканирующей линии (уже есть у тебя, адаптируем под паспорт) */
  .ui-scan-line {
      position: absolute;
@@ -2708,6 +2715,7 @@ header h1 {
     }
 }
 
+/* Добавляем в самый конец CSS-файла */
 @media (max-width: 768px) {
     
     /* Находим главный тег шапки или класс её обертки */
@@ -2720,7 +2728,6 @@ header h1 {
     }
 
 }
-
 
 /* Вставляем строго в самый конец CSS-файла */
 @media (max-width: 768px) {
@@ -2854,5 +2861,3 @@ header h1 {
         transform: none !important;
     }
 }
-
-
