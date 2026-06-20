@@ -240,9 +240,6 @@
 <section id="dna-creator-section" class="simulation-section">
     <!-- КНОПКА ЗАПУСКА НА ГЛАВНОЙ СТРАНИЦЕ -->
 <div class="launch-container" style="text-align: center; margin: 40px 0;">
-    <button id="open-creator-btn" class="cyber-trigger-btn">
-        🧬 LAUNCH GENOME CHARACTER CREATOR
-    </button>
 </div>
 
 <!-- ПОЛНОЭКРАННОЕ ОКНО РЕДАКТОРА (СКРЫТО ПО УМОЛЧАНИЮ) -->
@@ -332,10 +329,15 @@
         <p class="section-subtitle">Utilize archival bacterial data to modify DNA for cybernetic prosthesis integration</p>
         
         <div class="preset-options">
-            <button class="preset-btn" data-target="ATGCC" data-replace="AAAAA">🦾 Prosthesis Integration</button>
-            <button class="preset-btn" data-target="CGTAG" data-replace="TTTTT">👁️ Optical Upgrade</button>
-            <button class="preset-btn" data-target="TAGCT" data-replace="GGGGG">⚡ Neural Interface</button>
+            <button class="preset-btn" data-gene="ccr5">HIV Resistance (CCR5)</button>
+            <button class="preset-btn" data-gene="cep290">Cyber-Vision (CEP290)</button>
+            <button class="preset-btn" data-gene="mstn">Muscle Density (MSTN)</button>
+            <button class="preset-btn" data-gene="ampd1">Bio-Battery (AMPD1)</button>
         </div>
+
+         <button id="open-creator-btn" class="cyber-trigger-btn">
+        🧬 LAUNCH GENOME CHARACTER CREATOR
+        </button>
 
         <div class="dna-editor">
     <h3>CRISPR-Cas9 Monitor</h3>
@@ -346,38 +348,32 @@
     </div>
 
                         <div class="controls">
-                <div id="step-1">
-                    <input type="text" id="guideRNA" placeholder="Target sequence (e.g., CGTA)" maxlength="20">
-                    <button id="findBtn">Launch Cas9</button>
-                </div>
-                <div id="step-2" style="display: none;">
-                    <input type="text" id="replaceRNA" placeholder="New sequence (donor template)" maxlength="20">
-                    
-                    <!-- REPAIR PATHWAY SELECTION -->
-                    <div class="pathway-selection">
-                        <p>Select DNA Repair Pathway:</p>
-                        <button id="pathway-nhej" class="pathway-select-btn">🔴 NHEJ (Emergency Glue)</button>
-                        <button id="pathway-hdr" class="pathway-select-btn">🟢 HDR (Precision Insert)</button>
-                    </div>
-                    
-                    <button id="editBtn">Cut & Replace</button>
-                </div>
-            </div>
+    <!-- ШАГ 1: Ввод гидовой РНК и запуск Cas9 -->
+    <div id="step-1">
+        <input type="text" id="guideRNA" placeholder="Target sequence (e.g., GTCATCCT)" maxlength="20">
+        <button id="findBtn">Launch Cas9</button>
+    </div>
 
-            <!-- REFERENCE GUIDE -->
-            <div class="science-guide">
-                <h4>🧬 Reference: What happens during DNA repair?</h4>
-                <div class="guide-grid">
-                    <div class="guide-box hdr">
-                        <h5>🟢 HDR Pathway (30% Success Rate)</h5>
-                        <p><strong>Homology-Directed Repair.</strong> The cell precise-copies the sequence from the provided donor template. Results in perfect, high-fidelity genome editing.</p>
-                    </div>
-                    <div class="guide-box nhej">
-                        <h5>🔴 NHEJ Pathway (70% Mutations)</h5>
-                        <p><strong>Non-Homologous End Joining.</strong> The cell's emergency mechanism. Unable to process the break carefully, it rapidly glues the DNA ends, frequently losing or [...]
-                    </div>
-                </div>
-            </div>
+    <!-- ШАГ 2: Выбор пути ремонта и донорной матрицы (появляется после успешного разреза) -->
+    <div id="step-2" style="display: none;">
+        <!-- НАША НАУЧНАЯ ПОДСКАЗКА ДЛЯ РЕАЛИЗМА -->
+        <div id="repair-pathway-hint" style="margin: 10px 0; padding: 12px; background: rgba(0, 240, 255, 0.1); border-left: 3px solid #00f0ff; font-family: monospace; font-size: 0.9rem; border-radius: 4px; text-align: left; color: #fff;">
+            Awaiting Cas9 incision...
+        </div>
+
+        <input type="text" id="replaceRNA" placeholder="New sequence (donor template)" maxlength="20">
+        
+        <!-- REPAIR PATHWAY SELECTION -->
+        <div class="pathway-selection" style="margin-top: 15px;">
+            <p style="margin-bottom: 8px; font-weight: bold;">Select DNA Repair Pathway:</p>
+            <button id="pathway-nhej" class="pathway-select-btn">🔴 NHEJ (Emergency Glue)</button>
+            <button id="pathway-hdr" class="pathway-select-btn">🟢 HDR (Precision Insert)</button>
+        </div>
+        
+        <button id="editBtn" style="margin-top: 15px;">Cut & Replace</button>
+    </div>
+</div>
+
 
 
             <!-- ETHICAL SURVEY -->
