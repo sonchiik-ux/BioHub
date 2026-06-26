@@ -2921,3 +2921,120 @@ header h1 {
     gap: 10px !important;
   }
 }
+
+/* --- Адаптация симуляции CRISPR В ПРИРОДЕ --- */
+@media screen and (max-width: 768px) {
+  /* Уменьшаем отступы секции и экрана симуляции */
+  .nature-crispr-section {
+    padding: 40px 15px !important;
+  }
+  .nature-screen {
+    padding: 20px 15px !important;
+  }
+
+  /* Исправляем вкладки (Tabs) сверху, чтобы текст не сжимался */
+  .nature-tabs {
+    flex-direction: column; /* Кнопки встанут друг под друга */
+  }
+  .tab-btn {
+    padding: 12px 10px !important;
+    font-size: 0.95rem !important;
+    border-bottom: 1px solid #374151;
+  }
+  .tab-btn.active {
+    border-bottom: unset;
+    border-left: 3px solid #00f0ff; /* Активная вкладка подсветится слева */
+  }
+
+  /* ГЛАВНЫЙ ФИКС: Контейнер симуляции */
+  .nature-visual {
+    height: auto !important; /* Убираем жесткую высоту */
+    min-height: 180px;
+    flex-wrap: wrap; /* Разрешаем элементам аккуратно переноситься, если тесно */
+    gap: 12px !important;
+    padding: 20px 0;
+  }
+
+  /* Уменьшаем зеленую стену бактерии, чтобы она не тянулась во весь экран */
+  .bacteria-wall {
+    height: 100px !important; /* Уменьшаем высоту */
+    width: 12px !important;   /* Делаем чуть тоньше */
+  }
+
+  /* Слегка уменьшаем размер иконок, чтобы они умещались в строчку */
+  .phage-virus {
+    font-size: 38px !important;
+  }
+  .cas9-protein {
+    font-size: 45px !important;
+  }
+
+  /* Уменьшаем текст ДНК-кода */
+  .virus-dna {
+    font-size: 1rem !important;
+    letter-spacing: 1px !important;
+  }
+
+  /* Архив плашек (CRISPR Archive: CGTA AGTC) */
+  .crisp-archive {
+    flex-wrap: wrap; /* Если плашек много, они красиво перенесутся на новую строку */
+    justify-content: center;
+    gap: 4px !important;
+    padding: 6px !important;
+  }
+  .archive-spacer {
+    font-size: 0.75rem !important;
+    padding: 3px 6px !important;
+  }
+
+  /* Описание под симуляцией */
+  .nature-description h4 {
+    font-size: 1.25rem !important;
+  }
+  .nature-description p {
+    font-size: 0.95rem !important;
+  }
+}
+
+/* --- Исправление шапки и статус-панелей ТОЛЬКО для ПК версий --- */
+@media screen and (min-width: 992px) {
+  
+  /* Находим контейнер, в котором лежат эти плашки статуса и график */
+  .status-container, 
+  .dashboard-status-bar,
+  .hero-status-row {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-between !important; /* Расталкивает плашки влево, график вправо */
+    align-items: center !important;
+    width: 100% !important;
+    max-width: 1200px; /* Чтобы на огромных мониторах они не разъезжались слишком далеко */
+    margin: 30px auto !important;
+    padding: 0 20px !important;
+    gap: 20px !important;
+  }
+
+  /* Блок, который объединяет три маленькие плашки */
+  .status-badges-group,
+  .indicators-left {
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 15px !important; /* Красивый отступ между CAS9, LASER и INTEGRATION */
+    flex-wrap: nowrap !important;
+  }
+
+  /* Сами плашки статуса */
+  .status-badge,
+  .info-tag {
+    white-space: nowrap !important; /* Запрещаем тексту внутри плашек переноситься */
+    padding: 8px 16px !important;
+  }
+
+  /* Блок с графиком-пульсом (справа) */
+  .pulse-graph, 
+  .canvas-container,
+  .wave-animation {
+    margin-left: auto !important; /* Гарантированно прижимает график к правому краю */
+    display: block !important;
+  }
+}
