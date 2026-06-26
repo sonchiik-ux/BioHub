@@ -3108,3 +3108,68 @@ header h1 {
   }
 }
 
+/* =======================================================
+   ЖЕСТКИЙ СБРОС СЕТОК CRISPR MONITOR ДЛЯ МОБИЛЬНЫХ (ДО 768px)
+   ======================================================= */
+@media screen and (max-width: 768px) {
+  
+  /* Разворачиваем контейнер ДНК в строку */
+  div.monitor-display,
+  section #crispr-monitor .monitor-display,
+  .monitor-display {
+    display: flex !important;
+    flex-direction: row !important;      /* Строго горизонтальный ряд */
+    flex-wrap: wrap !important;          /* Перенос букв на новую строку */
+    justify-content: center !important;  /* Центрирование */
+    align-items: center !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-height: auto !important;
+    height: auto !important;
+    gap: 6px !important;                 /* Промежутки между кружками */
+    box-sizing: border-box !important;
+  }
+
+  /* Сбрасываем блочное поведение элементов внутри ДНК */
+  div.monitor-display .nucleotide,
+  .monitor-display span.nucleotide,
+  .nucleotide {
+    display: inline-flex !important;     /* Не даем им вести себя как блоки */
+    flex: 0 0 auto !important;           /* Запрещаем сжатие и растягивание */
+    width: 34px !important;              /* Фиксированная ширина */
+    height: 34px !important;             /* Фиксированная высота */
+    margin: 0 !important;                /* Обнуляем отступы, ломающие строку */
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  /* Исправление шага атаки вируса */
+  div.virus-stage, 
+  section .virus-stage {
+    display: flex !important;
+    flex-direction: row !important;      /* Пришелец и текст в один ряд */
+    flex-wrap: nowrap !important;
+    justify-content: center !important;
+    align-items: center !important;
+    width: 100% !important;
+  }
+}
+
+/* =======================================================
+   ГАРАНТИРОВАННОЕ СКРЫТИЕ ЛАБОРАТОРИИ НА ДРУГИХ ВКЛАДКАХ
+   ======================================================= */
+/* Скрываем секцию по умолчанию во всем проекте */
+section#laboratory, 
+main #laboratory,
+#laboratory {
+  display: none !important;
+}
+
+/* Показываем её ТОЛЬКО когда JavaScript дает ей класс активной вкладки */
+section#laboratory.active,
+main #laboratory.active,
+#laboratory.active {
+  display: block !important;
+}
+
+
