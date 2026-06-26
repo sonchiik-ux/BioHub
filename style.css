@@ -3038,3 +3038,73 @@ header h1 {
     display: block !important;
   }
 }
+
+/* Скрываем лабораторию по умолчанию на всех вкладках */
+#laboratory {
+  display: none;
+}
+
+/* Показываем её только тогда, когда у неё появляется класс active */
+#laboratory.active {
+  display: block !important;
+}
+
+/* ==========================================
+   ТОЧНЫЕ ИСПРАВЛЕНИЯ ДЛЯ МОБИЛЬНОЙ ВЕРСИИ
+   ========================================== */
+@media screen and (max-width: 768px) {
+
+  /* 🧬 1. Фикс цепи ДНК (CRISPR-Cas9 Monitor) */
+  .monitor-display {
+    display: flex !important;
+    flex-direction: row !important; /* Принудительно в ряд */
+    flex-wrap: wrap !important;     /* Разрешаем перенос букв на новую строку */
+    justify-content: center !important;
+    gap: 6px !important;            /* Красивый отступ между кружочками */
+    padding: 10px !important;
+  }
+
+  /* Исправляем сами кружочки с буквами */
+  .monitor-display .nucleotide {
+    margin: 0 !important;           /* Сбрасываем вертикальные отступы */
+    min-width: 32px !important;     /* Делаем их аккуратными кружками */
+    height: 32px !important;
+    font-size: 0.9rem !important;
+  }
+
+  /* 👾 2. Фикс симуляции с пришельцем (Viral Attack) */
+  .virus-stage {
+    display: flex !important;
+    flex-direction: row !important; /* Картинка и текст строго в ряд */
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 15px !important;
+  }
+
+  /* Уменьшаем высоту вертикального лазера, чтобы не растягивал экран */
+  .laser-beam {
+    height: 100px !important;
+    margin: 15px auto !important;
+  }
+
+  /* Делаем архив CRISPR компактным на мобилках */
+  .crispr-archive {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 8px !important;
+  }
+
+  .archive-title {
+    width: 100% !important;        /* Заголовок архива сверху */
+    text-align: center;
+    margin-bottom: 5px;
+  }
+
+  .archive-spacer, .archive-spacer-red {
+    width: auto !important;         /* Кнопочки больше не растягиваются во всю ширину */
+    padding: 6px 12px !important;
+  }
+}
+
