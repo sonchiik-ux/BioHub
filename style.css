@@ -2861,3 +2861,63 @@ header h1 {
         transform: none !important;
     }
 }
+
+/* --- Адаптивность для мобильных устройств (Экраны до 768px) --- */
+@media screen and (max-width: 768px) {
+  /* Базовая контейнерная сетка */
+  .container, 
+  main, 
+  section {
+    padding: 15px !important;
+    overflow-x: hidden; /* Защита от горизонтального скролла */
+  }
+
+  /* Исправление сетки исследовательских полей и лаборатории */
+  .research-fields, 
+  .lab-grid, 
+  .creator-container,
+  .dashboard-grid {
+    grid-template-columns: 1fr !important; /* Перестраиваем всё в 1 колонку */
+    gap: 15px !important;
+  }
+
+  /* Секции симуляций (RNA Factory и CRISPR in Nature) */
+  .simulation-steps, 
+  .factory-steps {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 20px !important;
+  }
+
+  /* Фикс длинных ДНК-строк, ломающих ширину экрана */
+  .dna-sequence, 
+  .sequence-display, 
+  code, 
+  pre {
+    word-break: break-all !important;
+    white-space: normal !important;
+    font-size: 0.85rem !important;
+    display: block;
+    max-width: 100%;
+  }
+
+  /* Увеличение зон клика кнопок для удобства пальцев */
+  .btn, 
+  button, 
+  .repair-btn, 
+  .vote-btn {
+    width: 100% !important;
+    min-height: 48px !important;
+    margin: 5px 0 !important;
+    font-size: 1rem !important;
+  }
+
+  /* Карточки голосований в этических границах */
+  .ethics-card {
+    padding: 15px !important;
+  }
+  .ethics-buttons {
+    flex-direction: column !important;
+    gap: 10px !important;
+  }
+}
