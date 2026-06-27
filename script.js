@@ -1433,3 +1433,42 @@ function initPathwayButtons() {
 
 // Запускаем инициализацию кнопок
 initPathwayButtons();
+
+// ==========================================
+// ГАРАНТИРОВАННЫЙ ФИКС ДЛЯ ВКЛАДКИ ЛАБОРАТОРИИ
+// ==========================================
+document.addEventListener("DOMContentLoaded", () => {
+    // 1. Находим саму секцию лаборатории по ключевым словам в тексте или ID
+    const labSection = document.getElementById("laboratory") || 
+                       Array.from(document.querySelectorAll("section")).find(s => s.textContent.includes("LABORATORY") || s.innerHTML.includes("lab-grid"));
+
+    if (!labSection) return; // Если секцию вообще не нашли, выходим
+
+    // На всякий случай даем ей точный ID, если его не было
+    labSection.id = "laboratory";
+
+    // 2. Функция, которая проверяет, какая кнопка меню сейчас активна
+    function updateLabVisibility() {
+        // Ищем кнопку переключения на вкладку лаборатории
+        const labNavButton = document.querySelector('[data-target="laboratory"]') || 
+                             document.querySelector('nav a[href="#laboratory"]') ||
+                             Array.from(document.querySelectorAll("nav button, nav a")).find(b => b.textContent.toLowerCase().includes("лаборатория") || b.textContent.toLowerCase().includes("lab"));
+
+        if (labNavButton && (labNavButton.classList.contains("active") || labNavButton.parentElement.classList.contains("active"))) {
+            labSection.style.setProperty("display", "block", "important");
+        } else {
+            labSection.style.setProperty("display", "none", "important");
+        }
+    }
+
+    // 3. Следим за кликами по всему меню навигации, чтобы вовремя скрывать/показывать лабу
+    const navMenu = document.querySelector("nav") || document.body;
+    navMenu.addEventListener("click", () => {
+        // Делаем крошечную задержку в 10 миллисекунд, чтобы твой основной JS успел переключить классы active
+        setTimeout(updateLabVisibility, 10);
+    });
+
+    // Запускаем проверку один раз при старте сайта
+    setTimeout(updateLabVisibility, 10);
+});
+
