@@ -2880,26 +2880,6 @@ header h1 {
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
 }
 
-/* =======================================================
-   ФУНДАМЕНТАЛЬНЫЙ ФИКС ДЛЯ BIOHUB (ВСТАВИТЬ В САМЫЙ КОНЕЦ)
-   ======================================================= */
-
-/* 🔬 1. Жесткое скрытие Лаборатории везде, кроме её вкладки */
-#laboratory, 
-section#laboratory, 
-main #laboratory,
-div#laboratory {
-  display: none !important; /* Намертво гасим на всех страницах */
-}
-
-/* Показываем ТОЛЬКО тогда, когда JS вешает класс .active */
-#laboratory.active, 
-section#laboratory.active,
-main #laboratory.active {
-  display: block !important; /* Гарантированный показ */
-}
-
-
 /* 🧬 2. Принудительный разворот цепочки ДНК на мобильных */
 @media screen and (max-width: 768px) {
   
@@ -2938,4 +2918,34 @@ main #laboratory.active {
     justify-content: center !important;
     align-items: center !important;
   }
+}
+
+/* =======================================================
+   МЯГКИЙ ФИКС ДЛЯ ЛАБОРАТОРИИ
+   ======================================================= */
+
+/* Прячем лабу по умолчанию, ТОЛЬКО если сайт находится на главной странице */
+body:not(.lab-page-active) #hub-lab,
+#home:not(.hidden) ~ #hub-lab,
+#crispr-monitor:not(.hidden) ~ #hub-lab {
+  display: none;
+}
+
+/* =======================================================
+   БЕЗОПАСНЫЙ ФИКС ДЛЯ ЛАБОРАТОРИИ (ВОЗВРАЩАЕМ ВКЛАДКУ)
+   ======================================================= */
+
+/* Скрываем лабораторию по умолчанию только в самом начале */
+#hub-lab {
+  display: none;
+}
+
+/* Показываем её, если твой JavaScript добавляет класс active */
+#hub-lab.active {
+  display: block !important;
+}
+
+/* На всякий случай: если твой JS переключает вкладки через убирание класса hidden */
+#hub-lab:not(.hidden) {
+  display: block !important;
 }
