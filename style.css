@@ -2862,348 +2862,80 @@ header h1 {
     }
 }
 
-/* --- Адаптивность для мобильных устройств (Экраны до 768px) --- */
-@media screen and (max-width: 768px) {
-  /* Базовая контейнерная сетка */
-  .container, 
-  main, 
-  section {
-    padding: 15px !important;
-    overflow-x: hidden; /* Защита от горизонтального скролла */
-  }
-
-  /* Исправление сетки исследовательских полей и лаборатории */
-  .research-fields, 
-  .lab-grid, 
-  .creator-container,
-  .dashboard-grid {
-    grid-template-columns: 1fr !important; /* Перестраиваем всё в 1 колонку */
-    gap: 15px !important;
-  }
-
-  /* Секции симуляций (RNA Factory и CRISPR in Nature) */
-  .simulation-steps, 
-  .factory-steps {
-    flex-direction: column !important;
-    align-items: stretch !important;
-    gap: 20px !important;
-  }
-
-  /* Фикс длинных ДНК-строк, ломающих ширину экрана */
-  .dna-sequence, 
-  .sequence-display, 
-  code, 
-  pre {
-    word-break: break-all !important;
-    white-space: normal !important;
-    font-size: 0.85rem !important;
-    display: block;
-    max-width: 100%;
-  }
-
-  /* Увеличение зон клика кнопок для удобства пальцев */
-  .btn, 
-  button, 
-  .repair-btn, 
-  .vote-btn {
-    width: 100% !important;
-    min-height: 48px !important;
-    margin: 5px 0 !important;
-    font-size: 1rem !important;
-  }
-
-  /* Карточки голосований в этических границах */
-  .ethics-card {
-    padding: 15px !important;
-  }
-  .ethics-buttons {
-    flex-direction: column !important;
-    gap: 10px !important;
-  }
+.btn-primary, #launch-cas9-btn {
+  transition: all 0.3s ease;
+  box-shadow: 0 0 5px rgba(0, 255, 128, 0.2);
+}
+.btn-primary:hover, #launch-cas9-btn:hover {
+  box-shadow: 0 0 15px rgba(0, 255, 128, 0.6);
+  transform: translateY(-2px);
 }
 
-/* --- Адаптация симуляции CRISPR В ПРИРОДЕ --- */
-@media screen and (max-width: 768px) {
-  /* Уменьшаем отступы секции и экрана симуляции */
-  .nature-crispr-section {
-    padding: 40px 15px !important;
-  }
-  .nature-screen {
-    padding: 20px 15px !important;
-  }
 
-  /* Исправляем вкладки (Tabs) сверху, чтобы текст не сжимался */
-  .nature-tabs {
-    flex-direction: column; /* Кнопки встанут друг под друга */
-  }
-  .tab-btn {
-    padding: 12px 10px !important;
-    font-size: 0.95rem !important;
-    border-bottom: 1px solid #374151;
-  }
-  .tab-btn.active {
-    border-bottom: unset;
-    border-left: 3px solid #00f0ff; /* Активная вкладка подсветится слева */
-  }
-
-  /* ГЛАВНЫЙ ФИКС: Контейнер симуляции */
-  .nature-visual {
-    height: auto !important; /* Убираем жесткую высоту */
-    min-height: 180px;
-    flex-wrap: wrap; /* Разрешаем элементам аккуратно переноситься, если тесно */
-    gap: 12px !important;
-    padding: 20px 0;
-  }
-
-  /* Уменьшаем зеленую стену бактерии, чтобы она не тянулась во весь экран */
-  .bacteria-wall {
-    height: 100px !important; /* Уменьшаем высоту */
-    width: 12px !important;   /* Делаем чуть тоньше */
-  }
-
-  /* Слегка уменьшаем размер иконок, чтобы они умещались в строчку */
-  .phage-virus {
-    font-size: 38px !important;
-  }
-  .cas9-protein {
-    font-size: 45px !important;
-  }
-
-  /* Уменьшаем текст ДНК-кода */
-  .virus-dna {
-    font-size: 1rem !important;
-    letter-spacing: 1px !important;
-  }
-
-  /* Архив плашек (CRISPR Archive: CGTA AGTC) */
-  .crisp-archive {
-    flex-wrap: wrap; /* Если плашек много, они красиво перенесутся на новую строку */
-    justify-content: center;
-    gap: 4px !important;
-    padding: 6px !important;
-  }
-  .archive-spacer {
-    font-size: 0.75rem !important;
-    padding: 3px 6px !important;
-  }
-
-  /* Описание под симуляцией */
-  .nature-description h4 {
-    font-size: 1.25rem !important;
-  }
-  .nature-description p {
-    font-size: 0.95rem !important;
-  }
-}
-
-/* --- Исправление шапки и статус-панелей ТОЛЬКО для ПК версий --- */
-@media screen and (min-width: 992px) {
-  
-  /* Находим контейнер, в котором лежат эти плашки статуса и график */
-  .status-container, 
-  .dashboard-status-bar,
-  .hero-status-row {
-    display: flex !important;
-    flex-direction: row !important;
-    justify-content: space-between !important; /* Расталкивает плашки влево, график вправо */
-    align-items: center !important;
-    width: 100% !important;
-    max-width: 1200px; /* Чтобы на огромных мониторах они не разъезжались слишком далеко */
-    margin: 30px auto !important;
-    padding: 0 20px !important;
-    gap: 20px !important;
-  }
-
-  /* Блок, который объединяет три маленькие плашки */
-  .status-badges-group,
-  .indicators-left {
-    display: flex !important;
-    flex-direction: row !important;
-    gap: 15px !important; /* Красивый отступ между CAS9, LASER и INTEGRATION */
-    flex-wrap: nowrap !important;
-  }
-
-  /* Сами плашки статуса */
-  .status-badge,
-  .info-tag {
-    white-space: nowrap !important; /* Запрещаем тексту внутри плашек переноситься */
-    padding: 8px 16px !important;
-  }
-
-  /* Блок с графиком-пульсом (справа) */
-  .pulse-graph, 
-  .canvas-container,
-  .wave-animation {
-    margin-left: auto !important; /* Гарантированно прижимает график к правому краю */
-    display: block !important;
-  }
-}
-
-/* Скрываем лабораторию по умолчанию на всех вкладках */
-#laboratory {
-  display: none;
-}
-
-/* Показываем её только тогда, когда у неё появляется класс active */
-#laboratory.active {
-  display: block !important;
-}
-
-/* ==========================================
-   ТОЧНЫЕ ИСПРАВЛЕНИЯ ДЛЯ МОБИЛЬНОЙ ВЕРСИИ
-   ========================================== */
-@media screen and (max-width: 768px) {
-
-  /* 🧬 1. Фикс цепи ДНК (CRISPR-Cas9 Monitor) */
-  .monitor-display {
-    display: flex !important;
-    flex-direction: row !important; /* Принудительно в ряд */
-    flex-wrap: wrap !important;     /* Разрешаем перенос букв на новую строку */
-    justify-content: center !important;
-    gap: 6px !important;            /* Красивый отступ между кружочками */
-    padding: 10px !important;
-  }
-
-  /* Исправляем сами кружочки с буквами */
-  .monitor-display .nucleotide {
-    margin: 0 !important;           /* Сбрасываем вертикальные отступы */
-    min-width: 32px !important;     /* Делаем их аккуратными кружками */
-    height: 32px !important;
-    font-size: 0.9rem !important;
-  }
-
-  /* 👾 2. Фикс симуляции с пришельцем (Viral Attack) */
-  .virus-stage {
-    display: flex !important;
-    flex-direction: row !important; /* Картинка и текст строго в ряд */
-    justify-content: center !important;
-    align-items: center !important;
-    gap: 15px !important;
-  }
-
-  /* Уменьшаем высоту вертикального лазера, чтобы не растягивал экран */
-  .laser-beam {
-    height: 100px !important;
-    margin: 15px auto !important;
-  }
-
-  /* Делаем архив CRISPR компактным на мобилках */
-  .crispr-archive {
-    display: flex !important;
-    flex-direction: row !important;
-    flex-wrap: wrap !important;
-    justify-content: center !important;
-    gap: 8px !important;
-  }
-
-  .archive-title {
-    width: 100% !important;        /* Заголовок архива сверху */
-    text-align: center;
-    margin-bottom: 5px;
-  }
-
-  .archive-spacer, .archive-spacer-red {
-    width: auto !important;         /* Кнопочки больше не растягиваются во всю ширину */
-    padding: 6px 12px !important;
-  }
+.card, .status-panel, .monitor-box {
+  background: rgba(10, 20, 15, 0.75) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 255, 128, 0.15) !important;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
 }
 
 /* =======================================================
-   ЖЕСТКИЙ СБРОС СЕТОК CRISPR MONITOR ДЛЯ МОБИЛЬНЫХ (ДО 768px)
+   ФУНДАМЕНТАЛЬНЫЙ ФИКС ДЛЯ BIOHUB (ВСТАВИТЬ В САМЫЙ КОНЕЦ)
    ======================================================= */
-@media screen and (max-width: 768px) {
-  
-  /* Разворачиваем контейнер ДНК в строку */
-  div.monitor-display,
-  section #crispr-monitor .monitor-display,
-  .monitor-display {
-    display: flex !important;
-    flex-direction: row !important;      /* Строго горизонтальный ряд */
-    flex-wrap: wrap !important;          /* Перенос букв на новую строку */
-    justify-content: center !important;  /* Центрирование */
-    align-items: center !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    min-height: auto !important;
-    height: auto !important;
-    gap: 6px !important;                 /* Промежутки между кружками */
-    box-sizing: border-box !important;
-  }
 
-  /* Сбрасываем блочное поведение элементов внутри ДНК */
-  div.monitor-display .nucleotide,
-  .monitor-display span.nucleotide,
-  .nucleotide {
-    display: inline-flex !important;     /* Не даем им вести себя как блоки */
-    flex: 0 0 auto !important;           /* Запрещаем сжатие и растягивание */
-    width: 34px !important;              /* Фиксированная ширина */
-    height: 34px !important;             /* Фиксированная высота */
-    margin: 0 !important;                /* Обнуляем отступы, ломающие строку */
-    align-items: center !important;
-    justify-content: center !important;
-  }
-
-  /* Исправление шага атаки вируса */
-  div.virus-stage, 
-  section .virus-stage {
-    display: flex !important;
-    flex-direction: row !important;      /* Пришелец и текст в один ряд */
-    flex-wrap: nowrap !important;
-    justify-content: center !important;
-    align-items: center !important;
-    width: 100% !important;
-  }
-}
-
-/* =======================================================
-   ГАРАНТИРОВАННОЕ СКРЫТИЕ ЛАБОРАТОРИИ НА ДРУГИХ ВКЛАДКАХ
-   ======================================================= */
-/* Скрываем секцию по умолчанию во всем проекте */
+/* 🔬 1. Жесткое скрытие Лаборатории везде, кроме её вкладки */
+#laboratory, 
 section#laboratory, 
 main #laboratory,
-#laboratory {
-  display: none !important;
+div#laboratory {
+  display: none !important; /* Намертво гасим на всех страницах */
 }
 
-/* Показываем её ТОЛЬКО когда JavaScript дает ей класс активной вкладки */
-section#laboratory.active,
-main #laboratory.active,
-#laboratory.active {
-  display: block !important;
-}
-
-/* Скрываем везде */
-#laboratory {
-  display: none !important;
-}
-/* Показываем ТОЛЬКО когда JS дает класс активного элемента кнопке или секции */
+/* Показываем ТОЛЬКО тогда, когда JS вешает класс .active */
 #laboratory.active, 
-.active #laboratory {
-  display: block !important;
+section#laboratory.active,
+main #laboratory.active {
+  display: block !important; /* Гарантированный показ */
 }
 
+
+/* 🧬 2. Принудительный разворот цепочки ДНК на мобильных */
 @media screen and (max-width: 768px) {
-  /* Жестко перебиваем родительский контейнер букв */
+  
+  /* Контейнер букв: выбиваем его из блочного режима в строку */
+  .monitor-display,
   #crispr-monitor .monitor-display,
-  .monitor-display {
+  div.monitor-display {
     display: flex !important;
-    flex-direction: row !important;  /* Только в ряд */
-    flex-wrap: wrap !important;      /* Разрешаем перенос, если не влезают */
+    flex-direction: row !important; /* Только горизонтально */
+    flex-wrap: wrap !important;     /* Перенос букв на новую строку */
     justify-content: center !important;
-    gap: 5px !important;
+    align-items: center !important;
+    gap: 6px !important;            /* Расстояние между кружками */
     width: 100% !important;
+    height: auto !important;
   }
 
-  /* Сбрасываем блочное поведение самих кружков с буквами */
+  /* Буквы-кружочки: запрещаем им растягиваться и падать вниз */
   .monitor-display .nucleotide,
-  .nucleotide {
-    display: inline-flex !important; /* Запрещаем им быть квадратными блоками */
-    width: 32px !important;
+  .nucleotide,
+  span.nucleotide {
+    display: inline-flex !important; /* Не даем вести себя как блоки */
+    flex: 0 0 auto !important;       /* Запрещаем сжатие */
+    width: 32px !important;          /* Идеальный размер для пальца */
     height: 32px !important;
-    margin: 0 !important;            /* Убираем скрытые отступы */
+    margin: 0 !important;            /* Сбрасываем ломающие отступы */
     align-items: center !important;
     justify-content: center !important;
   }
+
+  /* 👾 3. Симуляция атаки вируса */
+  .virus-stage,
+  div.virus-stage {
+    display: flex !important;
+    flex-direction: row !important;  /* Пришелец и AGTC строго в ряд */
+    justify-content: center !important;
+    align-items: center !important;
+  }
 }
-
-
