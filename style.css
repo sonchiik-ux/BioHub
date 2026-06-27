@@ -3172,4 +3172,38 @@ main #laboratory.active,
   display: block !important;
 }
 
+/* Скрываем везде */
+#laboratory {
+  display: none !important;
+}
+/* Показываем ТОЛЬКО когда JS дает класс активного элемента кнопке или секции */
+#laboratory.active, 
+.active #laboratory {
+  display: block !important;
+}
+
+@media screen and (max-width: 768px) {
+  /* Жестко перебиваем родительский контейнер букв */
+  #crispr-monitor .monitor-display,
+  .monitor-display {
+    display: flex !important;
+    flex-direction: row !important;  /* Только в ряд */
+    flex-wrap: wrap !important;      /* Разрешаем перенос, если не влезают */
+    justify-content: center !important;
+    gap: 5px !important;
+    width: 100% !important;
+  }
+
+  /* Сбрасываем блочное поведение самих кружков с буквами */
+  .monitor-display .nucleotide,
+  .nucleotide {
+    display: inline-flex !important; /* Запрещаем им быть квадратными блоками */
+    width: 32px !important;
+    height: 32px !important;
+    margin: 0 !important;            /* Убираем скрытые отступы */
+    align-items: center !important;
+    justify-content: center !important;
+  }
+}
+
 
